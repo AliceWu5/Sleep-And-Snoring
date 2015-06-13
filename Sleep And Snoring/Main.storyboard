@@ -26,7 +26,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fx3-m2-7Uu">
-                                <rect key="frame" x="284" y="285" width="48" height="30"/>
+                                <rect key="frame" x="276" y="285" width="48" height="30"/>
                                 <state key="normal" title="Sign In">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -35,7 +35,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="piV-X7-Zp9">
-                                <rect key="frame" x="284" y="361" width="39" height="30"/>
+                                <rect key="frame" x="281" y="361" width="39" height="30"/>
                                 <state key="normal" title="Sleep">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -44,7 +44,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jKe-T2-cah">
-                                <rect key="frame" x="284" y="399" width="51" height="30"/>
+                                <rect key="frame" x="275" y="399" width="51" height="30"/>
                                 <state key="normal" title="Activity">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -55,14 +55,14 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="c4R-2g-qX9" firstAttribute="top" secondItem="fx3-m2-7Uu" secondAttribute="bottom" constant="8" symbolic="YES" id="8dZ-79-6Pr"/>
-                            <constraint firstItem="c4R-2g-qX9" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="HAg-5D-kIB"/>
-                            <constraint firstItem="jKe-T2-cah" firstAttribute="leading" secondItem="piV-X7-Zp9" secondAttribute="leading" id="OQ2-SM-CxA"/>
-                            <constraint firstItem="jKe-T2-cah" firstAttribute="top" secondItem="piV-X7-Zp9" secondAttribute="bottom" constant="8" symbolic="YES" id="XH6-Og-Xul"/>
-                            <constraint firstItem="fx3-m2-7Uu" firstAttribute="leading" secondItem="c4R-2g-qX9" secondAttribute="leading" id="gAl-Av-KvP"/>
-                            <constraint firstItem="piV-X7-Zp9" firstAttribute="top" secondItem="c4R-2g-qX9" secondAttribute="bottom" constant="8" symbolic="YES" id="jHo-ph-f77"/>
-                            <constraint firstItem="fx3-m2-7Uu" firstAttribute="centerY" secondItem="kh9-bI-dsS" secondAttribute="centerY" id="lfI-IU-by3"/>
-                            <constraint firstItem="piV-X7-Zp9" firstAttribute="leading" secondItem="c4R-2g-qX9" secondAttribute="leading" id="xsm-2B-9ly"/>
+                            <constraint firstItem="fx3-m2-7Uu" firstAttribute="centerY" secondItem="kh9-bI-dsS" secondAttribute="centerY" id="7x9-qq-qNZ"/>
+                            <constraint firstItem="fx3-m2-7Uu" firstAttribute="centerX" secondItem="c4R-2g-qX9" secondAttribute="centerX" id="AOA-kq-dEy"/>
+                            <constraint firstItem="c4R-2g-qX9" firstAttribute="centerX" secondItem="piV-X7-Zp9" secondAttribute="centerX" id="IXk-g1-bJQ"/>
+                            <constraint firstItem="piV-X7-Zp9" firstAttribute="centerX" secondItem="jKe-T2-cah" secondAttribute="centerX" id="SK0-eM-EmN"/>
+                            <constraint firstItem="piV-X7-Zp9" firstAttribute="top" secondItem="c4R-2g-qX9" secondAttribute="bottom" constant="8" symbolic="YES" id="Xjk-RS-HTv"/>
+                            <constraint firstItem="c4R-2g-qX9" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="oIu-Do-q0q"/>
+                            <constraint firstItem="c4R-2g-qX9" firstAttribute="top" secondItem="fx3-m2-7Uu" secondAttribute="bottom" constant="8" symbolic="YES" id="tUb-cG-Ekd"/>
+                            <constraint firstItem="jKe-T2-cah" firstAttribute="top" secondItem="piV-X7-Zp9" secondAttribute="bottom" constant="8" symbolic="YES" id="wFj-fk-zwK"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="7t6-cW-erh"/>

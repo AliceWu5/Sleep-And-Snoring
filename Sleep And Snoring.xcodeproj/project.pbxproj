@@ -110,8 +110,8 @@
 			isa = PBXGroup;
 			children = (
 				AA0EEE781B2CD672004CE5B5 /* MTB */,
-				AA0EEE6B1B2CD66A004CE5B5 /* Model */,
 				AA0EEE5E1B2CD64D004CE5B5 /* OAuth2 */,
+				AA0EEE6B1B2CD66A004CE5B5 /* Model */,
 				AA0EEE391B2CD5D5004CE5B5 /* AppDelegate.h */,
 				AA0EEE3A1B2CD5D5004CE5B5 /* AppDelegate.m */,
 				AA0EEE3F1B2CD5D5004CE5B5 /* SleepSnoringViewController.h */,
