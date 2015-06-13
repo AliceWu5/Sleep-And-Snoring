@@ -10,5 +10,4 @@
 #import "GenericDelegate.h"
 @interface SleepSnoringViewController : UIViewController<GenericDelegate>
 
-
 @end

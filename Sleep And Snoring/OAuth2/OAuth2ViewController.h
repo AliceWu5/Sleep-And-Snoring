@@ -11,5 +11,6 @@
 @interface OAuth2ViewController : UIViewController<UIWebViewDelegate>
 
 @property (nonatomic, weak) id <GenericDelegate> delegate;
+- (void)signOut;
 
 @end

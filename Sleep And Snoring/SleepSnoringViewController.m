@@ -35,6 +35,10 @@
 - (IBAction)StartSignIn:(UIButton *)sender {
     OAuth2ViewController *authViewController = [[OAuth2ViewController alloc] init];
     authViewController.delegate = self;
+
+    // manually sign out
+    [authViewController signOut];
+    
     [[self navigationController] pushViewController:authViewController animated:YES];
 }
 
@@ -109,14 +113,14 @@
 - (void)getActivity {
     if (self.isSignedIn) {
         NSString *date = [self getDateByNumberOfDays:0];
-        NSString *path = [NSString stringWithFormat:@"/1/user/-/activities/heart/date/%@.json", date];
+        NSString *path = [NSString stringWithFormat:@"/1/user/-/activities/date/%@.json", date];
         NSLog(@"The path : %@", path);
         [self.fetcher sendGetRequestToAPIPath:path onCompletion:^(NSData *data, NSError *error) {
             NSError *jsonError;
             // user heart rate since 7 days ago in JSON
             NSDictionary *fetchResult = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&jsonError];
             
-            NSLog(@"Heart rate : %@", fetchResult);
+            NSLog(@"Activity : %@", fetchResult);
             // Use JSON result to create acivity
             FitbitActivity *activity = [FitbitActivity activityWithJSON:fetchResult];
             
