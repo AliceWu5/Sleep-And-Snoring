@@ -37,7 +37,7 @@
     authViewController.delegate = self;
 
     // manually sign out
-    [authViewController signOut];
+    //[authViewController signOut];
     
     [[self navigationController] pushViewController:authViewController animated:YES];
 }
@@ -113,7 +113,7 @@
 - (void)getActivity {
     if (self.isSignedIn) {
         NSString *date = [self getDateByNumberOfDays:0];
-        NSString *path = [NSString stringWithFormat:@"/1/user/-/activities/date/%@.json", date];
+        NSString *path = [NSString stringWithFormat:@"/1/user/-/activities/distance/date/%@/7d.json", date];
         NSLog(@"The path : %@", path);
         [self.fetcher sendGetRequestToAPIPath:path onCompletion:^(NSData *data, NSError *error) {
             NSError *jsonError;
@@ -123,7 +123,7 @@
             NSLog(@"Activity : %@", fetchResult);
             // Use JSON result to create acivity
             FitbitActivity *activity = [FitbitActivity activityWithJSON:fetchResult];
-            
+            NSLog(@"%@", activity);
         }];
         
     }
@@ -169,6 +169,8 @@
 #pragma mark Date Processing Methods
 
 
+// negative num go back
+// positive num go forward
 - (NSString *)getDateByNumberOfDays:(NSInteger)days {
     
     NSDate *today = [NSDate date];
@@ -177,7 +179,7 @@
     
     if (days) {
         // days * hours * minutes * seconds
-        today = [today dateByAddingTimeInterval:-days * 24 * 60 * 60];
+        today = [today dateByAddingTimeInterval:days * 24 * 60 * 60];
     }
     
     return [dateFormatter stringFromDate:today];

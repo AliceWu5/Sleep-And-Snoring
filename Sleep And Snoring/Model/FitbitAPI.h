@@ -63,6 +63,11 @@ static NSString *const kFitbitSleepSummaryTotalSleepRecordsKey  = @"totalSleepRe
 static NSString *const kFitbitSleepSummaryTotalTimeInBedKey     = @"totalTimeInBed";
 
 
+// Standard Fitbit Activity keys
+
+static NSString *const kFitbitActivitiesDistanceKey             = @"activities-distance";
+static NSString *const kFitbitActivitiesDistanceDateTimeKey     = @"dateTime";
+static NSString *const kFitbitActivitiesDistanceValueKey        = @"value";
 
 
 @interface FitbitAPI : NSObject

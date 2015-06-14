@@ -7,31 +7,40 @@
 //
 
 #import "FitbitActivity.h"
-
+#import "FitbitAPI.h"
 
 @interface FitbitActivity ()
-@property NSString *distances;
+@property NSMutableDictionary *distances;
 @end
 
 
 @implementation FitbitActivity
 
+
 + (FitbitActivity *)activityWithJSON:(NSDictionary *)json {
     FitbitActivity *activity = [[FitbitActivity alloc] init];
-    NSDictionary *summary = json[@"summary"];
-    NSArray *distances = summary[@"distances"];
-    NSLog(@"The distances total : %@", distances[0]);
+    NSArray *distances = json[kFitbitActivitiesDistanceKey];
     
-    if ([distances[0][@"activity"] isEqualToString:@"total"]) {
-        // the unit needs to be determined
-        activity.distances = [NSString stringWithFormat:@"%@ unit", distances[0][@"distance"]];
-    } else {
-        activity.distances = @"0 unit";
+    for (NSDictionary *distance in distances) {
+        [activity.distances setObject:distance[kFitbitActivitiesDistanceValueKey]
+                               forKey:distance[kFitbitActivitiesDistanceDateTimeKey]];
     }
-    
-    NSLog(@"The distance : %@", activity.distances);
     
     return activity;
 }
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"\nThe distance : %@", self.distances];
+}
+
+#pragma mark accessors
+
+- (NSMutableDictionary *)distances {
+    if (!_distances) {
+        _distances = [[NSMutableDictionary alloc] init];
+    }
+    return _distances;
+}
+
 
 @end
