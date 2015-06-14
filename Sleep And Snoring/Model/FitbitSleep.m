@@ -16,7 +16,7 @@
 // summary of sleep in this day
 @property (strong, nonatomic) NSDictionary *summary;
 
-
+@property (strong, nonatomic) APIFetcher *fetcher;
 @end
 
 
@@ -24,13 +24,14 @@
 
 
 // Designated initializor
-+ (FitbitSleep *)sleepWithJSON:(NSDictionary *)json {
++ (FitbitSleep *)sleepWithAPIFetcher:(APIFetcher *)fetcher {
     FitbitSleep *fitbitSleep = [[FitbitSleep alloc] init];
-    fitbitSleep.sleepData = [json objectForKey:kFitbitSleepDataKey];
-    fitbitSleep.summary = [json objectForKey:kFitbitSleepSummaryKey];
-    NSLog(@"The type of sleep : %@",[json class]);
-    NSLog(@"The type of sleep data: %@",[fitbitSleep.sleepData class]);
-    NSLog(@"The type of sleep summary: %@",[fitbitSleep.summary class]);
+    fitbitSleep.fetcher = fetcher;
+//    fitbitSleep.sleepData = [json objectForKey:kFitbitSleepDataKey];
+//    fitbitSleep.summary = [json objectForKey:kFitbitSleepSummaryKey];
+//    NSLog(@"The type of sleep : %@",[json class]);
+//    NSLog(@"The type of sleep data: %@",[fitbitSleep.sleepData class]);
+//    NSLog(@"The type of sleep summary: %@",[fitbitSleep.summary class]);
     return fitbitSleep;
 }
 

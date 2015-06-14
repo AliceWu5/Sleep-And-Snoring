@@ -118,7 +118,9 @@ static NSString *const vOAuth2RefreshTokenKey   = @"refresh_token";
 
 
 
-
+- (NSString *)description {
+    return [NSString stringWithFormat:@""];
+}
 
 
 

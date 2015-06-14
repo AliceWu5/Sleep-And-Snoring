@@ -14,8 +14,11 @@
 #import "FitbitActivity.h"
 #import "Sleep2DLandscapeView.h"
 @interface SleepSnoringViewController ()
-@property (strong, nonatomic) IBOutlet UIButton *ButtonForSignIn;
-@property (strong, nonatomic) APIFetcher *fetcher;
+@property (strong, nonatomic)IBOutlet UIButton *ButtonForSignIn;
+@property (strong, nonatomic)APIFetcher *fetcher;
+@property (strong, nonatomic)FitbitUser *user;
+@property (strong, nonatomic)FitbitSleep *sleep;
+@property (strong, nonatomic)FitbitActivity *activity;
 @property BOOL isSignedIn;
 @end
 
@@ -81,11 +84,6 @@
         [self.fetcher sendGetRequestToAPIPath:path onCompletion:^(NSData *data, NSError *error) {
             // Sleep data in JSON
             NSDictionary *fetchResult = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
-            
-            // Use JSON result to create sleep model
-            FitbitSleep *sleep = [FitbitSleep sleepWithJSON:fetchResult];
-            [sleep getSleepTimeline];
-            
         }];
     }
     
@@ -95,37 +93,14 @@
 
 - (void)getUserProfile {
     if (self.isSignedIn) {
-        NSString *path = @"/1/user/-/profile.json";
-        
-        [self.fetcher sendGetRequestToAPIPath:path onCompletion:^(NSData *data, NSError *error) {
-            // user profile in JSON
-            NSDictionary *fetchResult = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
-            
-            // Use JSON result to create user
-            FitbitUser *user = [FitbitUser userWithJSON:fetchResult];
-            
-        }];
-        
+        NSLog(@"%@", self.user);
     }
 }
 
 
 - (void)getActivity {
     if (self.isSignedIn) {
-        NSString *date = [self getDateByNumberOfDays:0];
-        NSString *path = [NSString stringWithFormat:@"/1/user/-/activities/distance/date/%@/7d.json", date];
-        NSLog(@"The path : %@", path);
-        [self.fetcher sendGetRequestToAPIPath:path onCompletion:^(NSData *data, NSError *error) {
-            NSError *jsonError;
-            // user heart rate since 7 days ago in JSON
-            NSDictionary *fetchResult = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&jsonError];
-            
-            NSLog(@"Activity : %@", fetchResult);
-            // Use JSON result to create acivity
-            FitbitActivity *activity = [FitbitActivity activityWithJSON:fetchResult];
-            NSLog(@"%@", activity);
-        }];
-        
+        NSLog(@"%@", self.activity);
     }
 }
 
@@ -142,6 +117,9 @@
 - (void)setIsSignedIn:(BOOL)isSignedIn {
     if (isSignedIn) {
         [self sendAlterMessage:@"Sucessful!"];
+        self.user = [FitbitUser userWithAPIFetcher:self.fetcher];
+        self.activity = [FitbitActivity activityWithAPIFetcher:self.fetcher];
+        self.sleep = [FitbitSleep sleepWithAPIFetcher:self.fetcher];
     }
     _isSignedIn = isSignedIn;
 }

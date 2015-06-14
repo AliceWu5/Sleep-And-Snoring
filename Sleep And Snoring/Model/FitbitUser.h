@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import "APIFetcher.h"
 @interface FitbitUser : NSObject
 @property (nonatomic) NSUInteger age;
 @property (strong, nonatomic) NSString *photo;
@@ -19,7 +19,7 @@
 @property (strong, nonatomic) NSString *heightUnit;
 @property (strong, nonatomic) NSString *encodedId;
 
-+ (FitbitUser *)userWithJSON:(NSDictionary *)json;
-
-
++ (FitbitUser *)userWithAPIFetcher:(APIFetcher *)fetcher;
+- (void)updateUserProfile;
+- (BOOL)isAvailable;
 @end

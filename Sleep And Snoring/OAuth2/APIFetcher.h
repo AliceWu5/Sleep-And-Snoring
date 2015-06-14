@@ -14,7 +14,6 @@
 @property (strong, nonatomic) NSString *accessToken;
 @property (strong, nonatomic) NSString *refreshToken;
 
-
 // init
 
 + (APIFetcher *)fetcherWithOAuth2:(OAuth2Authentication *)auth

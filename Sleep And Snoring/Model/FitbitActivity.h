@@ -7,10 +7,17 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import "APIFetcher.h"
 @interface FitbitActivity : NSObject
 
 
 + (FitbitActivity *)activityWithJSON:(NSDictionary *)json;
+
++ (FitbitActivity *)activityWithAPIFetcher:(APIFetcher *)fetcher;
+
+- (void)getDistanceByDate:(NSDate *)date completion:(void (^)(NSDictionary *))handler ;;
+- (void)updateRecentActivities;
+- (void)updateActivitiesWithDate:(NSDate *)date completion:(void (^)(NSDictionary *))handler ;
+
 
 @end

@@ -7,10 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import "APIFetcher.h"
 @interface FitbitSleep : NSObject
 
-+ (FitbitSleep *)sleepWithJSON:(NSDictionary *)json;
+
+
++ (FitbitSleep *)sleepWithAPIFetcher:(APIFetcher *)fetcher;
 
 - (NSArray *)getSleepTimeline;
 @end
