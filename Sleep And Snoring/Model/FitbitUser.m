@@ -30,6 +30,9 @@
     return user;
 }
 
+- (NSString *)description {
+    return [NSString stringWithFormat: @"\nFitbit User : Name=%@", self.displayName];
+}
 
 
 @end
