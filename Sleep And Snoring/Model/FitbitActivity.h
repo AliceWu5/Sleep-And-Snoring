@@ -11,13 +11,12 @@
 @interface FitbitActivity : NSObject
 
 
-+ (FitbitActivity *)activityWithJSON:(NSDictionary *)json;
 
 + (FitbitActivity *)activityWithAPIFetcher:(APIFetcher *)fetcher;
 
-- (void)getDistanceByDate:(NSDate *)date completion:(void (^)(NSDictionary *))handler ;;
+- (void)getDistanceByDate:(NSDate *)date completion:(void (^)(NSString *distance))handler;
+- (void)updateDistanceByDate:(NSDate *)date completion:(void (^)(NSString *distance))handler ;
 - (void)updateRecentActivities;
-- (void)updateActivitiesWithDate:(NSDate *)date completion:(void (^)(NSDictionary *))handler ;
 
 
 @end

@@ -40,7 +40,7 @@
     authViewController.delegate = self;
 
     // manually sign out
-    //[authViewController signOut];
+    [authViewController signOut];
     
     [[self navigationController] pushViewController:authViewController animated:YES];
 }
@@ -77,30 +77,24 @@
 
 - (void)getSleepData {
     if (self.isSignedIn) {
-        NSString *date = [self getDateByNumberOfDays:0];
-        NSLog(@"The date is : %@", date);
-        NSString *path = [NSString stringWithFormat:@"/1/user/-/sleep/date/%@.json", date];
-        
-        [self.fetcher sendGetRequestToAPIPath:path onCompletion:^(NSData *data, NSError *error) {
-            // Sleep data in JSON
-            NSDictionary *fetchResult = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
+        [self.sleep updateSleepByDate:[NSDate date] completion:^(NSDictionary *sleepData) {
+            NSLog(@"GET SLEEP SUCCESSFULLY.");
         }];
     }
-    
-    //    Sleep2DLandscapeView *sleepView = [[Sleep2DLandscapeView alloc] initWithFrame:self.view.frame];
-    //    [self.view addSubview:sleepView];
 }
 
 - (void)getUserProfile {
     if (self.isSignedIn) {
-        NSLog(@"%@", self.user);
+        NSLog(@"My name : %@", self.user.displayName);
     }
 }
 
 
 - (void)getActivity {
     if (self.isSignedIn) {
-        NSLog(@"%@", self.activity);
+        [self.activity getDistanceByDate:[NSDate date] completion:^(NSString *distance) {
+            NSLog(@"The distance today : %@", distance);
+        }];
     }
 }
 
@@ -118,7 +112,10 @@
     if (isSignedIn) {
         [self sendAlterMessage:@"Sucessful!"];
         self.user = [FitbitUser userWithAPIFetcher:self.fetcher];
+        [self.user updateUserProfile];
+        
         self.activity = [FitbitActivity activityWithAPIFetcher:self.fetcher];
+        
         self.sleep = [FitbitSleep sleepWithAPIFetcher:self.fetcher];
     }
     _isSignedIn = isSignedIn;

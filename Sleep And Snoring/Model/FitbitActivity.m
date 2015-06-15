@@ -18,19 +18,8 @@
 @implementation FitbitActivity
 
 #pragma mark initializor
-+ (FitbitActivity *)activityWithJSON:(NSDictionary *)json {
-    
-    FitbitActivity *activity = [[FitbitActivity alloc] init];
-    NSArray *distances = json[kFitbitActivitiesDistanceKey];
-    
-    for (NSDictionary *distance in distances) {
-        [activity.distances setObject:distance[kFitbitActivitiesDistanceValueKey]
-                               forKey:distance[kFitbitActivitiesDistanceDateTimeKey]];
-    }
-    
-    return activity;
-}
 
+// initializor
 + (FitbitActivity *)activityWithAPIFetcher:(APIFetcher *)fetcher {
     
     FitbitActivity *activity = [[FitbitActivity alloc] init];
@@ -38,29 +27,21 @@
     return activity;
 }
 
+#pragma mark get/update activities
+- (void)getDistanceByDate:(NSDate *)date completion:(void (^)(NSString *distance))handler {
 
-- (void)getDistanceByDate:(NSDate *)date completion:(void (^)(NSDictionary *))handler{
-    
     NSString *dateKey = [self getStringByDate:date];
     NSString *distance = [self.distances objectForKey:dateKey];
     
     if (!distance) {
         // Distance not exist
         NSLog(@"Distance Not Exist, fetching from API.");
-        [self updateActivitiesWithDate:date completion:handler];
+        [self updateDistanceByDate:date completion:handler];
     } else {
-        handler(self.distances);
+        handler(self.distances[dateKey]);
     }
-
 }
 
-- (NSString *)getStringByDate:(NSDate *)day {
-    // set format
-    NSDateFormatter *dateFormatter=[[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
-    
-    return [dateFormatter stringFromDate:day];
-}
 
 // Get the most recent activities
 - (void)updateRecentActivities {
@@ -85,11 +66,12 @@
     }];
 }
 
-- (void)updateActivitiesWithDate:(NSDate *)date completion:(void (^)(NSDictionary *))handler {
-    NSString *dateString = [self getStringByDate:date];
+// Update activities on date
+- (void)updateDistanceByDate:(NSDate *)date completion:(void (^)(NSString *distance))handler {
+    NSString *dateKey = [self getStringByDate:date];
     
     // Get activity in a day
-    NSString *path = [NSString stringWithFormat:@"/1/user/-/activities/distance/date/%@/1d.json", dateString];
+    NSString *path = [NSString stringWithFormat:@"/1/user/-/activities/distance/date/%@/1d.json", dateKey];
     
     [self.fetcher sendGetRequestToAPIPath:path onCompletion:^(NSData *data, NSError *error) {
         NSError *jsonError;
@@ -105,33 +87,40 @@
                                forKey:distance[kFitbitActivitiesDistanceDateTimeKey]];
         }
         // Set callback method
-        handler(self.distances);
+        handler(self.distances[dateKey]);
     }];
 }
 
+// use for heart rate
+//- (void)getActivityOnCompletion:(void (^)(NSDictionary *))handler {
+//    // Get today string format
+//    NSString *date = [self getStringByDate:[NSDate date]];
+//    
+//    // Get activities in a week
+//    NSString *path = [NSString stringWithFormat:@"/1/user/-/activities/distance/date/%@/7d.json", date];
+//    NSLog(@"The path : %@", path);
+//    [self.fetcher sendGetRequestToAPIPath:path onCompletion:^(NSData *data, NSError *error) {
+//        NSError *jsonError;
+//        // user heart rate since 7 days ago in JSON
+//        NSDictionary *fetchResult = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&jsonError];
+//        
+//        NSLog(@"Activity : %@", fetchResult);
+//        // Use JSON result to create acivity
+//        FitbitActivity *activity = [FitbitActivity activityWithAPIFetcher:self.fetcher];
+//        
+//        NSLog(@"%@", activity);
+//    }];
+//    
+//}
 
-- (void)getActivityOnCompletion:(void (^)(NSDictionary *))handler {
-    // Get today string format
-    NSString *date = [self getStringByDate:[NSDate date]];
+#pragma mark string processing
+- (NSString *)getStringByDate:(NSDate *)day {
+    // set format
+    NSDateFormatter *dateFormatter=[[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
     
-    // Get activities in a week
-    NSString *path = [NSString stringWithFormat:@"/1/user/-/activities/distance/date/%@/7d.json", date];
-    NSLog(@"The path : %@", path);
-    [self.fetcher sendGetRequestToAPIPath:path onCompletion:^(NSData *data, NSError *error) {
-        NSError *jsonError;
-        // user heart rate since 7 days ago in JSON
-        NSDictionary *fetchResult = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&jsonError];
-        
-        NSLog(@"Activity : %@", fetchResult);
-        // Use JSON result to create acivity
-        FitbitActivity *activity = [FitbitActivity activityWithAPIFetcher:self.fetcher];
-        
-        NSLog(@"%@", activity);
-    }];
-
+    return [dateFormatter stringFromDate:day];
 }
-
-
 
 
 #pragma mark accessors

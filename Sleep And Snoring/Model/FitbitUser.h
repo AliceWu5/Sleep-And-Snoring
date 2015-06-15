@@ -21,5 +21,6 @@
 
 + (FitbitUser *)userWithAPIFetcher:(APIFetcher *)fetcher;
 - (void)updateUserProfile;
+- (void)updateUserProfileOnCompletion:(void (^)(BOOL isFinished))handler;
 - (BOOL)isAvailable;
 @end
