@@ -13,6 +13,8 @@
 #import "FitbitUser.h"
 #import "FitbitActivity.h"
 #import "Sleep2DLandscapeView.h"
+#import "CorePlot-CocoaTouch.h"
+
 @interface SleepSnoringViewController ()
 @property (strong, nonatomic)IBOutlet UIButton *ButtonForSignIn;
 @property (strong, nonatomic)APIFetcher *fetcher;
