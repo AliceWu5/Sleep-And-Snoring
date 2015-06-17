@@ -26,6 +26,9 @@
 		AA0EEFD71B2F906F004CE5B5 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA0EEFD61B2F906F004CE5B5 /* Accelerate.framework */; };
 		AA0EEFD91B2F9093004CE5B5 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA0EEFD81B2F9093004CE5B5 /* QuartzCore.framework */; };
 		AA0EEFE61B2F990B004CE5B5 /* libCorePlot-CocoaTouch.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AA0EEFE31B2F9871004CE5B5 /* libCorePlot-CocoaTouch.a */; };
+		AA0EEFEB1B3045AA004CE5B5 /* SleepScatterPlotController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA0EEFEA1B3045AA004CE5B5 /* SleepScatterPlotController.m */; };
+		AA0EEFF01B305A06004CE5B5 /* BlueTexture.png in Resources */ = {isa = PBXBuildFile; fileRef = AA0EEFEF1B305A06004CE5B5 /* BlueTexture.png */; };
+		AA0EEFF71B31AAB7004CE5B5 /* ScatterPlot.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA0EEFF61B31AAB7004CE5B5 /* ScatterPlot.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -88,6 +91,10 @@
 		AA0EEFD61B2F906F004CE5B5 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		AA0EEFD81B2F9093004CE5B5 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		AA0EEFDC1B2F9871004CE5B5 /* CorePlot-CocoaTouch.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "CorePlot-CocoaTouch.xcodeproj"; path = "CoreplotFramework/CorePlot-CocoaTouch.xcodeproj"; sourceTree = "<group>"; };
+		AA0EEFE91B3045AA004CE5B5 /* SleepScatterPlotController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SleepScatterPlotController.h; sourceTree = "<group>"; };
+		AA0EEFEA1B3045AA004CE5B5 /* SleepScatterPlotController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SleepScatterPlotController.m; sourceTree = "<group>"; };
+		AA0EEFEF1B305A06004CE5B5 /* BlueTexture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BlueTexture.png; sourceTree = "<group>"; };
+		AA0EEFF61B31AAB7004CE5B5 /* ScatterPlot.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ScatterPlot.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,6 +125,7 @@
 				AA0EEFD81B2F9093004CE5B5 /* QuartzCore.framework */,
 				AA0EEFD61B2F906F004CE5B5 /* Accelerate.framework */,
 				AA0EEE341B2CD5D5004CE5B5 /* Sleep And Snoring */,
+				AA0EEFF21B305AE1004CE5B5 /* Resources */,
 				AA0EEE511B2CD5D5004CE5B5 /* Sleep And SnoringTests */,
 				AA0EEE331B2CD5D5004CE5B5 /* Products */,
 			);
@@ -142,6 +150,8 @@
 				AA0EEE3A1B2CD5D5004CE5B5 /* AppDelegate.m */,
 				AA0EEE3F1B2CD5D5004CE5B5 /* SleepSnoringViewController.h */,
 				AA0EEE401B2CD5D5004CE5B5 /* SleepSnoringViewController.m */,
+				AA0EEFE91B3045AA004CE5B5 /* SleepScatterPlotController.h */,
+				AA0EEFEA1B3045AA004CE5B5 /* SleepScatterPlotController.m */,
 				AA0EEE7A1B2CD779004CE5B5 /* Main.storyboard */,
 				AA0EEE451B2CD5D5004CE5B5 /* Images.xcassets */,
 				AA0EEE471B2CD5D5004CE5B5 /* LaunchScreen.xib */,
@@ -222,6 +232,16 @@
 				AA0EEFE31B2F9871004CE5B5 /* libCorePlot-CocoaTouch.a */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		AA0EEFF21B305AE1004CE5B5 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				AA0EEFF61B31AAB7004CE5B5 /* ScatterPlot.xib */,
+				AA0EEFEF1B305A06004CE5B5 /* BlueTexture.png */,
+			);
+			name = Resources;
+			path = "Sleep And Snoring";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -324,7 +344,9 @@
 			files = (
 				AA0EEE491B2CD5D5004CE5B5 /* LaunchScreen.xib in Resources */,
 				AA0EEE461B2CD5D5004CE5B5 /* Images.xcassets in Resources */,
+				AA0EEFF71B31AAB7004CE5B5 /* ScatterPlot.xib in Resources */,
 				AA0EEE7B1B2CD779004CE5B5 /* Main.storyboard in Resources */,
+				AA0EEFF01B305A06004CE5B5 /* BlueTexture.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -345,6 +367,7 @@
 				AA0EEE691B2CD64D004CE5B5 /* OAuth2Authentication.m in Sources */,
 				AA0EEE741B2CD66A004CE5B5 /* FitbitActivity.m in Sources */,
 				AA0EEE681B2CD64D004CE5B5 /* GTMHTTPFetcher.m in Sources */,
+				AA0EEFEB1B3045AA004CE5B5 /* SleepScatterPlotController.m in Sources */,
 				AA0EEE671B2CD64D004CE5B5 /* APIFetcher.m in Sources */,
 				AA0EEE6A1B2CD64D004CE5B5 /* OAuth2ViewController.m in Sources */,
 				AA0EEE3B1B2CD5D5004CE5B5 /* AppDelegate.m in Sources */,

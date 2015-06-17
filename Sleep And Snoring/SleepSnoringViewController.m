@@ -7,13 +7,13 @@
 //
 
 #import "SleepSnoringViewController.h"
+#import "SleepScatterPlotController.h"
 #import "OAuth2ViewController.h"
 #import "APIFetcher.h"
 #import "FitbitSleep.h"
 #import "FitbitUser.h"
 #import "FitbitActivity.h"
 #import "Sleep2DLandscapeView.h"
-#import "CorePlot-CocoaTouch.h"
 
 @interface SleepSnoringViewController ()
 @property (strong, nonatomic)IBOutlet UIButton *ButtonForSignIn;
@@ -42,7 +42,7 @@
     authViewController.delegate = self;
 
     // manually sign out
-    [authViewController signOut];
+    //[authViewController signOut];
     
     [[self navigationController] pushViewController:authViewController animated:YES];
 }
@@ -56,6 +56,8 @@
     if ([sender.titleLabel.text isEqualToString:@"Sleep"]) {
         // get sleep data
         [self getSleepData];
+        SleepScatterPlotController *plotController = [[SleepScatterPlotController alloc] init];
+        [[self navigationController] pushViewController:plotController animated:YES];
     }
     if ([sender.titleLabel.text isEqualToString:@"Activity"]) {
         // get some activities
