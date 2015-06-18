@@ -10,7 +10,8 @@
 
 @interface SleepScatterPlotController ()
 @property (nonatomic, readwrite, strong) CPTXYGraph *graph;
-
+@property (nonatomic, strong)CPTGraphHostingView *hostingView;
+@property (nonatomic, strong)UITapGestureRecognizer *tapGesture;
 @end
 
 @implementation SleepScatterPlotController
@@ -18,30 +19,37 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.navigationItem.title = @"Sleep Data";
+    //[self setOrientation:UIInterfaceOrientationPortrait];
+    
+    self.tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                              action:@selector(responseToTapGesture)];
+    self.tapGesture.numberOfTapsRequired = 1;
+    [self.view addGestureRecognizer:self.tapGesture];
     
     // Create graph from theme
     CPTXYGraph *newGraph = [[CPTXYGraph alloc] initWithFrame:self.view.frame];
-    CPTTheme *theme      = [CPTTheme themeNamed:kCPTSlateTheme];
+    CPTTheme *theme      = [CPTTheme themeNamed:kCPTPlainWhiteTheme];
     [newGraph applyTheme:theme];
     self.graph = newGraph;
     
-    CPTGraphHostingView *hostingView = [[CPTGraphHostingView alloc] initWithFrame:self.view.frame];
-    hostingView.collapsesLayers = NO; // Setting to YES reduces GPU memory usage, but can slow drawing/scrolling
-    hostingView.hostedGraph     = newGraph;
+    self.hostingView = [[CPTGraphHostingView alloc] initWithFrame:self.view.frame];
+    self.hostingView.collapsesLayers = NO; // Setting to YES reduces GPU memory usage, but can slow drawing/scrolling
+    self.hostingView.hostedGraph     = newGraph;
     
+    NSLog(@"The bounds : %@", NSStringFromCGRect([self.view bounds]));
     newGraph.paddingLeft   = 10.0;
-    newGraph.paddingTop    = 20.0;
+    newGraph.paddingTop    = 10.0;
     newGraph.paddingRight  = 10.0;
     newGraph.paddingBottom = 10.0;
     
-    [self.view addSubview:hostingView];
+    [self.view addSubview:self.hostingView];
     
     // Setup plot space
     CPTXYPlotSpace *plotSpace = (CPTXYPlotSpace *)newGraph.defaultPlotSpace;
+    // should allow user interaction
     plotSpace.allowsUserInteraction = YES;
     plotSpace.xRange                = [CPTPlotRange plotRangeWithLocation:CPTDecimalFromDouble(1.0) length:CPTDecimalFromDouble(2.0)];
-    plotSpace.yRange                = [CPTPlotRange plotRangeWithLocation:CPTDecimalFromDouble(1.0) length:CPTDecimalFromDouble(3.0)];
+    plotSpace.yRange                = [CPTPlotRange plotRangeWithLocation:CPTDecimalFromDouble(0.0) length:CPTDecimalFromDouble(4.0)];
     
     // Axes
     CPTXYAxisSet *axisSet = (CPTXYAxisSet *)newGraph.axisSet;
@@ -68,18 +76,18 @@
     CPTScatterPlot *boundLinePlot  = [[CPTScatterPlot alloc] init];
     CPTMutableLineStyle *lineStyle = [CPTMutableLineStyle lineStyle];
     lineStyle.miterLimit        = 1.0;
-    lineStyle.lineWidth         = 3.0;
-    lineStyle.lineColor         = [CPTColor blueColor];
+    lineStyle.lineWidth         = 1.0;
+    lineStyle.lineColor         = [CPTColor cyanColor];
     boundLinePlot.dataLineStyle = lineStyle;
-    boundLinePlot.identifier    = @"Blue Plot";
+    boundLinePlot.identifier    = @"Sleep Plot";
     boundLinePlot.dataSource    = self;
     [newGraph addPlot:boundLinePlot];
     
-    CPTImage *fillImage = [CPTImage imageNamed:@"BlueTexture"];
-    fillImage.tiled = YES;
-    CPTFill *areaImageFill = [CPTFill fillWithImage:fillImage];
-    boundLinePlot.areaFill      = areaImageFill;
-    boundLinePlot.areaBaseValue = [[NSDecimalNumber zero] decimalValue];
+//    CPTImage *fillImage = [CPTImage imageNamed:@"BlueTexture"];
+//    fillImage.tiled = YES;
+//    CPTFill *areaImageFill = [CPTFill fillWithImage:fillImage];
+//    boundLinePlot.areaFill      = areaImageFill;
+//    boundLinePlot.areaBaseValue = [[NSDecimalNumber zero] decimalValue];
     
     // Add plot symbols
     CPTMutableLineStyle *symbolLineStyle = [CPTMutableLineStyle lineStyle];
@@ -87,37 +95,38 @@
     CPTPlotSymbol *plotSymbol = [CPTPlotSymbol ellipsePlotSymbol];
     plotSymbol.fill          = [CPTFill fillWithColor:[CPTColor blueColor]];
     plotSymbol.lineStyle     = symbolLineStyle;
-    plotSymbol.size          = CGSizeMake(10.0, 10.0);
+    plotSymbol.size          = CGSizeMake(1.0, 1.0);
     boundLinePlot.plotSymbol = plotSymbol;
     
-    // Create a green plot area
-    CPTScatterPlot *dataSourceLinePlot = [[CPTScatterPlot alloc] init];
-    lineStyle                        = [CPTMutableLineStyle lineStyle];
-    lineStyle.lineWidth              = 3.0;
-    lineStyle.lineColor              = [CPTColor greenColor];
-    lineStyle.dashPattern            = @[@5.0, @5.0];
-    dataSourceLinePlot.dataLineStyle = lineStyle;
-    dataSourceLinePlot.identifier    = @"Green Plot";
-    dataSourceLinePlot.dataSource    = self;
-    
-    // Put an area gradient under the plot above
-    CPTColor *areaColor       = [CPTColor colorWithComponentRed:CPTFloat(0.3) green:CPTFloat(1.0) blue:CPTFloat(0.3) alpha:CPTFloat(0.8)];
-    CPTGradient *areaGradient = [CPTGradient gradientWithBeginningColor:areaColor endingColor:[CPTColor clearColor]];
-    areaGradient.angle = -90.0;
-    CPTFill *areaGradientFill = [CPTFill fillWithGradient:areaGradient];
-    dataSourceLinePlot.areaFill      = areaGradientFill;
-    dataSourceLinePlot.areaBaseValue = CPTDecimalFromDouble(1.75);
-    
-    // Animate in the new plot, as an example
-    dataSourceLinePlot.opacity = 0.0;
-    [newGraph addPlot:dataSourceLinePlot];
+//    // Create a green plot area
+//    CPTScatterPlot *dataSourceLinePlot = [[CPTScatterPlot alloc] init];
+//    lineStyle                        = [CPTMutableLineStyle lineStyle];
+//    lineStyle.lineWidth              = 3.0;
+//    lineStyle.lineColor              = [CPTColor greenColor];
+//    lineStyle.dashPattern            = @[@5.0, @5.0];
+//    dataSourceLinePlot.dataLineStyle = lineStyle;
+//    dataSourceLinePlot.identifier    = @"Green Plot";
+//    dataSourceLinePlot.dataSource    = self;
+//    
+//    // Put an area gradient under the plot above
+//    CPTColor *areaColor       = [CPTColor colorWithComponentRed:CPTFloat(0.3) green:CPTFloat(1.0) blue:CPTFloat(0.3) alpha:CPTFloat(0.8)];
+//    CPTGradient *areaGradient = [CPTGradient gradientWithBeginningColor:areaColor endingColor:[CPTColor clearColor]];
+//    areaGradient.angle = -90.0;
+//    CPTFill *areaGradientFill = [CPTFill fillWithGradient:areaGradient];
+//    dataSourceLinePlot.areaFill      = areaGradientFill;
+//    dataSourceLinePlot.areaBaseValue = CPTDecimalFromDouble(1.75);
+//    
+//    // Animate in the new plot, as an example
+//    dataSourceLinePlot.opacity = 0.0;
+//    [newGraph addPlot:dataSourceLinePlot];
     
     CABasicAnimation *fadeInAnimation = [CABasicAnimation animationWithKeyPath:@"opacity"];
     fadeInAnimation.duration            = 1.0;
     fadeInAnimation.removedOnCompletion = NO;
     fadeInAnimation.fillMode            = kCAFillModeForwards;
     fadeInAnimation.toValue             = @1.0;
-    [dataSourceLinePlot addAnimation:fadeInAnimation forKey:@"animateOpacity"];
+    [boundLinePlot addAnimation:fadeInAnimation forKey:@"animateOpacity"];
+    //[dataSourceLinePlot addAnimation:fadeInAnimation forKey:@"animateOpacity"];
     
     // Add some initial data
     NSMutableArray *contentArray = [NSMutableArray arrayWithCapacity:100];
@@ -135,6 +144,11 @@
 #endif
 }
 
+
+-(void)viewDidLayoutSubviews {
+    [self.hostingView setFrame:[self.view bounds]];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -150,7 +164,10 @@
 }
 */
 
-
+-(void)setOrientation:(UIInterfaceOrientation)orientation {
+    NSNumber *value = [NSNumber numberWithInt:orientation];
+    [[UIDevice currentDevice] setValue:value forKey:@"orientation"];
+}
 
 -(void)changePlotRange
 {
@@ -238,5 +255,29 @@
     return NO;
 }
 
+
+#pragma mark override
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+    
+    [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+        UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
+        //NSLog(@"%@", orientation);
+    } completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+        NSLog(@"The bounds : %@", NSStringFromCGRect([self.view bounds]));
+
+        [self.hostingView setFrame:[self.view bounds]];
+    }];
+    
+    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+}
+
+#pragma mark Gesture response
+
+- (void)responseToTapGesture {
+    NSLog(@"Dissmiss Plot View.");
+    [self dismissViewControllerAnimated:YES completion:^{
+       // to do
+    }];
+}
 
 @end
