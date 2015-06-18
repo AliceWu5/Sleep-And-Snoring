@@ -17,6 +17,7 @@
 
 @interface SleepSnoringViewController ()
 @property (strong, nonatomic)IBOutlet UIButton *ButtonForSignIn;
+@property (strong, nonatomic) IBOutlet UIActivityIndicatorView *indicator;
 @property (strong, nonatomic)APIFetcher *fetcher;
 @property (strong, nonatomic)FitbitUser *user;
 @property (strong, nonatomic)FitbitSleep *sleep;
@@ -29,13 +30,17 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.indicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
+    self.indicator.hidesWhenStopped = YES;
     // Do any additional setup after loading the view, typically from a nib.
+    
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 
 - (IBAction)StartSignIn:(UIButton *)sender {
     OAuth2ViewController *authViewController = [[OAuth2ViewController alloc] init];
@@ -55,15 +60,33 @@
     }
     if ([sender.titleLabel.text isEqualToString:@"Sleep"]) {
         // get sleep data
-        [self getSleepData];
+        //[self getSleepData];
         SleepScatterPlotController *plotController = [[SleepScatterPlotController alloc] init];
-        [[self navigationController] pushViewController:plotController animated:YES];
+        [[self navigationController] presentViewController:plotController animated:YES completion:^{
+            // to do
+        }];
+        
     }
     if ([sender.titleLabel.text isEqualToString:@"Activity"]) {
         // get some activities
         [self getActivity];
     }
     
+}
+
+- (IBAction)syncData:(UIButton *)sender {
+    NSLog(@"Synchronize data from Fitbit.");
+    if (self.isSignedIn) {
+        [self.indicator startAnimating];
+        //[self.user updateUserProfile];
+        //[self.activity updateRecentActivities];
+        [self.sleep updateSleepByDate:[NSDate date] completion:^(NSDictionary *sleepData) {
+            [self.indicator stopAnimating];
+            NSLog(@"should stop animating");
+        }];
+    } else {
+        [self sendAlterMessage:@"Please Sign in."];
+    }
 }
 
 - (void)addItems:(id)item withMessage:(NSString *)message {
