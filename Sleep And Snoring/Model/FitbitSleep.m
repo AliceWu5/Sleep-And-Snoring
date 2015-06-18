@@ -65,10 +65,12 @@
 }
 
 - (void)updateSleepByDate:(NSDate *)date completion:(void (^)(NSDictionary *sleepData))handler {
-    
+    NSDictionary *fetchResult;
+    handler(fetchResult);
 }
 - (void)getSleepByDate:(NSDate *)date completion:(void (^)(NSDictionary *sleepData))handler {
-    
+    NSDictionary *fetchResult;
+    handler(fetchResult);
 }
 
 

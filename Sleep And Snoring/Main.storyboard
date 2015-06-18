@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Ord-nK-Chi">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Sleep Snoring View Controller-->
@@ -52,14 +53,30 @@
                                     <action selector="fetchData:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="nyU-mt-gUp"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bm1-v6-xoR">
+                                <rect key="frame" x="16" y="72" width="35" height="30"/>
+                                <state key="normal" title="Sync">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="syncData:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="yZ6-ds-pPq"/>
+                                </connections>
+                            </button>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="iU7-vI-zRG">
+                                <rect key="frame" x="290" y="290" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="fx3-m2-7Uu" firstAttribute="centerY" secondItem="kh9-bI-dsS" secondAttribute="centerY" id="7x9-qq-qNZ"/>
                             <constraint firstItem="fx3-m2-7Uu" firstAttribute="centerX" secondItem="c4R-2g-qX9" secondAttribute="centerX" id="AOA-kq-dEy"/>
+                            <constraint firstItem="Bm1-v6-xoR" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" id="Aoh-rw-uH7"/>
+                            <constraint firstItem="Bm1-v6-xoR" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="8" symbolic="YES" id="CwH-rw-C46"/>
+                            <constraint firstItem="iU7-vI-zRG" firstAttribute="centerX" secondItem="fx3-m2-7Uu" secondAttribute="centerX" id="Hwa-YI-Kur"/>
                             <constraint firstItem="c4R-2g-qX9" firstAttribute="centerX" secondItem="piV-X7-Zp9" secondAttribute="centerX" id="IXk-g1-bJQ"/>
                             <constraint firstItem="piV-X7-Zp9" firstAttribute="centerX" secondItem="jKe-T2-cah" secondAttribute="centerX" id="SK0-eM-EmN"/>
                             <constraint firstItem="piV-X7-Zp9" firstAttribute="top" secondItem="c4R-2g-qX9" secondAttribute="bottom" constant="8" symbolic="YES" id="Xjk-RS-HTv"/>
+                            <constraint firstItem="iU7-vI-zRG" firstAttribute="centerY" secondItem="fx3-m2-7Uu" secondAttribute="centerY" id="j0Y-Xs-wBj"/>
                             <constraint firstItem="c4R-2g-qX9" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="oIu-Do-q0q"/>
                             <constraint firstItem="c4R-2g-qX9" firstAttribute="top" secondItem="fx3-m2-7Uu" secondAttribute="bottom" constant="8" symbolic="YES" id="tUb-cG-Ekd"/>
                             <constraint firstItem="jKe-T2-cah" firstAttribute="top" secondItem="piV-X7-Zp9" secondAttribute="bottom" constant="8" symbolic="YES" id="wFj-fk-zwK"/>
@@ -68,16 +85,17 @@
                     <navigationItem key="navigationItem" id="7t6-cW-erh"/>
                     <connections>
                         <outlet property="ButtonForSignIn" destination="fx3-m2-7Uu" id="1BQ-5z-XdY"/>
+                        <outlet property="indicator" destination="iU7-vI-zRG" id="neq-Bp-fID"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1036" y="407"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Sleep Snoring Navigation View Controller-->
         <scene sceneID="KPL-ps-wVh">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Ord-nK-Chi" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Ord-nK-Chi" customClass="SleepSnoringNavigationViewController" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="SkQ-u5-rav">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
