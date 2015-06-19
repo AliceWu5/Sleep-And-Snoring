@@ -60,12 +60,7 @@
     }
     if ([sender.titleLabel.text isEqualToString:@"Sleep"]) {
         // get sleep data
-        //[self getSleepData];
-        SleepScatterPlotController *plotController = [[SleepScatterPlotController alloc] init];
-        [[self navigationController] presentViewController:plotController animated:YES completion:^{
-            // to do
-        }];
-        
+        [self getSleepData];
     }
     if ([sender.titleLabel.text isEqualToString:@"Activity"]) {
         // get some activities
@@ -78,9 +73,10 @@
     NSLog(@"Synchronize data from Fitbit.");
     if (self.isSignedIn) {
         [self.indicator startAnimating];
-        //[self.user updateUserProfile];
-        //[self.activity updateRecentActivities];
-        [self.sleep updateSleepByDate:[NSDate date] completion:^(NSDictionary *sleepData) {
+        
+        [self.user updateUserProfile];
+        [self.activity updateRecentActivities];
+        [self.sleep updateSleepByDate:[NSDate date] completion:^(NSArray *sleepData) {
             [self.indicator stopAnimating];
             NSLog(@"should stop animating");
         }];
@@ -103,10 +99,21 @@
 
 
 - (void)getSleepData {
+    
     if (self.isSignedIn) {
-        [self.sleep updateSleepByDate:[NSDate date] completion:^(NSDictionary *sleepData) {
+        // get today's sleep data
+        [self.sleep updateSleepByDate:[NSDate date] completion:^(NSArray *sleepData) {
             NSLog(@"GET SLEEP SUCCESSFULLY.");
+            
+            SleepScatterPlotController *plotController = [[SleepScatterPlotController alloc] init];
+            plotController.dataForPlot = [FitbitSleep getDataForPlotFromSleepData:sleepData];
+            //plotController.dataForPlot = sleepData;
+            [self presentViewController:plotController animated:YES completion:^{
+                // to do
+            }];
         }];
+        
+        
     }
 }
 

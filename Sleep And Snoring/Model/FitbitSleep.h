@@ -14,10 +14,12 @@
 
 + (FitbitSleep *)sleepWithAPIFetcher:(APIFetcher *)fetcher;
 
++ (NSArray *)getDataForPlotFromSleepData:(NSArray *)sleepData;
+
 - (NSArray *)getSleepTimeline;
 - (void)updateRecentSleep;
-- (void)updateSleepByDate:(NSDate *)date completion:(void (^)(NSDictionary *sleepData))handler;
-- (void)getSleepByDate:(NSDate *)date completion:(void (^)(NSDictionary *sleepData))handler;
+- (void)updateSleepByDate:(NSDate *)date completion:(void (^)(NSArray *sleepData))handler;
+- (void)getSleepByDate:(NSDate *)date completion:(void (^)(NSArray *sleepData))handler;
 - (void)getSleepTimelineByDate:(NSDate *)date completion:(void (^)(NSArray *minuteData))handler;
 - (void)getSummaryByDate:(NSDate *)date completion:(void (^)(NSDictionary *))handler;
 

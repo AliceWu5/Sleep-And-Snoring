@@ -10,6 +10,6 @@
 #import "CorePlot-CocoaTouch.h"
 
 @interface SleepScatterPlotController : UIViewController<CPTPlotDataSource, CPTAxisDelegate>
-@property (nonatomic, readwrite, strong) NSMutableArray *dataForPlot;
+@property (nonatomic, readwrite, strong) NSArray *dataForPlot;
 
 @end

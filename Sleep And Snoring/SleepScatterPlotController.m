@@ -16,11 +16,12 @@
 
 @implementation SleepScatterPlotController
 
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    //[self setOrientation:UIInterfaceOrientationPortrait];
-    
+    // add tap gesture to dismiss view controller
     self.tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                               action:@selector(responseToTapGesture)];
     self.tapGesture.numberOfTapsRequired = 1;
@@ -36,7 +37,6 @@
     self.hostingView.collapsesLayers = NO; // Setting to YES reduces GPU memory usage, but can slow drawing/scrolling
     self.hostingView.hostedGraph     = newGraph;
     
-    NSLog(@"The bounds : %@", NSStringFromCGRect([self.view bounds]));
     newGraph.paddingLeft   = 10.0;
     newGraph.paddingTop    = 10.0;
     newGraph.paddingRight  = 10.0;
@@ -128,21 +128,56 @@
     [boundLinePlot addAnimation:fadeInAnimation forKey:@"animateOpacity"];
     //[dataSourceLinePlot addAnimation:fadeInAnimation forKey:@"animateOpacity"];
     
-    // Add some initial data
-    NSMutableArray *contentArray = [NSMutableArray arrayWithCapacity:100];
-    for ( NSUInteger i = 0; i < 60; i++ ) {
-        NSNumber *xVal = @(1.0 + i * 0.05);
-        NSNumber *yVal = @(1.2 * arc4random() / (double)UINT32_MAX + 1.2);
-        [contentArray addObject:@{ @"x": xVal,
-                                   @"y": yVal }
-         ];
-    }
-    self.dataForPlot = contentArray;
+//    // Add some initial data
+//    NSMutableArray *contentArray = [NSMutableArray arrayWithCapacity:100];
+//    for ( NSUInteger i = 0; i < 60; i++ ) {
+//        NSNumber *xVal = @(1.0 + i * 0.05);
+//        NSNumber *yVal = @(1.2 * arc4random() / (double)UINT32_MAX + 1.2);
+//        [contentArray addObject:@{ @"x": xVal,
+//                                   @"y": yVal }
+//         ];
+//    }
+//    self.dataForPlot = contentArray;
     
 #ifdef PERFORMANCE_TEST
     [NSTimer scheduledTimerWithTimeInterval:2.0 target:self selector:@selector(changePlotRange) userInfo:nil repeats:YES];
 #endif
 }
+
+
+//-(void)configureXAxisForGraph:(CPXYGraph*)graphForAxis{
+//    CPXYAxisSet *axisSet = (CPXYAxisSet *)graph.axisSet;
+//    CPXYAxis *x=axisSet.xAxis;
+//    x.majorIntervalLength = [[NSDecimalNumber decimalNumberWithString:@"1"] decimalValue];
+//    CPPlotRange *xAxisRange=[CPPlotRange plotRangeWithLocation:CPDecimalFromString(@"0.0") length:CPDecimalFromString(@"24.0")];
+//    x.minorTicksPerInterval = 4;
+//    x.majorTickLineStyle = lineStyle;
+//    x.minorTickLineStyle = lineStyle;
+//    x.axisLineStyle = lineStyle;
+//    x.minorTickLength = 5.0f;
+//    x.majorTickLength = 7.0f;
+//    x.visibleRange=xAxisRange;
+//    x.orthogonalCoordinateDecimal=CPDecimalFromString(@"0");
+//    x.title=@"Hours";
+//    x.titleOffset=47.0f;
+//    x.labelRotation=M_PI/4;
+//    x.labelingPolicy=CPAxisLabelingPolicyNone;
+//    NSArray *customTickLocations = [NSArray arrayWithObjects:[NSDecimalNumber numberWithInt:3], [NSDecimalNumber numberWithInt:6], [NSDecimalNumber numberWithInt:9], [NSDecimalNumber numberWithInt:12],
+//                                    [NSDecimalNumber numberWithInt:15], [NSDecimalNumber numberWithInt:18], [NSDecimalNumber numberWithInt:21], [NSDecimalNumber numberWithInt:24],nil];
+//    NSArray *xAxisLabels = [NSArray arrayWithObjects:@"3 AM", @"6 AM", @"9 AM", @"12PM", @"3 PM",@"6 PM",@"9 PM", @"12 AM", nil];
+//    NSUInteger labelLocation = 0;
+//    NSMutableArray *customLabels = [NSMutableArray arrayWithCapacity:[xAxisLabels count]];
+//    for (NSNumber *tickLocation in customTickLocations)
+//    {
+//        CPAxisLabel *newLabel = [[CPAxisLabel alloc] initWithText: [xAxisLabels objectAtIndex:labelLocation++] textStyle:x.labelTextStyle];
+//        newLabel.tickLocation = [tickLocation decimalValue];
+//        newLabel.offset = x.labelOffset + x.majorTickLength;
+//        newLabel.rotation = M_PI/4;
+//        [customLabels addObject:newLabel];
+//        [newLabel release];
+//    }
+//    x.axisLabels =  [NSSet setWithArray:customLabels];
+//}
 
 
 -(void)viewDidLayoutSubviews {

@@ -28,11 +28,6 @@
 + (FitbitSleep *)sleepWithAPIFetcher:(APIFetcher *)fetcher {
     FitbitSleep *fitbitSleep = [[FitbitSleep alloc] init];
     fitbitSleep.fetcher = fetcher;
-//    fitbitSleep.sleepData = [json objectForKey:kFitbitSleepDataKey];
-//    fitbitSleep.summary = [json objectForKey:kFitbitSleepSummaryKey];
-//    NSLog(@"The type of sleep : %@",[json class]);
-//    NSLog(@"The type of sleep data: %@",[fitbitSleep.sleepData class]);
-//    NSLog(@"The type of sleep summary: %@",[fitbitSleep.summary class]);
     return fitbitSleep;
 }
 
@@ -40,9 +35,16 @@
 
 - (void)updateRecentSleep {
     NSDate *today = [NSDate date];
-    NSString *dateString = [self getStringByDate:today];
+    [self updateSleepByDate:today completion:^(NSArray *sleepData) {
+        NSLog(@"Get today's sleep data.");
+    }];
+}
 
-    NSString *path = [NSString stringWithFormat:@"/1/user/-/sleep/date/%@.json", dateString];
+- (void)updateSleepByDate:(NSDate *)date completion:(void (^)(NSArray *))handler {
+    
+    NSString *dateKey = [self getStringByDate:date];
+    
+    NSString *path = [NSString stringWithFormat:@"/1/user/-/sleep/date/%@.json", dateKey];
     [self.fetcher sendGetRequestToAPIPath:path onCompletion:^(NSData *data, NSError *error) {
         
         // sleep data in JSON
@@ -51,28 +53,31 @@
         NSDictionary *summary = fetchResult[kFitbitSleepSummaryKey];
         
         if ([sleeps count] == 0) {
-            NSLog(@"%@'s sleep is empty.", dateString);
-        } else {
-            NSLog(@"The sleep result : %@", sleeps[0]);
+            NSLog(@"%@'s sleep is empty.", dateKey);
+            NSLog(@"%@", sleeps);
         }
         
         // Store data
-        [self.summarys setObject:summary forKey:dateString];
-        [self.sleepData setObject:sleeps forKey:dateString];
+        [self.summarys setObject:summary forKey:dateKey];
+        [self.sleepData setObject:sleeps forKey:dateKey];
         
-        
+        handler(sleeps);
     }];
 }
 
-- (void)updateSleepByDate:(NSDate *)date completion:(void (^)(NSDictionary *sleepData))handler {
-    NSDictionary *fetchResult;
-    handler(fetchResult);
-}
-- (void)getSleepByDate:(NSDate *)date completion:(void (^)(NSDictionary *sleepData))handler {
-    NSDictionary *fetchResult;
-    handler(fetchResult);
-}
+- (void)getSleepByDate:(NSDate *)date completion:(void (^)(NSArray *))handler {
+    
+    NSString *dateKey = [self getStringByDate:date];
+    NSArray *sleepDataByDate = [self.sleepData objectForKey:dateKey];
+    if (!sleepDataByDate) {
+        [self updateSleepByDate:date completion:^(NSArray *sleepData) {
+            handler(sleepData);
+        }];
+    } else {
+        handler(sleepDataByDate);
+    }
 
+}
 
 
 - (NSArray *)getSleepTimeline {
@@ -81,7 +86,7 @@
     
     // all the sleeps in a day
     for (NSDictionary *sleep in self.sleepData ) {
-
+        
         // get the first minutes data for each sleep
         for (NSDictionary *minute in [sleep objectForKey:kFitbitSleepDataMinuteDataKey]) {
             
@@ -96,6 +101,33 @@
     return timeline;
 }
 
+#pragma mark prepare for plot
++(NSArray *)getDataForPlotFromSleepData:(NSArray *)sleepData {
+
+    NSMutableArray *dataForPlot = [[NSMutableArray alloc] init];
+    
+    for (NSDictionary *sleep in sleepData) {
+        // for each sleep at the date
+        NSArray *minuteData = [sleep objectForKey:kFitbitSleepDataMinuteDataKey];
+        // for each minute in the minutedata
+        for (NSDictionary* minute in minuteData) {
+            
+            NSString *xVal = [minute[kFitbitSleepDataMinuteDataDateTimeKey] substringToIndex:5];
+            NSNumber *yVal = minute[kFitbitSleepDataMinuteDataValueKey];
+            NSLog(@"%@", xVal);
+            [dataForPlot addObject:@{
+                                     @"x": xVal,
+                                     @"y": yVal
+                                     }
+             ];
+        }
+    }
+    
+    return  dataForPlot;
+}
+
+
+
 
 #pragma mark string processing
 
@@ -108,15 +140,12 @@
 }
 
 #pragma mark accessors
-// Make it nil if empty array
-- (void)setSleepData:(NSMutableDictionary *)sleepData {
-    
-    if ([sleepData count] == 0) {
-        _sleepData = nil;
-    } else {
-        _sleepData = sleepData;
-    }
-}
 
+-(NSMutableDictionary *)sleepData {
+    if (!_sleepData) {
+        _sleepData = [[NSMutableDictionary alloc] init];
+    }
+    return _sleepData;
+}
 
 @end
