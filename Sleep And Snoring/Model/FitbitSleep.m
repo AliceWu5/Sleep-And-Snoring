@@ -9,6 +9,8 @@
 #import "FitbitSleep.h"
 #import "FitbitAPI.h"
 
+static NSTimeInterval const oneMinute = 60;
+
 @interface FitbitSleep ()
 
 // constain the main data of sleep in a day
@@ -41,17 +43,17 @@
 }
 
 - (void)updateSleepByDate:(NSDate *)date completion:(void (^)(NSArray *))handler {
-    
+    //NSDate *yesterday = [date dateByAddingTimeInterval:- 24 * 60 * 60];
     NSString *dateKey = [self getStringByDate:date];
     
     NSString *path = [NSString stringWithFormat:@"/1/user/-/sleep/date/%@.json", dateKey];
     [self.fetcher sendGetRequestToAPIPath:path onCompletion:^(NSData *data, NSError *error) {
-        
+        NSLog(@"%@", path);
         // sleep data in JSON
         NSDictionary *fetchResult = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
         NSArray *sleeps = fetchResult[kFitbitSleepDataKey];
         NSDictionary *summary = fetchResult[kFitbitSleepSummaryKey];
-        
+
         if ([sleeps count] == 0) {
             NSLog(@"%@'s sleep is empty.", dateKey);
             NSLog(@"%@", sleeps);
@@ -105,28 +107,39 @@
 +(NSArray *)getDataForPlotFromSleepData:(NSArray *)sleepData {
 
     NSMutableArray *dataForPlot = [[NSMutableArray alloc] init];
-    
+
     for (NSDictionary *sleep in sleepData) {
         // for each sleep at the date
         NSArray *minuteData = [sleep objectForKey:kFitbitSleepDataMinuteDataKey];
         // for each minute in the minutedata
         for (NSDictionary* minute in minuteData) {
             
-            NSString *xVal = [minute[kFitbitSleepDataMinuteDataDateTimeKey] substringToIndex:5];
+            NSString *timeString = [minute[kFitbitSleepDataMinuteDataDateTimeKey] substringToIndex:5];
+            NSTimeInterval xVal = [FitbitSleep convertStringToTimeIntervalFrom:timeString];
             NSNumber *yVal = minute[kFitbitSleepDataMinuteDataValueKey];
-            NSLog(@"%@", xVal);
+
             [dataForPlot addObject:@{
-                                     @"x": xVal,
+                                     @"x": @(xVal),
                                      @"y": yVal
                                      }
              ];
+
+            break;
         }
     }
     
     return  dataForPlot;
 }
 
++ (NSTimeInterval)convertStringToTimeIntervalFrom:(NSString *)timeString {
 
+    // time in hh:ss format
+    NSArray *time = [timeString componentsSeparatedByString:@":"];
+    NSString *hour = time[0];
+    NSString *second = time[1];
+    
+    return hour.integerValue * 60 + second.integerValue;
+}
 
 
 #pragma mark string processing

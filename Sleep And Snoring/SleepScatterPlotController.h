@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "CorePlot-CocoaTouch.h"
 
-@interface SleepScatterPlotController : UIViewController<CPTPlotDataSource, CPTAxisDelegate>
+@interface SleepScatterPlotController : UIViewController<CPTPlotDataSource, CPTAxisDelegate, CPTPlotSpaceDelegate>
 @property (nonatomic, readwrite, strong) NSArray *dataForPlot;
 
 @end
