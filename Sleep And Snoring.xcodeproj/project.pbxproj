@@ -30,6 +30,7 @@
 		AA0EEFF01B305A06004CE5B5 /* BlueTexture.png in Resources */ = {isa = PBXBuildFile; fileRef = AA0EEFEF1B305A06004CE5B5 /* BlueTexture.png */; };
 		AA0EEFF71B31AAB7004CE5B5 /* ScatterPlot.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA0EEFF61B31AAB7004CE5B5 /* ScatterPlot.xib */; };
 		AA0EEFFB1B331148004CE5B5 /* SleepSnoringNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA0EEFFA1B331148004CE5B5 /* SleepSnoringNavigationViewController.m */; };
+		AA259C371B399FC900902725 /* OrangeTexture.png in Resources */ = {isa = PBXBuildFile; fileRef = AA259C361B399FC900902725 /* OrangeTexture.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -98,6 +99,7 @@
 		AA0EEFF61B31AAB7004CE5B5 /* ScatterPlot.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ScatterPlot.xib; sourceTree = "<group>"; };
 		AA0EEFF91B331148004CE5B5 /* SleepSnoringNavigationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SleepSnoringNavigationViewController.h; path = ../SleepSnoringNavigationViewController.h; sourceTree = "<group>"; };
 		AA0EEFFA1B331148004CE5B5 /* SleepSnoringNavigationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SleepSnoringNavigationViewController.m; path = ../SleepSnoringNavigationViewController.m; sourceTree = "<group>"; };
+		AA259C361B399FC900902725 /* OrangeTexture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = OrangeTexture.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -238,6 +240,7 @@
 			isa = PBXGroup;
 			children = (
 				AA0EEFF61B31AAB7004CE5B5 /* ScatterPlot.xib */,
+				AA259C361B399FC900902725 /* OrangeTexture.png */,
 				AA0EEFEF1B305A06004CE5B5 /* BlueTexture.png */,
 			);
 			name = Resources;
@@ -359,6 +362,7 @@
 				AA0EEE491B2CD5D5004CE5B5 /* LaunchScreen.xib in Resources */,
 				AA0EEE461B2CD5D5004CE5B5 /* Images.xcassets in Resources */,
 				AA0EEFF71B31AAB7004CE5B5 /* ScatterPlot.xib in Resources */,
+				AA259C371B399FC900902725 /* OrangeTexture.png in Resources */,
 				AA0EEE7B1B2CD779004CE5B5 /* Main.storyboard in Resources */,
 				AA0EEFF01B305A06004CE5B5 /* BlueTexture.png in Resources */,
 			);

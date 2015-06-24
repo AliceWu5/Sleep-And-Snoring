@@ -102,12 +102,12 @@
     
     if (self.isSignedIn) {
         // get today's sleep data
-        [self.sleep updateSleepByDate:[NSDate date] completion:^(NSArray *sleepData) {
+        [self.sleep getSleepByDate:[NSDate date] completion:^(NSArray *sleepData) {
             NSLog(@"GET SLEEP SUCCESSFULLY.");
             
             SleepScatterPlotController *plotController = [[SleepScatterPlotController alloc] init];
             plotController.dataForPlot = [FitbitSleep getDataForPlotFromSleepData:sleepData];
-            //plotController.dataForPlot = sleepData;
+            
             [self presentViewController:plotController animated:YES completion:^{
                 // to do
             }];

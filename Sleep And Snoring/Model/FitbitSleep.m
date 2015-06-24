@@ -8,7 +8,7 @@
 
 #import "FitbitSleep.h"
 #import "FitbitAPI.h"
-
+#import "CorePlot-CocoaTouch.h"
 static NSTimeInterval const oneMinute = 60;
 
 @interface FitbitSleep ()
@@ -116,18 +116,15 @@ static NSTimeInterval const oneMinute = 60;
             
             NSString *timeString = [minute[kFitbitSleepDataMinuteDataDateTimeKey] substringToIndex:5];
             NSTimeInterval xVal = [FitbitSleep convertStringToTimeIntervalFrom:timeString];
-            NSNumber *yVal = minute[kFitbitSleepDataMinuteDataValueKey];
+            int yVal = ((NSString *)minute[kFitbitSleepDataMinuteDataValueKey]).intValue;
 
             [dataForPlot addObject:@{
-                                     @"x": @(xVal),
-                                     @"y": yVal
+                                     @(CPTScatterPlotFieldX): @(xVal),
+                                     @(CPTScatterPlotFieldY): @(yVal)
                                      }
              ];
-
-            break;
         }
     }
-    
     return  dataForPlot;
 }
 
@@ -136,9 +133,9 @@ static NSTimeInterval const oneMinute = 60;
     // time in hh:ss format
     NSArray *time = [timeString componentsSeparatedByString:@":"];
     NSString *hour = time[0];
-    NSString *second = time[1];
+    NSString *minute = time[1];
     
-    return hour.integerValue * 60 + second.integerValue;
+    return hour.integerValue * 60 * 60 + minute.integerValue * 60;
 }
 
 

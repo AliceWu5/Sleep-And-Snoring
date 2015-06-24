@@ -8,6 +8,9 @@
 
 #import "SleepScatterPlotController.h"
 
+static NSTimeInterval const oneHour = 60*60;
+
+
 @interface SleepScatterPlotController ()
 @property (nonatomic, readwrite, strong) CPTXYGraph *graph;
 @property (nonatomic, strong)CPTGraphHostingView *hostingView;
@@ -29,7 +32,7 @@
     
     // Create graph from theme
     CPTXYGraph *newGraph = [[CPTXYGraph alloc] initWithFrame:self.view.frame];
-    CPTTheme *theme      = [CPTTheme themeNamed:kCPTPlainWhiteTheme];
+    CPTTheme *theme      = [CPTTheme themeNamed:kCPTDarkGradientTheme];
     [newGraph applyTheme:theme];
     self.graph = newGraph;
 
@@ -69,9 +72,9 @@
     y.majorIntervalLength         = CPTDecimalFromDouble(0.5);
     y.minorTicksPerInterval       = 5;
     y.orthogonalCoordinateDecimal = CPTDecimalFromDouble(0.0);
-    exclusionRanges               = @[[CPTPlotRange plotRangeWithLocation:CPTDecimalFromDouble(1.99) length:CPTDecimalFromDouble(0.02)],
-                                      [CPTPlotRange plotRangeWithLocation:CPTDecimalFromDouble(0.99) length:CPTDecimalFromDouble(0.02)],
-                                      [CPTPlotRange plotRangeWithLocation:CPTDecimalFromDouble(3.99) length:CPTDecimalFromDouble(0.02)]];
+    exclusionRanges               = @[[CPTPlotRange plotRangeWithLocation:CPTDecimalFromDouble(1.49) length:CPTDecimalFromDouble(0.02)],
+                                      [CPTPlotRange plotRangeWithLocation:CPTDecimalFromDouble(2.49) length:CPTDecimalFromDouble(0.02)],
+                                      [CPTPlotRange plotRangeWithLocation:CPTDecimalFromDouble(0.49) length:CPTDecimalFromDouble(0.02)]];
     y.labelExclusionRanges = exclusionRanges;
     y.axisConstraints = [CPTConstraints constraintWithLowerOffset:30.0];
     y.delegate             = self;
@@ -81,21 +84,21 @@
     CPTMutableLineStyle *lineStyle = [CPTMutableLineStyle lineStyle];
     lineStyle.miterLimit        = 1.0;
     lineStyle.lineWidth         = 1.0;
-    lineStyle.lineColor         = [CPTColor cyanColor];
+    lineStyle.lineColor         = [CPTColor orangeColor];
     boundLinePlot.dataLineStyle = lineStyle;
     boundLinePlot.identifier    = @"Sleep Plot";
     boundLinePlot.dataSource    = self;
     [newGraph addPlot:boundLinePlot];
     
-//    CPTImage *fillImage = [CPTImage imageNamed:@"BlueTexture"];
-//    fillImage.tiled = YES;
-//    CPTFill *areaImageFill = [CPTFill fillWithImage:fillImage];
-//    boundLinePlot.areaFill      = areaImageFill;
-//    boundLinePlot.areaBaseValue = [[NSDecimalNumber zero] decimalValue];
+    CPTImage *fillImage = [CPTImage imageNamed:@"OrangeTexture"];
+    fillImage.tiled = YES;
+    CPTFill *areaImageFill = [CPTFill fillWithImage:fillImage];
+    boundLinePlot.areaFill      = areaImageFill;
+    boundLinePlot.areaBaseValue = [[NSDecimalNumber numberWithDouble:0.5] decimalValue];
     
     // Add plot symbols
     CPTMutableLineStyle *symbolLineStyle = [CPTMutableLineStyle lineStyle];
-    symbolLineStyle.lineColor = [CPTColor blackColor];
+    symbolLineStyle.lineColor = [CPTColor whiteColor];
     CPTPlotSymbol *plotSymbol = [CPTPlotSymbol ellipsePlotSymbol];
     plotSymbol.fill          = [CPTFill fillWithColor:[CPTColor blueColor]];
     plotSymbol.lineStyle     = symbolLineStyle;
@@ -168,7 +171,7 @@
     x.title = @"Hours";
     x.titleOffset = 47.0f;
     x.labelRotation = M_PI/4;
-    x.labelingPolicy = CPTAxisLabelingPolicyFixedInterval;
+    x.labelingPolicy = CPTAxisLabelingPolicyNone;
     NSArray *customTickLocations = [NSArray arrayWithObjects:[NSDecimalNumber numberWithInt:0],[NSDecimalNumber numberWithInt:3], [NSDecimalNumber numberWithInt:6], [NSDecimalNumber numberWithInt:9], [NSDecimalNumber numberWithInt:12],
                                     [NSDecimalNumber numberWithInt:15], [NSDecimalNumber numberWithInt:18], [NSDecimalNumber numberWithInt:21], [NSDecimalNumber numberWithInt:24],nil];
     NSArray *xAxisLabels = [NSArray arrayWithObjects:@"0 AM", @"3 AM", @"6 AM", @"9 AM", @"12PM", @"3 PM",@"6 PM",@"9 PM", @"12 AM", nil];
@@ -230,16 +233,33 @@
 
 -(id)numberForPlot:(CPTPlot *)plot field:(NSUInteger)fieldEnum recordIndex:(NSUInteger)index
 {
+    /*
     NSString *key = (fieldEnum == CPTScatterPlotFieldX ? @"x" : @"y");
     NSNumber *num = self.dataForPlot[index][key];
-    
-    // Green plot gets shifted above the blue
+    //NSLog(@"The num is : %@", self.dataForPlot);
+    // Green plot gets shifted above cvfvgthe blue
     if ( [(NSString *)plot.identifier isEqualToString : @"Green Plot"] ) {
         if ( fieldEnum == CPTScatterPlotFieldY ) {
             num = @([num doubleValue] + 1.0);
         }
     }
     return num;
+     */
+    NSNumber *value = nil;
+    switch (fieldEnum) {
+        case CPTScatterPlotFieldX: {
+            NSTimeInterval time = ((NSNumber *)self.dataForPlot[index][@(fieldEnum)]).doubleValue;
+            value = [NSNumber numberWithDouble:time / oneHour];
+            break;
+        }
+            
+        case CPTScatterPlotFieldY: {
+            value = self.dataForPlot[index][@(fieldEnum)];
+            break;
+        }
+    }
+    
+    return value;
 }
 
 
@@ -347,9 +367,9 @@
 
 - (void)responseToTapGesture {
     NSLog(@"Dissmiss Plot View.");
-//    [self dismissViewControllerAnimated:YES completion:^{
-//       // to do
-//    }];
+    [self dismissViewControllerAnimated:YES completion:^{
+       // to do
+    }];
 }
 
 @end
