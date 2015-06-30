@@ -1752,7 +1752,6 @@ NSDecimal niceLength(NSDecimal length)
     CPTCoordinate orthogonalCoordinate = CPTOrthogonalCoordinate(self.coordinate);
 
     CPTSign direction = self.tickLabelDirection;
-
     if ( direction == CPTSignNone ) {
         direction = self.tickDirection;
     }
@@ -2763,7 +2762,6 @@ NSDecimal niceLength(NSDecimal length)
 {
     if ( newDirection != tickLabelDirection ) {
         tickLabelDirection = newDirection;
-
         [self updateMajorTickLabelOffsets];
         [self updateMajorTickLabels];
     }

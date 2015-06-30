@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Sleep And Snoring/SleepScatterPlotController.m"
-            timestampString = "456756797.644119"
+            timestampString = "457368467.6235"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "158"
-            endingLineNumber = "158"
+            startingLineNumber = "163"
+            endingLineNumber = "163"
             landmarkName = "-configureXAxisForGraph:"
             landmarkType = "5">
          </BreakpointContent>

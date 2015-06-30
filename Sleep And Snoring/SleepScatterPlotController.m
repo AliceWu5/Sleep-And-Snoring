@@ -49,52 +49,37 @@ static NSTimeInterval const oneHour = 60*60;
     
     // Setup plot space
     CPTXYPlotSpace *plotSpace = (CPTXYPlotSpace *)newGraph.defaultPlotSpace;
+    
     // should allow user interaction
     plotSpace.allowsUserInteraction = YES;
     plotSpace.xRange                = [CPTPlotRange plotRangeWithLocation:CPTDecimalFromDouble(0.0) length:CPTDecimalFromDouble(12.0)];
-    plotSpace.yRange                = [CPTPlotRange plotRangeWithLocation:CPTDecimalFromDouble(-0.5) length:CPTDecimalFromDouble(4.0)];
+    plotSpace.yRange                = [CPTPlotRange plotRangeWithLocation:CPTDecimalFromDouble(-100.0) length:CPTDecimalFromDouble(200.0)];
     plotSpace.delegate = self;
-    // Axes
-    CPTXYAxisSet *axisSet = (CPTXYAxisSet *)newGraph.axisSet;
-//    CPTXYAxis *x          = axisSet.xAxis;
-//    x.majorIntervalLength         = CPTDecimalFromDouble(0.5);
-//    x.orthogonalCoordinateDecimal = CPTDecimalFromDouble(2.0);
-//    x.minorTicksPerInterval       = 2;
-    NSArray *exclusionRanges = @[[CPTPlotRange plotRangeWithLocation:CPTDecimalFromDouble(1.99) length:CPTDecimalFromDouble(0.02)],
-                                 [CPTPlotRange plotRangeWithLocation:CPTDecimalFromDouble(0.99) length:CPTDecimalFromDouble(0.02)],
-                                 [CPTPlotRange plotRangeWithLocation:CPTDecimalFromDouble(2.99) length:CPTDecimalFromDouble(0.02)]];
-//    x.labelExclusionRanges = exclusionRanges;
     
     // customized x axis
     [self configureXAxisForGraph:newGraph];
+    [self configureYAxisForGraph:newGraph];
     
-    CPTXYAxis *y = axisSet.yAxis;
-    y.majorIntervalLength         = CPTDecimalFromDouble(0.5);
-    y.minorTicksPerInterval       = 5;
-    y.orthogonalCoordinateDecimal = CPTDecimalFromDouble(0.0);
-    exclusionRanges               = @[[CPTPlotRange plotRangeWithLocation:CPTDecimalFromDouble(1.49) length:CPTDecimalFromDouble(0.02)],
-                                      [CPTPlotRange plotRangeWithLocation:CPTDecimalFromDouble(2.49) length:CPTDecimalFromDouble(0.02)],
-                                      [CPTPlotRange plotRangeWithLocation:CPTDecimalFromDouble(0.49) length:CPTDecimalFromDouble(0.02)]];
-    y.labelExclusionRanges = exclusionRanges;
-    y.axisConstraints = [CPTConstraints constraintWithLowerOffset:30.0];
-    y.delegate             = self;
-    
-    // Create a blue plot area
-    CPTScatterPlot *boundLinePlot  = [[CPTScatterPlot alloc] init];
+    // Create a sleep plot area
+    CPTScatterPlot *sleepPlot  = [[CPTScatterPlot alloc] init];
     CPTMutableLineStyle *lineStyle = [CPTMutableLineStyle lineStyle];
     lineStyle.miterLimit        = 1.0;
     lineStyle.lineWidth         = 1.0;
     lineStyle.lineColor         = [CPTColor orangeColor];
-    boundLinePlot.dataLineStyle = lineStyle;
-    boundLinePlot.identifier    = @"Sleep Plot";
-    boundLinePlot.dataSource    = self;
-    [newGraph addPlot:boundLinePlot];
+    sleepPlot.dataLineStyle = lineStyle;
+    sleepPlot.identifier    = @"Sleep Plot";
+    sleepPlot.dataSource    = self;
+    [newGraph addPlot:sleepPlot];
     
-    CPTImage *fillImage = [CPTImage imageNamed:@"OrangeTexture"];
-    fillImage.tiled = YES;
-    CPTFill *areaImageFill = [CPTFill fillWithImage:fillImage];
-    boundLinePlot.areaFill      = areaImageFill;
-    boundLinePlot.areaBaseValue = [[NSDecimalNumber numberWithDouble:0.5] decimalValue];
+    // Put an area gradient under the plot above
+    CPTGradient *orangeGradient = [CPTGradient gradientWithBeginningColor:[CPTColor orangeColor] endingColor:[CPTColor clearColor]];
+    orangeGradient.angle = -90.0;
+    CPTFill *orangeAreaGradientFill = [CPTFill fillWithGradient:orangeGradient];
+    //CPTImage *fillImage = [CPTImage imageNamed:@"OrangeTexture"];
+    //fillImage.tiled = YES;
+    //CPTFill *areaOrangeFill = [CPTFill fillWithGradient:orangeGradient];
+    sleepPlot.areaFill      = orangeAreaGradientFill;
+    sleepPlot.areaBaseValue = CPTDecimalFromDouble(-90.0);
     
     // Add plot symbols
     CPTMutableLineStyle *symbolLineStyle = [CPTMutableLineStyle lineStyle];
@@ -103,90 +88,123 @@ static NSTimeInterval const oneHour = 60*60;
     plotSymbol.fill          = [CPTFill fillWithColor:[CPTColor blueColor]];
     plotSymbol.lineStyle     = symbolLineStyle;
     plotSymbol.size          = CGSizeMake(1.0, 1.0);
-    boundLinePlot.plotSymbol = plotSymbol;
+    sleepPlot.plotSymbol = plotSymbol;
     
-//    // Create a green plot area
-//    CPTScatterPlot *dataSourceLinePlot = [[CPTScatterPlot alloc] init];
-//    lineStyle                        = [CPTMutableLineStyle lineStyle];
-//    lineStyle.lineWidth              = 3.0;
-//    lineStyle.lineColor              = [CPTColor greenColor];
-//    lineStyle.dashPattern            = @[@5.0, @5.0];
-//    dataSourceLinePlot.dataLineStyle = lineStyle;
-//    dataSourceLinePlot.identifier    = @"Green Plot";
-//    dataSourceLinePlot.dataSource    = self;
-//    
-//    // Put an area gradient under the plot above
-//    CPTColor *areaColor       = [CPTColor colorWithComponentRed:CPTFloat(0.3) green:CPTFloat(1.0) blue:CPTFloat(0.3) alpha:CPTFloat(0.8)];
-//    CPTGradient *areaGradient = [CPTGradient gradientWithBeginningColor:areaColor endingColor:[CPTColor clearColor]];
-//    areaGradient.angle = -90.0;
-//    CPTFill *areaGradientFill = [CPTFill fillWithGradient:areaGradient];
-//    dataSourceLinePlot.areaFill      = areaGradientFill;
-//    dataSourceLinePlot.areaBaseValue = CPTDecimalFromDouble(1.75);
-//    
-//    // Animate in the new plot, as an example
-//    dataSourceLinePlot.opacity = 0.0;
-//    [newGraph addPlot:dataSourceLinePlot];
+    // Create a heart rate plot area
+    CPTScatterPlot *heartRatePlot = [[CPTScatterPlot alloc] init];
+    lineStyle                        = [CPTMutableLineStyle lineStyle];
+    lineStyle.lineWidth              = 1.0;
+    lineStyle.lineColor              = [CPTColor blueColor];
+    //lineStyle.dashPattern            = @[@5.0, @5.0];
+    heartRatePlot.dataLineStyle = lineStyle;
+    heartRatePlot.identifier    = @"Heart Rate Plot";
+    heartRatePlot.dataSource    = self;
+    
+    // Put an area gradient under the plot above
+    CPTColor *areaColor       = [CPTColor colorWithComponentRed:CPTFloat(0.3) green:CPTFloat(1.0) blue:CPTFloat(0.3) alpha:CPTFloat(0.8)];
+    CPTGradient *areaGradient = [CPTGradient gradientWithBeginningColor:areaColor endingColor:[CPTColor clearColor]];
+    areaGradient.angle = -90.0;
+    CPTFill *areaGradientFill = [CPTFill fillWithGradient:areaGradient];
+    heartRatePlot.areaFill      = areaGradientFill;
+    heartRatePlot.areaBaseValue = CPTDecimalFromDouble(1.75);
+    
+    // Animate in the new plot, as an example
+    heartRatePlot.opacity = 0.0;
+    [newGraph addPlot:heartRatePlot];
     
     CABasicAnimation *fadeInAnimation = [CABasicAnimation animationWithKeyPath:@"opacity"];
     fadeInAnimation.duration            = 1.0;
     fadeInAnimation.removedOnCompletion = NO;
     fadeInAnimation.fillMode            = kCAFillModeForwards;
     fadeInAnimation.toValue             = @1.0;
-    [boundLinePlot addAnimation:fadeInAnimation forKey:@"animateOpacity"];
-    //[dataSourceLinePlot addAnimation:fadeInAnimation forKey:@"animateOpacity"];
-    
-//    // Add some initial data
-//    NSMutableArray *contentArray = [NSMutableArray arrayWithCapacity:100];
-//    for ( NSUInteger i = 0; i < 60; i++ ) {
-//        NSNumber *xVal = @(1.0 + i * 0.05);
-//        NSNumber *yVal = @(1.2 * arc4random() / (double)UINT32_MAX + 1.2);
-//        [contentArray addObject:@{ @"x": xVal,
-//                                   @"y": yVal }
-//         ];
-//    }
-//    self.dataForPlot = contentArray;
+    [sleepPlot addAnimation:fadeInAnimation forKey:@"animateOpacity"];
+    [heartRatePlot addAnimation:fadeInAnimation forKey:@"animateOpacity"];
     
 #ifdef PERFORMANCE_TEST
     [NSTimer scheduledTimerWithTimeInterval:2.0 target:self selector:@selector(changePlotRange) userInfo:nil repeats:YES];
 #endif
 }
 
+-(void)configureYAxisForGraph:(CPTGraph*)graph{
+    
+    CPTMutableTextStyle *majorTextStyle = [CPTMutableTextStyle textStyle];
+    majorTextStyle.color = [CPTColor whiteColor];
+    majorTextStyle.fontName = @"Helvetica-Bold";
+    majorTextStyle.fontSize = 10.0f;
+    
+    CPTXYAxisSet *axisSet = (CPTXYAxisSet *)graph.axisSet;
+    CPTXYAxis *y = axisSet.yAxis;
+    y.orthogonalCoordinateDecimal = CPTDecimalFromDouble(0.0);
+    //y.axisConstraints = [CPTConstraints constraintWithLowerOffset:10.0];
+    y.delegate             = self;
+
+    y.tickLabelDirection = CPTSignPositive;
+    //y.labelOffset = -50.0f;
+    
+    y.labelingPolicy = CPTAxisLabelingPolicyNone;
+    NSArray *customTickLocations = [NSArray arrayWithObjects:[NSDecimalNumber numberWithInt:-90], [NSDecimalNumber numberWithInt:-60], [NSDecimalNumber numberWithInt:-30], [NSDecimalNumber numberWithInt:0], [NSDecimalNumber numberWithInt:15], [NSDecimalNumber numberWithInt:30], [NSDecimalNumber numberWithInt:45], [NSDecimalNumber numberWithInt:60], [NSDecimalNumber numberWithInt:75],[NSDecimalNumber numberWithInt:90], nil];
+    NSArray *yAxisLabels = [NSArray arrayWithObjects:@"Asleep", @"Restless", @"Awake", @"0", @"15", @"30",@"45",@"60", @"75", @"90", nil];
+    NSUInteger labelLocation = 0;
+    NSMutableArray *customLabels = [NSMutableArray arrayWithCapacity:[yAxisLabels count]];
+    
+    for (NSNumber *tickLocation in customTickLocations)
+    {
+        CPTAxisLabel *newLabel = [[CPTAxisLabel alloc] initWithText: [yAxisLabels objectAtIndex:labelLocation++] textStyle:majorTextStyle];
+        newLabel.tickLocation = [tickLocation decimalValue];
+        newLabel.offset = y.labelOffset + y.majorTickLength;
+        newLabel.rotation = 0;
+        [customLabels addObject:newLabel];
+    }
+    y.axisLabels =  [NSSet setWithArray:customLabels];
+}
 
 -(void)configureXAxisForGraph:(CPTGraph*)graph{
     
-    const NSTimeInterval oneSecond = 60;
     CPTXYAxisSet *axisSet = (CPTXYAxisSet *)graph.axisSet;
     CPTXYAxis *x = axisSet.xAxis;
     CPTPlotRange *xAxisRange = [CPTPlotRange plotRangeWithLocation:CPTDecimalFromString(@"0.0") length:CPTDecimalFromString(@"24.0")];
 
+    CPTMutableTextStyle *majorTextStyle = [CPTMutableTextStyle textStyle];
+    majorTextStyle.color = [CPTColor whiteColor];
+    majorTextStyle.fontName = @"Helvetica-Bold";
+    majorTextStyle.fontSize = 10.0f;
+    
     x.majorIntervalLength = CPTDecimalFromDouble(6.0);
-    //x.minorTicksPerInterval = 5;
-//    x.majorTickLineStyle = lineStyle;
-//    x.minorTickLineStyle = lineStyle;
-//    x.axisLineStyle = lineStyle;
     x.minorTickLength = 3.0f;
     x.visibleRange = xAxisRange;
     
     x.orthogonalCoordinateDecimal = CPTDecimalFromString(@"0");
     x.title = @"Hours";
-    x.titleOffset = 47.0f;
-    x.labelRotation = M_PI/4;
+    x.titleTextStyle = majorTextStyle;
+    x.titleOffset = 30.0f;
+    x.labelRotation = M_PI/8;
     x.labelingPolicy = CPTAxisLabelingPolicyNone;
+    //x.tickLabelDirection = CPTSignPositive;
     NSArray *customTickLocations = [NSArray arrayWithObjects:[NSDecimalNumber numberWithInt:0],[NSDecimalNumber numberWithInt:3], [NSDecimalNumber numberWithInt:6], [NSDecimalNumber numberWithInt:9], [NSDecimalNumber numberWithInt:12],
                                     [NSDecimalNumber numberWithInt:15], [NSDecimalNumber numberWithInt:18], [NSDecimalNumber numberWithInt:21], [NSDecimalNumber numberWithInt:24],nil];
     NSArray *xAxisLabels = [NSArray arrayWithObjects:@"0 AM", @"3 AM", @"6 AM", @"9 AM", @"12PM", @"3 PM",@"6 PM",@"9 PM", @"12 AM", nil];
     NSUInteger labelLocation = 0;
     NSMutableArray *customLabels = [NSMutableArray arrayWithCapacity:[xAxisLabels count]];
+    
     for (NSNumber *tickLocation in customTickLocations)
     {
-        CPTAxisLabel *newLabel = [[CPTAxisLabel alloc] initWithText: [xAxisLabels objectAtIndex:labelLocation++] textStyle:x.labelTextStyle];
+        CPTAxisLabel *newLabel = [[CPTAxisLabel alloc] initWithText: [xAxisLabels objectAtIndex:labelLocation++] textStyle:majorTextStyle];
         newLabel.tickLocation = [tickLocation decimalValue];
         newLabel.offset = x.labelOffset + x.majorTickLength;
-        newLabel.rotation = M_PI/4;
+        newLabel.rotation = M_PI/8;
         [customLabels addObject:newLabel];
-        //[newLabel release];
     }
     x.axisLabels =  [NSSet setWithArray:customLabels];
+}
+
+
+// set landscape only
+-(NSUInteger)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskLandscape;
+}
+
+-(BOOL)shouldAutorotate {
+    return NO;
 }
 
 
@@ -248,17 +266,30 @@ static NSTimeInterval const oneHour = 60*60;
     NSNumber *value = nil;
     switch (fieldEnum) {
         case CPTScatterPlotFieldX: {
-            NSTimeInterval time = ((NSNumber *)self.dataForPlot[index][@(fieldEnum)]).doubleValue;
-            value = [NSNumber numberWithDouble:time / oneHour];
+            
+            if ([(NSString *)plot.identifier isEqualToString:@"Sleep Plot"]) {
+                NSTimeInterval time = ((NSNumber *)self.dataForPlot[index][@(fieldEnum)]).doubleValue;
+                value = [NSNumber numberWithDouble:time / oneHour];
+            } else {
+                // heart rate plot
+                NSTimeInterval time = ((NSNumber *)self.dataForPlot[index][@(fieldEnum)]).doubleValue;
+                value = [NSNumber numberWithDouble:time / oneHour];
+            }
             break;
         }
             
         case CPTScatterPlotFieldY: {
-            value = self.dataForPlot[index][@(fieldEnum)];
+            if ([(NSString *)plot.identifier isEqualToString:@"Sleep Plot"]) {
+                int sleepValue = ((NSNumber *)self.dataForPlot[index][@(fieldEnum)]).intValue;
+                value = [NSNumber numberWithInt:sleepValue * 30 - 120];
+            } else {
+                // heart rate plot
+                int heartRate = ((NSNumber *)self.dataForPlot[index][@(fieldEnum)]).intValue;
+                value = [NSNumber numberWithDouble:heartRate * 30 * 0.8];
+            }
             break;
         }
     }
-    
     return value;
 }
 
@@ -313,7 +344,6 @@ static NSTimeInterval const oneHour = 60*60;
     }
     
     axis.axisLabels = newLabels;
-    
     return NO;
 }
 
