@@ -9,7 +9,6 @@
 #import "FitbitSleep.h"
 #import "FitbitAPI.h"
 #import "CorePlot-CocoaTouch.h"
-static NSTimeInterval const oneMinute = 60;
 
 @interface FitbitSleep ()
 

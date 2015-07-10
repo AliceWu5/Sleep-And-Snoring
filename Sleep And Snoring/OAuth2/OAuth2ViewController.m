@@ -26,6 +26,8 @@ static NSString *const vOAuth2RefreshTokenKey   = @"refresh_token";
 @property (nonatomic, strong)NSString *accessToken;
 @property (nonatomic, strong)NSString *refreshToken;
 @property (nonatomic, strong)NSMutableDictionary *tokens;
+@property (nonatomic, strong)UIActivityIndicatorView *indicator;
+@property BOOL needIndication;
 @end
 
 @implementation OAuth2ViewController
@@ -33,13 +35,16 @@ static NSString *const vOAuth2RefreshTokenKey   = @"refresh_token";
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self signInToCustomService];
-        // Do any additional setup after loading the view.
+    self.needIndication = NO;
+    // Do any additional setup after loading the view.
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+#pragma mark accessors
 
 -(UIWebView *)webView {
     if (!_webView) {
@@ -55,9 +60,18 @@ static NSString *const vOAuth2RefreshTokenKey   = @"refresh_token";
     return _auth;
 }
 
+-(UIActivityIndicatorView *)indicator {
+    if (!_indicator) {
+        _indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+        _indicator.color = [UIColor grayColor];
+        _indicator.center = self.view.center;
+        [self.webView addSubview:_indicator];
+    }
+    return _indicator;
+}
 
 - (void)signInToCustomService {
-    //[self signOut];
+    [self signOut];
     
     // set up url
     NSURL *url = [self.auth getAuthorizationPageWithOptions:@"display=touch"];
@@ -129,17 +143,29 @@ static NSString *const vOAuth2RefreshTokenKey   = @"refresh_token";
     
     // stop loading the page when sucessful sign in
     NSURL *currentURL = request.URL;
-    
+    [self.indicator startAnimating];
+    NSLog(@"called once.");
     if ([self.auth authorizationFinishedWithURL:currentURL]) {
         
+        self.needIndication = YES;
+        [self.indicator startAnimating];
         NSLog(@"catch redirect.");
         // authorization result
         NSDictionary *dictionary = [self.auth getAuthorizationResultFromURL:currentURL];
         
+        // successful login
         if (![dictionary valueForKey:@"error"]) {
             
-            NSString *authorizationCode = [dictionary valueForKey:@"code"];
+            // load customized successful page
+            NSString *htmlFile = [[NSBundle mainBundle] pathForResource:@"login" ofType:@"html"];
+            NSString* htmlString = [NSString stringWithContentsOfFile:htmlFile encoding:NSUTF8StringEncoding error:nil];
+            NSString *path = [[NSBundle mainBundle] bundlePath];
+            NSURL *baseURL = [NSURL fileURLWithPath:path];
+            [webView loadHTMLString:htmlString baseURL:baseURL];
+
             
+            // exchange code for access token
+            NSString *authorizationCode = [dictionary valueForKey:@"code"];
             [self.auth getAccessTokenFromAuthorizationCode:authorizationCode onCompletion:^(NSData *data, NSError *error) {
                 if (error) {
                     // failed; either an NSURLConnection error occurred, or the server returned
@@ -159,7 +185,6 @@ static NSString *const vOAuth2RefreshTokenKey   = @"refresh_token";
                     [self.delegate addItems:fetcher withMessage:@"Successful"];
                     
                     NSLog(@"Fetch Result : successful");
-                    //NSLog(@"Fetch Result : %@", fetchResult);
                 }
             }];
             
@@ -174,11 +199,22 @@ static NSString *const vOAuth2RefreshTokenKey   = @"refresh_token";
         
         return false;
     }
+    
     return YES;
 }
 
 
+-(void)webViewDidFinishLoad:(UIWebView *)webView {
+    // continue animating when load a local page
+    if (!self.needIndication) {
+        [self.indicator stopAnimating];
+    }
+    NSLog(@"stopped.");
+}
 
+-(void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
+    NSLog(@"Error : %@", error);
+}
 
 
 
