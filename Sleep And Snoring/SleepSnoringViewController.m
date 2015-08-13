@@ -13,15 +13,19 @@
 #import "FitbitSleep.h"
 #import "FitbitUser.h"
 #import "FitbitActivity.h"
+#import "FitbitHeartRate.h"
 #import "Sleep2DLandscapeView.h"
-
+#import "GenericDate.h"
 @interface SleepSnoringViewController ()
 @property (strong, nonatomic)IBOutlet UIButton *ButtonForSignIn;
 @property (strong, nonatomic) IBOutlet UIActivityIndicatorView *indicator;
 @property (strong, nonatomic)APIFetcher *fetcher;
+@property (strong, nonatomic)FitbitHeartRate *heartRate;
 @property (strong, nonatomic)FitbitUser *user;
 @property (strong, nonatomic)FitbitSleep *sleep;
 @property (strong, nonatomic)FitbitActivity *activity;
+
+
 @property BOOL isSignedIn;
 @end
 
@@ -34,6 +38,8 @@
     self.indicator.hidesWhenStopped = YES;
     // Do any additional setup after loading the view, typically from a nib.
     
+    [self initNavigationBarItems];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -41,6 +47,15 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)initNavigationBarItems {
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(logInfo)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(logInfo)];
+    self.navigationItem.title = [GenericDate getCurrentDate];
+}
+
+- (void)logInfo {
+    NSLog(@"Button Pressed.");
+}
 
 - (IBAction)StartSignIn:(UIButton *)sender {
     OAuth2ViewController *authViewController = [[OAuth2ViewController alloc] init];
@@ -66,7 +81,10 @@
         // get some activities
         [self getActivity];
     }
-    
+    if ([sender.titleLabel.text isEqualToString:@"Heart Rate"]) {
+        // get heart rate data
+        [self getHeartRate];
+    }
 }
 
 - (IBAction)syncData:(UIButton *)sender {
@@ -126,12 +144,23 @@
 
 - (void)getActivity {
     if (self.isSignedIn) {
-        [self.activity getDistanceByDate:[NSDate date] completion:^(NSString *distance) {
-            NSLog(@"The distance today : %@", distance);
+        [self.fetcher getLastSyncTimeOnCompletion:^(BOOL *needUpdate, NSError *error) {
+            // todo
         }];
+//        [self.activity getDistanceByDate:[NSDate date] completion:^(NSString *distance) {
+//            NSLog(@"The distance today : %@", distance);
+//        }];
     }
 }
 
+- (void)getHeartRate {
+    if (self.isSignedIn) {
+        // get today's heart rate data
+        [self.heartRate updateHeartRateByDate:[NSDate date] completion:^(NSString *distance) {
+            NSLog(@"Heart rate fetched.");
+        }];
+    }
+}
 
 #pragma mark Accessors
 
@@ -151,6 +180,8 @@
         self.activity = [FitbitActivity activityWithAPIFetcher:self.fetcher];
         
         self.sleep = [FitbitSleep sleepWithAPIFetcher:self.fetcher];
+        
+        self.heartRate = [FitbitHeartRate heartRateWithAPIFetcher:self.fetcher];
     }
     _isSignedIn = isSignedIn;
 }

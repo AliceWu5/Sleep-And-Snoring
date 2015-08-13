@@ -30,8 +30,10 @@
 		AA0EEFEB1B3045AA004CE5B5 /* SleepScatterPlotController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA0EEFEA1B3045AA004CE5B5 /* SleepScatterPlotController.m */; };
 		AA0EEFF71B31AAB7004CE5B5 /* ScatterPlot.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA0EEFF61B31AAB7004CE5B5 /* ScatterPlot.xib */; };
 		AA0EEFFB1B331148004CE5B5 /* SleepSnoringNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA0EEFFA1B331148004CE5B5 /* SleepSnoringNavigationViewController.m */; };
+		AA3BADE31B55587900A03093 /* GenericDate.m in Sources */ = {isa = PBXBuildFile; fileRef = AA3BADE21B55587900A03093 /* GenericDate.m */; };
 		AA7DCA5E1B4F452900F37C7A /* w3.css in Resources */ = {isa = PBXBuildFile; fileRef = AA7DCA5D1B4F452900F37C7A /* w3.css */; };
 		AA7DCA601B4F472A00F37C7A /* sheflogo.gif in Resources */ = {isa = PBXBuildFile; fileRef = AA7DCA5F1B4F472A00F37C7A /* sheflogo.gif */; };
+		AAAD011F1B72550B004B289A /* FitbitHeartRate.m in Sources */ = {isa = PBXBuildFile; fileRef = AAAD011E1B72550B004B289A /* FitbitHeartRate.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -100,8 +102,12 @@
 		AA0EEFF61B31AAB7004CE5B5 /* ScatterPlot.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ScatterPlot.xib; sourceTree = "<group>"; };
 		AA0EEFF91B331148004CE5B5 /* SleepSnoringNavigationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SleepSnoringNavigationViewController.h; path = ../SleepSnoringNavigationViewController.h; sourceTree = "<group>"; };
 		AA0EEFFA1B331148004CE5B5 /* SleepSnoringNavigationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SleepSnoringNavigationViewController.m; path = ../SleepSnoringNavigationViewController.m; sourceTree = "<group>"; };
+		AA3BADE11B55587900A03093 /* GenericDate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GenericDate.h; sourceTree = "<group>"; };
+		AA3BADE21B55587900A03093 /* GenericDate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GenericDate.m; sourceTree = "<group>"; };
 		AA7DCA5D1B4F452900F37C7A /* w3.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = w3.css; sourceTree = "<group>"; };
 		AA7DCA5F1B4F472A00F37C7A /* sheflogo.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = sheflogo.gif; sourceTree = "<group>"; };
+		AAAD011D1B72550B004B289A /* FitbitHeartRate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FitbitHeartRate.h; sourceTree = "<group>"; };
+		AAAD011E1B72550B004B289A /* FitbitHeartRate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FitbitHeartRate.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -216,6 +222,8 @@
 				AA0EEE6F1B2CD66A004CE5B5 /* FitbitSleep.m */,
 				AA0EEE701B2CD66A004CE5B5 /* FitbitUser.h */,
 				AA0EEE711B2CD66A004CE5B5 /* FitbitUser.m */,
+				AAAD011D1B72550B004B289A /* FitbitHeartRate.h */,
+				AAAD011E1B72550B004B289A /* FitbitHeartRate.m */,
 				AA0EEE721B2CD66A004CE5B5 /* Sleep2DLandscapeView.h */,
 				AA0EEE731B2CD66A004CE5B5 /* Sleep2DLandscapeView.m */,
 			);
@@ -226,6 +234,8 @@
 			isa = PBXGroup;
 			children = (
 				AA0EEE791B2CD672004CE5B5 /* GenericDelegate.h */,
+				AA3BADE11B55587900A03093 /* GenericDate.h */,
+				AA3BADE21B55587900A03093 /* GenericDate.m */,
 			);
 			path = MTB;
 			sourceTree = "<group>";
@@ -400,6 +410,8 @@
 				AA0EEE381B2CD5D5004CE5B5 /* main.m in Sources */,
 				AA0EEE761B2CD66A004CE5B5 /* FitbitUser.m in Sources */,
 				AA0EEE751B2CD66A004CE5B5 /* FitbitSleep.m in Sources */,
+				AAAD011F1B72550B004B289A /* FitbitHeartRate.m in Sources */,
+				AA3BADE31B55587900A03093 /* GenericDate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

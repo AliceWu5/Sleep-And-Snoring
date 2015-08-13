@@ -50,6 +50,7 @@
         NSLog(@"%@", path);
         // sleep data in JSON
         NSDictionary *fetchResult = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
+        NSLog(@"%@", fetchResult);
         NSArray *sleeps = fetchResult[kFitbitSleepDataKey];
         NSDictionary *summary = fetchResult[kFitbitSleepSummaryKey];
 

@@ -8,19 +8,21 @@
 
 #import "APIFetcher.h"
 #import "GTMHTTPFetcher.h"
+#import "FitbitAPI.h"
 // UserDefaults
 static NSString *const vServiceProvider = @"Fitbit";
 static NSString *const vClientID        = @"229Q8T";
 static NSString *const vClientSecret    = @"1515d15713ba40771aee66b4cbc33e9b";
 
 // keys
-static NSString *const vOAuth2AccessTokenKey    = @"access_token";
-static NSString *const vOAuth2RefreshTokenKey   = @"refresh_token";
+static NSString *const kOAuth2AccessTokenKey    = @"access_token";
+static NSString *const kOAuth2RefreshTokenKey   = @"refresh_token";
+
 
 @interface APIFetcher ()
 
 @property (strong, nonatomic)NSString *apiBaseURL;
-
+@property (strong, nonatomic)NSDate *lastSyncTime;
 @end
 
 @implementation APIFetcher
@@ -39,12 +41,7 @@ static NSString *const vOAuth2RefreshTokenKey   = @"refresh_token";
 }
 
 
-
 // fetch api
-- (void)sendCustomizedRquestToAPI:(NSURLRequest *)request onCompletion:(void (^)(NSData *data, NSError *error))handler {
-    [self getUserProfile];
-}
-
 
 - (void)sendGetRequestToAPIPath:(NSString *)path onCompletion:(void (^)(NSData *, NSError *))handler {
     
@@ -67,6 +64,13 @@ static NSString *const vOAuth2RefreshTokenKey   = @"refresh_token";
     
 }
 
+- (void)sendTestRquestToAPI:(NSURLRequest *)request onCompletion:(void (^)(NSData *data, NSError *error))handler {
+    // test get user profile
+    [self getUserProfile];
+}
+
+#pragma mark private methods
+
 - (NSMutableURLRequest *)setCustomURLRequestWithAPIPath:(NSString *)path {
     
     // api resource url
@@ -81,13 +85,10 @@ static NSString *const vOAuth2RefreshTokenKey   = @"refresh_token";
 
 - (void)getUserProfile {
     // api resource url
-    NSURL *url = [NSURL URLWithString:@"/1/user/-/profile.json" relativeToURL:[NSURL URLWithString:self.apiBaseURL]];
+    NSString *path = @"/1/user/-/profile.json";
 
-    // set request
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-    [request setValue:[NSString stringWithFormat:@"Bearer %@", self.accessToken] forHTTPHeaderField:@"Authorization"];
-    
-    [OAuth2Authentication sendCustomizedRquestToAPI:request onCompletion:^(NSData *data, NSError *error) {
+    // send request
+    [self sendGetRequestToAPIPath:path onCompletion:^(NSData *data, NSError *error) {
         if (error) {
             // failed; either an NSURLConnection error occurred, or the server returned
             // a status value of at least 300
@@ -102,8 +103,8 @@ static NSString *const vOAuth2RefreshTokenKey   = @"refresh_token";
                                                                             options:kNilOptions
                                                                               error:&errorInSerialization];
                 
-                self.accessToken = [fetchResult objectForKey:vOAuth2AccessTokenKey];
-                self.refreshToken = [fetchResult objectForKey:vOAuth2RefreshTokenKey];
+                self.accessToken = [fetchResult objectForKey:kOAuth2AccessTokenKey];
+                self.refreshToken = [fetchResult objectForKey:kOAuth2RefreshTokenKey];
                 NSLog(@"Refresh Result : %@", fetchResult);
                 
             }];
@@ -113,9 +114,47 @@ static NSString *const vOAuth2RefreshTokenKey   = @"refresh_token";
             NSLog(@"The result data : %@", base64Decoded);
             // fetch succeeded
         }
+
     }];
+
 }
 
+
+-(void)getLastSyncTimeOnCompletion:(void (^)(BOOL *, NSError *))handler {
+    // api path
+    NSString *path = @"/1/user/-/devices.json";
+    
+    // api request
+    [self sendGetRequestToAPIPath:path onCompletion:^(NSData *data, NSError *error) {
+        if (error) {
+            // todo
+        } else {
+            // fetch result is an array
+            NSDictionary *fetchResult = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
+            // first item in the array
+            NSDictionary *firstDevice = [((NSArray *)fetchResult) objectAtIndex:0];
+            NSLog(@"fetch result : %@", fetchResult);
+            
+            // get last sync time from dictionary
+            NSString *dateString = [firstDevice objectForKey:kFitbitDeviceLastSyncTimeKey];
+            dateString = [dateString substringToIndex:19];
+            
+            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+            [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss"];
+            NSDate *lastSyncTime = [dateFormatter dateFromString:dateString];
+            
+            if (!self.lastSyncTime) {
+                self.lastSyncTime = lastSyncTime;
+            } else if ([self.lastSyncTime compare:lastSyncTime] == NSOrderedAscending) {
+                NSLog(@"There is an new sync update.");
+            } else {
+                NSLog(@"NO new update");
+            }
+        
+        
+        }
+    }];
+}
 
 
 - (NSString *)description {

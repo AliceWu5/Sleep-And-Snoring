@@ -65,7 +65,6 @@
         self.heightUnit = [userDictionary objectForKey:kFitbitUserProfileHeightUnitKey];
         self.encodedId = [userDictionary objectForKey:kFitbitUserProfileEncodedIdKey];
         self.isAvailable = true;
-        NSLog(@"Finished fetching user profile.");
     }
 }
 

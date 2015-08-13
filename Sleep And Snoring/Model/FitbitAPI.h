@@ -10,6 +10,14 @@
 
 // standard Fitbit json keys
 
+// Standard Fitbit Device keys
+static NSString *const kFitbitDeviceBatteryKey      = @"battery";
+static NSString *const kFitbitDeviceVersionKey      = @"deviceVersion";
+static NSString *const kFitbitDeviceIDKey           = @"id";
+static NSString *const kFitbitDeviceLastSyncTimeKey = @"lastSyncTime";
+static NSString *const kFitbitDeviceMacKey          = @"mac";
+static NSString *const kFitbitDeviceTypeKey         = @"type";
+
 
 
 // Standard Fitbit User profile keys

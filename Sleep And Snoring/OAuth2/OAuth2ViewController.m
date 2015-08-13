@@ -144,7 +144,6 @@ static NSString *const vOAuth2RefreshTokenKey   = @"refresh_token";
     // stop loading the page when sucessful sign in
     NSURL *currentURL = request.URL;
     [self.indicator startAnimating];
-    NSLog(@"called once.");
     if ([self.auth authorizationFinishedWithURL:currentURL]) {
         
         self.needIndication = YES;
@@ -209,7 +208,6 @@ static NSString *const vOAuth2RefreshTokenKey   = @"refresh_token";
     if (!self.needIndication) {
         [self.indicator stopAnimating];
     }
-    NSLog(@"stopped.");
 }
 
 -(void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
