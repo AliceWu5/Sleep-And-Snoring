@@ -9,7 +9,7 @@
 #import "FitbitSleep.h"
 #import "FitbitAPI.h"
 #import "CorePlot-CocoaTouch.h"
-
+#import "StringConverter.h"
 @interface FitbitSleep ()
 
 // constain the main data of sleep in a day
@@ -43,7 +43,7 @@
 
 - (void)updateSleepByDate:(NSDate *)date completion:(void (^)(NSArray *))handler {
     //NSDate *yesterday = [date dateByAddingTimeInterval:- 24 * 60 * 60];
-    NSString *dateKey = [self getStringByDate:date];
+    NSString *dateKey = [StringConverter convertDateToString:date];
     
     NSString *path = [NSString stringWithFormat:@"/1/user/-/sleep/date/%@.json", dateKey];
     [self.fetcher sendGetRequestToAPIPath:path onCompletion:^(NSData *data, NSError *error) {
@@ -69,7 +69,7 @@
 
 - (void)getSleepByDate:(NSDate *)date completion:(void (^)(NSArray *))handler {
     
-    NSString *dateKey = [self getStringByDate:date];
+    NSString *dateKey = [StringConverter convertDateToString:date];
     NSArray *sleepDataByDate = [self.sleepData objectForKey:dateKey];
     if (!sleepDataByDate) {
         [self updateSleepByDate:date completion:^(NSArray *sleepData) {
@@ -82,26 +82,26 @@
 }
 
 
-- (NSArray *)getSleepTimeline {
-    
-    NSMutableArray *timeline = [[NSMutableArray alloc] init];
-    
-    // all the sleeps in a day
-    for (NSDictionary *sleep in self.sleepData ) {
-        
-        // get the first minutes data for each sleep
-        for (NSDictionary *minute in [sleep objectForKey:kFitbitSleepDataMinuteDataKey]) {
-            
-            NSString *date = [minute objectForKey:kFitbitSleepDataMinuteDataDateTimeKey];
-            NSNumber *value = [minute objectForKey:kFitbitSleepDataMinuteDataValueKey];
-            NSLog(@"The first date time : %@", date);
-            NSLog(@"The first value : %@", value);
-            break;
-        }
-    }
-    
-    return timeline;
-}
+//- (NSArray *)getSleepTimeline {
+//    
+//    NSMutableArray *timeline = [[NSMutableArray alloc] init];
+//    
+//    // all the sleeps in a day
+//    for (NSDictionary *sleep in self.sleepData ) {
+//        
+//        // get the first minutes data for each sleep
+//        for (NSDictionary *minute in [sleep objectForKey:kFitbitSleepDataMinuteDataKey]) {
+//            
+//            NSString *date = [minute objectForKey:kFitbitSleepDataMinuteDataDateTimeKey];
+//            NSNumber *value = [minute objectForKey:kFitbitSleepDataMinuteDataValueKey];
+//            NSLog(@"The first date time : %@", date);
+//            NSLog(@"The first value : %@", value);
+//            break;
+//        }
+//    }
+//    
+//    return timeline;
+//}
 
 #pragma mark prepare for plot
 +(NSArray *)getDataForPlotFromSleepData:(NSArray *)sleepData {
@@ -114,8 +114,8 @@
         // for each minute in the minutedata
         for (NSDictionary* minute in minuteData) {
             
-            NSString *timeString = [minute[kFitbitSleepDataMinuteDataDateTimeKey] substringToIndex:5];
-            NSTimeInterval xVal = [FitbitSleep convertStringToTimeIntervalFrom:timeString];
+            NSString *timeString = minute[kFitbitSleepDataMinuteDataDateTimeKey];
+            NSTimeInterval xVal = [StringConverter convertStringToTimeIntervalFrom:timeString];
             int yVal = ((NSString *)minute[kFitbitSleepDataMinuteDataValueKey]).intValue;
 
             [dataForPlot addObject:@{
@@ -128,26 +128,6 @@
     return  dataForPlot;
 }
 
-+ (NSTimeInterval)convertStringToTimeIntervalFrom:(NSString *)timeString {
-
-    // time in hh:ss format
-    NSArray *time = [timeString componentsSeparatedByString:@":"];
-    NSString *hour = time[0];
-    NSString *minute = time[1];
-    
-    return hour.integerValue * 60 * 60 + minute.integerValue * 60;
-}
-
-
-#pragma mark string processing
-
-- (NSString *)getStringByDate:(NSDate *)day {
-    // set format
-    NSDateFormatter *dateFormatter=[[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
-    
-    return [dateFormatter stringFromDate:day];
-}
 
 #pragma mark accessors
 
