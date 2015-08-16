@@ -53,7 +53,7 @@ static NSTimeInterval const oneHour = 60*60;
     // should allow user interaction
     plotSpace.allowsUserInteraction = YES;
     plotSpace.xRange                = [CPTPlotRange plotRangeWithLocation:CPTDecimalFromDouble(0.0) length:CPTDecimalFromDouble(12.0)];
-    plotSpace.yRange                = [CPTPlotRange plotRangeWithLocation:CPTDecimalFromDouble(-100.0) length:CPTDecimalFromDouble(200.0)];
+    plotSpace.yRange                = [CPTPlotRange plotRangeWithLocation:CPTDecimalFromDouble(-100.0) length:CPTDecimalFromDouble(300.0)];
     plotSpace.delegate = self;
     
     // customized x axis
@@ -246,7 +246,11 @@ static NSTimeInterval const oneHour = 60*60;
 
 -(NSUInteger)numberOfRecordsForPlot:(CPTPlot *)plot
 {
-    return self.dataForPlot.count;
+    if ([(NSString *)plot.identifier isEqualToString:@"Sleep Plot"]) {
+        return self.sleepDataForPlot.count;
+    } else {
+        return self.heartRateDataForPlot.count;
+    }
 }
 
 -(id)numberForPlot:(CPTPlot *)plot field:(NSUInteger)fieldEnum recordIndex:(NSUInteger)index
@@ -268,11 +272,11 @@ static NSTimeInterval const oneHour = 60*60;
         case CPTScatterPlotFieldX: {
             
             if ([(NSString *)plot.identifier isEqualToString:@"Sleep Plot"]) {
-                NSTimeInterval time = ((NSNumber *)self.dataForPlot[index][@(fieldEnum)]).doubleValue;
+                NSTimeInterval time = ((NSNumber *)self.sleepDataForPlot[index][@(fieldEnum)]).doubleValue;
                 value = [NSNumber numberWithDouble:time / oneHour];
-            } else {
+            } else if ([(NSString *)plot.identifier isEqualToString:@"Heart Rate Plot"]){
                 // heart rate plot
-                NSTimeInterval time = ((NSNumber *)self.dataForPlot[index][@(fieldEnum)]).doubleValue;
+                NSTimeInterval time = ((NSNumber *)self.heartRateDataForPlot[index][@(fieldEnum)]).doubleValue;
                 value = [NSNumber numberWithDouble:time / oneHour];
             }
             break;
@@ -280,12 +284,12 @@ static NSTimeInterval const oneHour = 60*60;
             
         case CPTScatterPlotFieldY: {
             if ([(NSString *)plot.identifier isEqualToString:@"Sleep Plot"]) {
-                int sleepValue = ((NSNumber *)self.dataForPlot[index][@(fieldEnum)]).intValue;
+                int sleepValue = ((NSNumber *)self.sleepDataForPlot[index][@(fieldEnum)]).intValue;
                 value = [NSNumber numberWithInt:sleepValue * 30 - 120];
-            } else {
+            } else if ([(NSString *)plot.identifier isEqualToString:@"Heart Rate Plot"]){
                 // heart rate plot
-                int heartRate = ((NSNumber *)self.dataForPlot[index][@(fieldEnum)]).intValue;
-                value = [NSNumber numberWithDouble:heartRate * 30 * 0.8];
+                int heartRate = ((NSNumber *)self.heartRateDataForPlot[index][@(fieldEnum)]).intValue;
+                value = [NSNumber numberWithDouble:heartRate];
             }
             break;
         }

@@ -123,12 +123,24 @@
         [self.sleep getSleepByDate:[NSDate date] completion:^(NSArray *sleepData) {
             NSLog(@"GET SLEEP SUCCESSFULLY.");
             
+            // init plot
             SleepScatterPlotController *plotController = [[SleepScatterPlotController alloc] init];
-            plotController.dataForPlot = [FitbitSleep getDataForPlotFromSleepData:sleepData];
             
-            [self presentViewController:plotController animated:YES completion:^{
-                // to do
+            // get today's heart rate data
+            [self.heartRate updateHeartRateByDate:[NSDate date] completion:^(NSArray *heartrates) {
+                
+                // add both data to plot
+                plotController.heartRateDataForPlot = [FitbitHeartRate getDataForPlotFromHeartRateData:heartrates];
+                plotController.sleepDataForPlot = [FitbitSleep getDataForPlotFromSleepData:sleepData];
+                
+                NSLog(@"The size of heart rate data : %lu", (unsigned long)plotController.heartRateDataForPlot.count);
+                [self presentViewController:plotController animated:YES completion:^{
+                    // to do
+                }];
+                
             }];
+            
+            
         }];
         
         
@@ -144,7 +156,7 @@
 
 - (void)getActivity {
     if (self.isSignedIn) {
-        [self.fetcher getLastSyncTimeOnCompletion:^(BOOL *needUpdate, NSError *error) {
+        [self.fetcher getLastSyncTimeOnCompletion:^(BOOL needUpdate, NSError *error) {
             // todo
         }];
 //        [self.activity getDistanceByDate:[NSDate date] completion:^(NSString *distance) {
@@ -156,8 +168,9 @@
 - (void)getHeartRate {
     if (self.isSignedIn) {
         // get today's heart rate data
-        [self.heartRate updateHeartRateByDate:[NSDate date] completion:^(NSString *distance) {
-            NSLog(@"Heart rate fetched.");
+        [self.heartRate updateHeartRateByDate:[NSDate date] completion:^(NSArray *heartrates) {
+            NSArray *dataForPlot = [FitbitHeartRate getDataForPlotFromHeartRateData:heartrates];
+            NSLog(@"The heart rate data for plot : %@", dataForPlot);
         }];
     }
 }
