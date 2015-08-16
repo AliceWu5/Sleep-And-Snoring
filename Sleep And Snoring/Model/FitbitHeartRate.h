@@ -11,8 +11,11 @@
 @interface FitbitHeartRate : NSObject
 
 + (FitbitHeartRate *)heartRateWithAPIFetcher:(APIFetcher *)fetcher;
+
++(NSArray *)getDataForPlotFromHeartRateData:(NSArray *)heartRateData;
+
 //- (void)getHeartRateByDate:(NSDate *)date completion:(void (^)(NSString *distance))handler;
-- (void)updateHeartRateByDate:(NSDate *)date completion:(void (^)(NSString *distance))handler ;
+- (void)updateHeartRateByDate:(NSDate *)date completion:(void (^)(NSArray *heartrates))handler ;
 //- (void)updateRecentHeartRate;
 
 

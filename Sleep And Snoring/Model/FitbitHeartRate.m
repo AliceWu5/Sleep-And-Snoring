@@ -7,8 +7,16 @@
 //
 
 #import "FitbitHeartRate.h"
+#import "FitbitAPI.h"
+#import "StringConverter.h"
+#import "CorePlot-CocoaTouch.h"
+
 @interface FitbitHeartRate ()
+
 @property (strong, nonatomic)APIFetcher *fetcher;
+
+// constain the main data of heart
+@property (strong, nonatomic) NSMutableDictionary *heartRateData;
 
 @end
 @implementation FitbitHeartRate
@@ -22,50 +30,57 @@
     return heartRate;
 }
 
--(void)updateHeartRateByDate:(NSDate *)date completion:(void (^)(NSString *))handler {
-    NSString *dateKey = [self getStringByDate:date];
+- (void)updateHeartRateByDate:(NSDate *)date completion:(void (^)(NSArray *heartrates))handler {
+    NSString *dateKey = [StringConverter convertDateToString:date];
     
-    // Get activity in a day
+    // Get heart rate in a day
     NSString *path = [NSString stringWithFormat:@"/1/user/-/activities/heart/date/%@/1d/1sec.json", dateKey];
     NSLog(@"%@", path);
     [self.fetcher sendGetRequestToAPIPath:path onCompletion:^(NSData *data, NSError *error) {
         NSError *jsonError;
         
-        // user activities in a day in JSON
+        // user heart rate in a day in JSON
         NSDictionary *fetchResult = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&jsonError];
-        NSLog(@"The heartrate : %@", fetchResult);
         NSLog(@"%@", jsonError);
-        // Use JSON result to create heart rate
-        //NSArray *distances = fetchResult[kFitbitActivitiesDistanceKey];
         
-//        for (NSDictionary *distance in distances) {
-//            [self.distances setObject:distance[kFitbitActivitiesDistanceValueKey]
-//                               forKey:distance[kFitbitActivitiesDistanceDateTimeKey]];
-//        }
-        // Set callback method
-        //handler(self.distances[dateKey]);
+        // Use JSON result to create heart rate
+        NSDictionary *heartrate = fetchResult[kFitbitHeartRateIntradayKey];
+        NSArray *dataset = heartrate[kFitbitHeartRateIntradayDatasetKey];
+        handler(dataset);
+        
+        // Store data
+        [self.heartRateData setObject:dataset forKey:dateKey];
+
     }];
 }
 
+#pragma mark prepare for plot
 
-#pragma mark string processing
-- (NSString *)getStringByDate:(NSDate *)day {
-    // set format
-    NSDateFormatter *dateFormatter=[[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+
++(NSArray *)getDataForPlotFromHeartRateData:(NSArray *)heartRateData {
+    NSMutableArray *dataForPlot = [[NSMutableArray alloc] init];
     
-    return [dateFormatter stringFromDate:day];
+    for (NSDictionary *heartRate in heartRateData) {
+        
+        // for each section in the heart rate data
+        
+            NSString *timeString = heartRate[kFitbitHeartRateIntradayDatasetTimeKey];
+            NSTimeInterval xVal = [StringConverter convertStringToTimeIntervalFrom:timeString];
+            int yVal = ((NSString *)heartRate[kFitbitHeartRateIntradayDatasetValueKey]).intValue;
+            
+            [dataForPlot addObject:@{
+                                     @(CPTScatterPlotFieldX): @(xVal),
+                                     @(CPTScatterPlotFieldY): @(yVal)
+                                     }
+             ];
+        
+    }
+    return  dataForPlot;
 }
 
 
 #pragma mark accessors
 
-//- (NSMutableDictionary *)distances {
-//    if (!_distances) {
-//        _distances = [[NSMutableDictionary alloc] init];
-//    }
-//    return _distances;
-//}
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"\nThe heartRate : unknown"];
