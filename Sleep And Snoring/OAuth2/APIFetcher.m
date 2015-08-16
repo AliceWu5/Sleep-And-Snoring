@@ -22,7 +22,7 @@ static NSString *const kOAuth2RefreshTokenKey   = @"refresh_token";
 @interface APIFetcher ()
 
 @property (strong, nonatomic)NSString *apiBaseURL;
-@property (strong, nonatomic)NSDate *lastSyncTime;
+@property (strong, nonatomic)NSDate *currentSyncTime;
 @end
 
 @implementation APIFetcher
@@ -120,7 +120,7 @@ static NSString *const kOAuth2RefreshTokenKey   = @"refresh_token";
 }
 
 
--(void)getLastSyncTimeOnCompletion:(void (^)(BOOL *, NSError *))handler {
+-(void)getLastSyncTimeOnCompletion:(void (^)(BOOL , NSError *))handler {
     // api path
     NSString *path = @"/1/user/-/devices.json";
     
@@ -143,12 +143,16 @@ static NSString *const kOAuth2RefreshTokenKey   = @"refresh_token";
             [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss"];
             NSDate *lastSyncTime = [dateFormatter dateFromString:dateString];
             
-            if (!self.lastSyncTime) {
-                self.lastSyncTime = lastSyncTime;
-            } else if ([self.lastSyncTime compare:lastSyncTime] == NSOrderedAscending) {
+            if (!self.currentSyncTime) {
+                self.currentSyncTime = lastSyncTime;
+                handler(YES, error);
+                NSLog(@"No current sync time.");
+            } else if ([self.currentSyncTime compare:lastSyncTime] == NSOrderedAscending) {
                 NSLog(@"There is an new sync update.");
+                handler(YES, error);
             } else {
                 NSLog(@"NO new update");
+                handler(NO, error);
             }
         
         

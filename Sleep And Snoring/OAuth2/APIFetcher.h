@@ -30,6 +30,6 @@
 
 - (void)getUserProfile;
 
-- (void)getLastSyncTimeOnCompletion:(void (^)(BOOL *needUpdate, NSError *error))handler;
+- (void)getLastSyncTimeOnCompletion:(void (^)(BOOL needUpdate, NSError *error))handler;
 
 @end
