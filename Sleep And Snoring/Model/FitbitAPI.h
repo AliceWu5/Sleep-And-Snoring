@@ -78,6 +78,18 @@ static NSString *const kFitbitActivitiesDistanceDateTimeKey     = @"dateTime";
 static NSString *const kFitbitActivitiesDistanceValueKey        = @"value";
 
 
+// Standard Fitbit Heart Rate keys
+// the keys in not complete
+static NSString *const kFitbitHeartRateIntradayKey                  = @"activities-heart-intraday";
+static NSString *const kFitbitHeartRateIntradayDatasetKey           = @"dataset";
+static NSString *const kFitbitHeartRateIntradayDatasetTimeKey       = @"time";
+static NSString *const kFitbitHeartRateIntradayDatasetValueKey      = @"value";
+static NSString *const kFitbitHeartRateIntradayDatasetIntervalKey   = @"dataset";
+static NSString *const kFitbitHeartRateIntradayDatasetTypeKey       = @"dataset";
+
+
+
+
 @interface FitbitAPI : NSObject
 
 @end
