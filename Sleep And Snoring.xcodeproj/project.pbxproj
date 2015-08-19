@@ -8,6 +8,16 @@
 
 /* Begin PBXBuildFile section */
 		AA005E301B7FFFD8007DAF05 /* StringConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = AA005E2F1B7FFFD8007DAF05 /* StringConverter.m */; };
+		AA0AC9641B853D8500232E88 /* RecordingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA0AC9631B853D8500232E88 /* RecordingViewController.m */; };
+		AA0AC96C1B853DC500232E88 /* RecordingManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AA0AC9691B853DC500232E88 /* RecordingManager.m */; };
+		AA0AC9711B853E3100232E88 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = AA0AC9701B853E3100232E88 /* Constants.m */; };
+		AA0AC9741B853E6700232E88 /* Model.m in Sources */ = {isa = PBXBuildFile; fileRef = AA0AC9731B853E6700232E88 /* Model.m */; };
+		AA0AC9771B853E8D00232E88 /* SoundLevelMeterView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA0AC9761B853E8D00232E88 /* SoundLevelMeterView.m */; };
+		AA0AC97D1B853EB500232E88 /* SSKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = AA0AC97A1B853EB500232E88 /* SSKeychain.m */; };
+		AA0AC97E1B853EB500232E88 /* SSKeychainQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = AA0AC97C1B853EB500232E88 /* SSKeychainQuery.m */; };
+		AA0AC9811B85425400232E88 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA0AC9801B85425400232E88 /* AVFoundation.framework */; };
+		AA0AC9841B85425E00232E88 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA0AC9821B85425E00232E88 /* AudioToolbox.framework */; };
+		AA0AC9851B85425E00232E88 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA0AC9831B85425E00232E88 /* Security.framework */; };
 		AA0D9E481B4B2B86009118B2 /* login.html in Resources */ = {isa = PBXBuildFile; fileRef = AA0D9E471B4B2B86009118B2 /* login.html */; };
 		AA0EEE381B2CD5D5004CE5B5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AA0EEE371B2CD5D5004CE5B5 /* main.m */; };
 		AA0EEE3B1B2CD5D5004CE5B5 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AA0EEE3A1B2CD5D5004CE5B5 /* AppDelegate.m */; };
@@ -64,6 +74,23 @@
 /* Begin PBXFileReference section */
 		AA005E2E1B7FFFD8007DAF05 /* StringConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StringConverter.h; sourceTree = "<group>"; };
 		AA005E2F1B7FFFD8007DAF05 /* StringConverter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StringConverter.m; sourceTree = "<group>"; };
+		AA0AC9621B853D8500232E88 /* RecordingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecordingViewController.h; sourceTree = "<group>"; };
+		AA0AC9631B853D8500232E88 /* RecordingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecordingViewController.m; sourceTree = "<group>"; };
+		AA0AC9681B853DC500232E88 /* RecordingManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecordingManager.h; sourceTree = "<group>"; };
+		AA0AC9691B853DC500232E88 /* RecordingManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecordingManager.m; sourceTree = "<group>"; };
+		AA0AC96F1B853E3100232E88 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
+		AA0AC9701B853E3100232E88 /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
+		AA0AC9721B853E6700232E88 /* Model.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Model.h; sourceTree = "<group>"; };
+		AA0AC9731B853E6700232E88 /* Model.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Model.m; sourceTree = "<group>"; };
+		AA0AC9751B853E8D00232E88 /* SoundLevelMeterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoundLevelMeterView.h; sourceTree = "<group>"; };
+		AA0AC9761B853E8D00232E88 /* SoundLevelMeterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SoundLevelMeterView.m; sourceTree = "<group>"; };
+		AA0AC9791B853EB500232E88 /* SSKeychain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSKeychain.h; sourceTree = "<group>"; };
+		AA0AC97A1B853EB500232E88 /* SSKeychain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSKeychain.m; sourceTree = "<group>"; };
+		AA0AC97B1B853EB500232E88 /* SSKeychainQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSKeychainQuery.h; sourceTree = "<group>"; };
+		AA0AC97C1B853EB500232E88 /* SSKeychainQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSKeychainQuery.m; sourceTree = "<group>"; };
+		AA0AC9801B85425400232E88 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AVFoundation.framework; sourceTree = "<group>"; };
+		AA0AC9821B85425E00232E88 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AudioToolbox.framework; sourceTree = "<group>"; };
+		AA0AC9831B85425E00232E88 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Security.framework; sourceTree = "<group>"; };
 		AA0D9E471B4B2B86009118B2 /* login.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = login.html; sourceTree = "<group>"; };
 		AA0EEE321B2CD5D5004CE5B5 /* Sleep And Snoring.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Sleep And Snoring.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA0EEE361B2CD5D5004CE5B5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -118,8 +145,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA0AC9811B85425400232E88 /* AVFoundation.framework in Frameworks */,
 				AA0EEFE61B2F990B004CE5B5 /* libCorePlot-CocoaTouch.a in Frameworks */,
+				AA0AC9841B85425E00232E88 /* AudioToolbox.framework in Frameworks */,
 				AA0EEFD91B2F9093004CE5B5 /* QuartzCore.framework in Frameworks */,
+				AA0AC9851B85425E00232E88 /* Security.framework in Frameworks */,
 				AA0EEFD71B2F906F004CE5B5 /* Accelerate.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -134,10 +164,52 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AA0AC9671B853D9E00232E88 /* Auduo Recording */ = {
+			isa = PBXGroup;
+			children = (
+				AA0AC9681B853DC500232E88 /* RecordingManager.h */,
+				AA0AC9691B853DC500232E88 /* RecordingManager.m */,
+			);
+			name = "Auduo Recording";
+			path = Model;
+			sourceTree = "<group>";
+		};
+		AA0AC96E1B853E2200232E88 /* Miscellaneous */ = {
+			isa = PBXGroup;
+			children = (
+				AA0AC96F1B853E3100232E88 /* Constants.h */,
+				AA0AC9701B853E3100232E88 /* Constants.m */,
+			);
+			name = Miscellaneous;
+			sourceTree = "<group>";
+		};
+		AA0AC9781B853E9A00232E88 /* Level Meter */ = {
+			isa = PBXGroup;
+			children = (
+				AA0AC9751B853E8D00232E88 /* SoundLevelMeterView.h */,
+				AA0AC9761B853E8D00232E88 /* SoundLevelMeterView.m */,
+			);
+			name = "Level Meter";
+			sourceTree = "<group>";
+		};
+		AA0AC97F1B853EC100232E88 /* SSKeychain */ = {
+			isa = PBXGroup;
+			children = (
+				AA0AC9791B853EB500232E88 /* SSKeychain.h */,
+				AA0AC97A1B853EB500232E88 /* SSKeychain.m */,
+				AA0AC97B1B853EB500232E88 /* SSKeychainQuery.h */,
+				AA0AC97C1B853EB500232E88 /* SSKeychainQuery.m */,
+			);
+			name = SSKeychain;
+			sourceTree = "<group>";
+		};
 		AA0EEE291B2CD5D5004CE5B5 = {
 			isa = PBXGroup;
 			children = (
 				AA0EEFDC1B2F9871004CE5B5 /* CorePlot-CocoaTouch.xcodeproj */,
+				AA0AC9821B85425E00232E88 /* AudioToolbox.framework */,
+				AA0AC9831B85425E00232E88 /* Security.framework */,
+				AA0AC9801B85425400232E88 /* AVFoundation.framework */,
 				AA0EEFD81B2F9093004CE5B5 /* QuartzCore.framework */,
 				AA0EEFD61B2F906F004CE5B5 /* Accelerate.framework */,
 				AA0EEE341B2CD5D5004CE5B5 /* Sleep And Snoring */,
@@ -159,9 +231,13 @@
 		AA0EEE341B2CD5D5004CE5B5 /* Sleep And Snoring */ = {
 			isa = PBXGroup;
 			children = (
+				AA0AC96E1B853E2200232E88 /* Miscellaneous */,
+				AA0AC97F1B853EC100232E88 /* SSKeychain */,
+				AA0AC9781B853E9A00232E88 /* Level Meter */,
 				AA0EEE781B2CD672004CE5B5 /* MTB */,
 				AA0EEE5E1B2CD64D004CE5B5 /* OAuth2 */,
 				AA0EEE6B1B2CD66A004CE5B5 /* Model */,
+				AA0AC9671B853D9E00232E88 /* Auduo Recording */,
 				AA0EEFFE1B3311AC004CE5B5 /* Controller */,
 				AA0EEE391B2CD5D5004CE5B5 /* AppDelegate.h */,
 				AA0EEE3A1B2CD5D5004CE5B5 /* AppDelegate.m */,
@@ -218,6 +294,8 @@
 		AA0EEE6B1B2CD66A004CE5B5 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				AA0AC9721B853E6700232E88 /* Model.h */,
+				AA0AC9731B853E6700232E88 /* Model.m */,
 				AA0EEE7C1B2CD85A004CE5B5 /* FitbitAPI.h */,
 				AA0EEE6C1B2CD66A004CE5B5 /* FitbitActivity.h */,
 				AA0EEE6D1B2CD66A004CE5B5 /* FitbitActivity.m */,
@@ -268,6 +346,8 @@
 		AA0EEFFE1B3311AC004CE5B5 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				AA0AC9621B853D8500232E88 /* RecordingViewController.h */,
+				AA0AC9631B853D8500232E88 /* RecordingViewController.m */,
 				AA0EEFF91B331148004CE5B5 /* SleepSnoringNavigationViewController.h */,
 				AA0EEFFA1B331148004CE5B5 /* SleepSnoringNavigationViewController.m */,
 				AA0EEE3F1B2CD5D5004CE5B5 /* SleepSnoringViewController.h */,
@@ -402,17 +482,24 @@
 			buildActionMask = 2147483647;
 			files = (
 				AA0EEE691B2CD64D004CE5B5 /* OAuth2Authentication.m in Sources */,
+				AA0AC9641B853D8500232E88 /* RecordingViewController.m in Sources */,
 				AA0EEE741B2CD66A004CE5B5 /* FitbitActivity.m in Sources */,
 				AA0EEE681B2CD64D004CE5B5 /* GTMHTTPFetcher.m in Sources */,
 				AA0EEFFB1B331148004CE5B5 /* SleepSnoringNavigationViewController.m in Sources */,
+				AA0AC9771B853E8D00232E88 /* SoundLevelMeterView.m in Sources */,
+				AA0AC9711B853E3100232E88 /* Constants.m in Sources */,
+				AA0AC96C1B853DC500232E88 /* RecordingManager.m in Sources */,
 				AA0EEFEB1B3045AA004CE5B5 /* SleepScatterPlotController.m in Sources */,
 				AA0EEE671B2CD64D004CE5B5 /* APIFetcher.m in Sources */,
 				AA0EEE6A1B2CD64D004CE5B5 /* OAuth2ViewController.m in Sources */,
 				AA0EEE3B1B2CD5D5004CE5B5 /* AppDelegate.m in Sources */,
+				AA0AC9741B853E6700232E88 /* Model.m in Sources */,
 				AA0EEE771B2CD66A004CE5B5 /* Sleep2DLandscapeView.m in Sources */,
 				AA0EEE3E1B2CD5D5004CE5B5 /* Sleep_And_Snoring.xcdatamodeld in Sources */,
 				AA0EEE411B2CD5D5004CE5B5 /* SleepSnoringViewController.m in Sources */,
+				AA0AC97E1B853EB500232E88 /* SSKeychainQuery.m in Sources */,
 				AA005E301B7FFFD8007DAF05 /* StringConverter.m in Sources */,
+				AA0AC97D1B853EB500232E88 /* SSKeychain.m in Sources */,
 				AA0EEE381B2CD5D5004CE5B5 /* main.m in Sources */,
 				AA0EEE761B2CD66A004CE5B5 /* FitbitUser.m in Sources */,
 				AA0EEE751B2CD66A004CE5B5 /* FitbitSleep.m in Sources */,
@@ -541,6 +628,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
@@ -558,6 +649,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,

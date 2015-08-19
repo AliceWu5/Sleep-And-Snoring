@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Ord-nK-Chi">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="r02-8f-c05">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -53,15 +53,6 @@
                                     <action selector="fetchData:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="nyU-mt-gUp"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bm1-v6-xoR">
-                                <rect key="frame" x="16" y="72" width="35" height="30"/>
-                                <state key="normal" title="Sync">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="syncData:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="yZ6-ds-pPq"/>
-                                </connections>
-                            </button>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="iU7-vI-zRG">
                                 <rect key="frame" x="290" y="290" width="20" height="20"/>
                             </activityIndicatorView>
@@ -70,8 +61,6 @@
                         <constraints>
                             <constraint firstItem="fx3-m2-7Uu" firstAttribute="centerY" secondItem="kh9-bI-dsS" secondAttribute="centerY" id="7x9-qq-qNZ"/>
                             <constraint firstItem="fx3-m2-7Uu" firstAttribute="centerX" secondItem="c4R-2g-qX9" secondAttribute="centerX" id="AOA-kq-dEy"/>
-                            <constraint firstItem="Bm1-v6-xoR" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" id="Aoh-rw-uH7"/>
-                            <constraint firstItem="Bm1-v6-xoR" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="8" symbolic="YES" id="CwH-rw-C46"/>
                             <constraint firstItem="iU7-vI-zRG" firstAttribute="centerX" secondItem="fx3-m2-7Uu" secondAttribute="centerX" id="Hwa-YI-Kur"/>
                             <constraint firstItem="c4R-2g-qX9" firstAttribute="centerX" secondItem="piV-X7-Zp9" secondAttribute="centerX" id="IXk-g1-bJQ"/>
                             <constraint firstItem="piV-X7-Zp9" firstAttribute="centerX" secondItem="jKe-T2-cah" secondAttribute="centerX" id="SK0-eM-EmN"/>
@@ -90,12 +79,13 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1036" y="413"/>
+            <point key="canvasLocation" x="1876" y="398"/>
         </scene>
-        <!--Sleep Snoring Navigation View Controller-->
+        <!--Item-->
         <scene sceneID="KPL-ps-wVh">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Ord-nK-Chi" customClass="SleepSnoringNavigationViewController" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Item" id="BqD-y8-CU2"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="SkQ-u5-rav">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -108,7 +98,100 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="h2X-6J-HKI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="1121" y="386"/>
+        </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="ksG-K6-JIz">
+            <objects>
+                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="r02-8f-c05" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <nil key="simulatedBottomBarMetrics"/>
+                    <tabBar key="tabBar" contentMode="scaleToFill" id="3g2-dL-fbh">
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="eqW-1q-ybu" kind="relationship" relationship="viewControllers" id="1tY-PK-LVg"/>
+                        <segue destination="Ord-nK-Chi" kind="relationship" relationship="viewControllers" id="NXf-xo-GPU"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="j9K-N2-fyz" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
             <point key="canvasLocation" x="311" y="398"/>
         </scene>
+        <!--Recording-->
+        <scene sceneID="iv0-NV-LA5">
+            <objects>
+                <viewController id="eqW-1q-ybu" customClass="RecordingViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="oTy-N6-dRz"/>
+                        <viewControllerLayoutGuide type="bottom" id="hVH-6Z-BwQ"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="hEt-kt-lMT">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PSh-EV-uJy">
+                                <rect key="frame" x="16" y="40" width="568" height="333"/>
+                                <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="R E C O R D">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="recordPressed:" destination="eqW-1q-ybu" eventType="touchUpInside" id="hKW-2N-aei"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Recording time so far: 00h:00m:00s" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EGK-F2-9ex">
+                                <rect key="frame" x="16" y="410" width="568" height="18"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qyD-K0-aXt" customClass="SoundLevelMeterView">
+                                <rect key="frame" x="16" y="501" width="568" height="40"/>
+                                <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="UuP-QF-K4a"/>
+                                </constraints>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Recording level:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YhS-T0-EaS">
+                                <rect key="frame" x="16" y="436" width="568" height="18"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="YhS-T0-EaS" firstAttribute="leading" secondItem="qyD-K0-aXt" secondAttribute="leading" id="7Ps-dK-g0J"/>
+                            <constraint firstItem="PSh-EV-uJy" firstAttribute="top" secondItem="oTy-N6-dRz" secondAttribute="bottom" constant="20" id="7hA-vL-LIY"/>
+                            <constraint firstItem="EGK-F2-9ex" firstAttribute="top" secondItem="PSh-EV-uJy" secondAttribute="bottom" constant="37" id="8cp-Va-eGy"/>
+                            <constraint firstItem="hVH-6Z-BwQ" firstAttribute="top" secondItem="qyD-K0-aXt" secondAttribute="bottom" constant="10" id="BEg-3T-Akb"/>
+                            <constraint firstItem="PSh-EV-uJy" firstAttribute="trailing" secondItem="hEt-kt-lMT" secondAttribute="trailingMargin" id="IJX-3S-8eX"/>
+                            <constraint firstItem="YhS-T0-EaS" firstAttribute="trailing" secondItem="qyD-K0-aXt" secondAttribute="trailing" id="IMy-Gt-LbR"/>
+                            <constraint firstItem="qyD-K0-aXt" firstAttribute="trailing" secondItem="hEt-kt-lMT" secondAttribute="trailingMargin" id="Slr-rk-TM0"/>
+                            <constraint firstItem="PSh-EV-uJy" firstAttribute="leading" secondItem="hEt-kt-lMT" secondAttribute="leadingMargin" id="Sr0-jC-7lQ"/>
+                            <constraint firstItem="YhS-T0-EaS" firstAttribute="leading" secondItem="EGK-F2-9ex" secondAttribute="leading" id="bdT-Ud-rPp"/>
+                            <constraint firstItem="YhS-T0-EaS" firstAttribute="trailing" secondItem="EGK-F2-9ex" secondAttribute="trailing" id="e6u-XL-6ey"/>
+                            <constraint firstItem="qyD-K0-aXt" firstAttribute="top" secondItem="YhS-T0-EaS" secondAttribute="bottom" constant="47" id="gIK-32-awv"/>
+                            <constraint firstItem="qyD-K0-aXt" firstAttribute="leading" secondItem="hEt-kt-lMT" secondAttribute="leadingMargin" id="rce-Eq-2oh"/>
+                            <constraint firstItem="YhS-T0-EaS" firstAttribute="top" secondItem="EGK-F2-9ex" secondAttribute="bottom" constant="8" symbolic="YES" id="tAw-dt-Jw3"/>
+                        </constraints>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Recording" image="foghorn" id="9Cy-7C-OUj"/>
+                    <connections>
+                        <outlet property="meter" destination="qyD-K0-aXt" id="O8Q-hK-rDk"/>
+                        <outlet property="recordButton" destination="PSh-EV-uJy" id="sWx-bT-rt3"/>
+                        <outlet property="timeElapsed" destination="EGK-F2-9ex" id="sO3-kZ-kSO"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="CBL-sm-UJt" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1180" y="-515"/>
+        </scene>
     </scenes>
+    <resources>
+        <image name="foghorn" width="25" height="25"/>
+    </resources>
 </document>
