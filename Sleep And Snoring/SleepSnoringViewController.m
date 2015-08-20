@@ -17,8 +17,10 @@
 #import "Sleep2DLandscapeView.h"
 #import "GenericDate.h"
 @interface SleepSnoringViewController ()
-@property (strong, nonatomic)IBOutlet UIButton *ButtonForSignIn;
+
+@property (strong, nonatomic) IBOutlet UIButton *buttonForSignIn;
 @property (strong, nonatomic) IBOutlet UIActivityIndicatorView *indicator;
+@property (strong, nonatomic) IBOutlet UIDatePicker *datePicker;
 @property (strong, nonatomic)APIFetcher *fetcher;
 @property (strong, nonatomic)FitbitHeartRate *heartRate;
 @property (strong, nonatomic)FitbitUser *user;
@@ -39,7 +41,7 @@
     // Do any additional setup after loading the view, typically from a nib.
     
     [self initNavigationBarItems];
-    
+    self.datePicker.datePickerMode = UIDatePickerModeDate;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -48,24 +50,22 @@
 }
 
 - (void)initNavigationBarItems {
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(logInfo)];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(logInfo)];
-    self.navigationItem.title = [GenericDate getCurrentDate];
+    
+    self.navigationItem.title = @"Fitbit Data";
 }
 
 - (void)logInfo {
     NSLog(@"Button Pressed.");
 }
 
-- (IBAction)StartSignIn:(UIButton *)sender {
+- (IBAction)startSignIn:(UIButton *)sender {
     OAuth2ViewController *authViewController = [[OAuth2ViewController alloc] init];
     authViewController.delegate = self;
-
     // manually sign out
     //[authViewController signOut];
-    
     [[self navigationController] pushViewController:authViewController animated:YES];
 }
+
 
 - (IBAction)fetchData:(UIButton *)sender {
     NSLog(@"%@", sender.titleLabel.text);
@@ -77,14 +77,7 @@
         // get sleep data
         [self getSleepData];
     }
-    if ([sender.titleLabel.text isEqualToString:@"Activity"]) {
-        // get some activities
-        [self getActivity];
-    }
-    if ([sender.titleLabel.text isEqualToString:@"Heart Rate"]) {
-        // get heart rate data
-        [self getHeartRate];
-    }
+
 }
 
 - (IBAction)syncData:(UIButton *)sender {
@@ -119,15 +112,16 @@
 - (void)getSleepData {
     
     if (self.isSignedIn) {
-        // get today's sleep data
-        [self.sleep getSleepByDate:[NSDate date] completion:^(NSArray *sleepData) {
+        // get selected date sleep data
+        NSDate *pickedDate = self.datePicker.date;
+        [self.sleep getSleepByDate:pickedDate completion:^(NSArray *sleepData) {
             NSLog(@"GET SLEEP SUCCESSFULLY.");
             
             // init plot
             SleepScatterPlotController *plotController = [[SleepScatterPlotController alloc] init];
             
-            // get today's heart rate data
-            [self.heartRate updateHeartRateByDate:[NSDate date] completion:^(NSArray *heartrates) {
+            // get selected date heart rate data
+            [self.heartRate updateHeartRateByDate:pickedDate completion:^(NSArray *heartrates) {
                 
                 // add both data to plot
                 plotController.heartRateDataForPlot = [FitbitHeartRate getDataForPlotFromHeartRateData:heartrates];
@@ -153,27 +147,6 @@
     }
 }
 
-
-- (void)getActivity {
-    if (self.isSignedIn) {
-        [self.fetcher getLastSyncTimeOnCompletion:^(BOOL needUpdate, NSError *error) {
-            // todo
-        }];
-//        [self.activity getDistanceByDate:[NSDate date] completion:^(NSString *distance) {
-//            NSLog(@"The distance today : %@", distance);
-//        }];
-    }
-}
-
-- (void)getHeartRate {
-    if (self.isSignedIn) {
-        // get today's heart rate data
-        [self.heartRate updateHeartRateByDate:[NSDate date] completion:^(NSArray *heartrates) {
-            NSArray *dataForPlot = [FitbitHeartRate getDataForPlotFromHeartRateData:heartrates];
-            NSLog(@"The heart rate data for plot : %@", dataForPlot);
-        }];
-    }
-}
 
 #pragma mark Accessors
 

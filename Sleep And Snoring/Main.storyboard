@@ -17,26 +17,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c4R-2g-qX9">
-                                <rect key="frame" x="263" y="323" width="74" height="30"/>
-                                <state key="normal" title="Heart Rate">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="fetchData:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="3zw-SL-Gfq"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fx3-m2-7Uu">
-                                <rect key="frame" x="276" y="285" width="48" height="30"/>
-                                <state key="normal" title="Sign In">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="StartSignIn:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="LDO-So-xzx"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="piV-X7-Zp9">
-                                <rect key="frame" x="281" y="361" width="39" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="piV-X7-Zp9">
+                                <rect key="frame" x="42" y="443" width="39" height="30"/>
                                 <state key="normal" title="Sleep">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -44,80 +26,122 @@
                                     <action selector="fetchData:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="aWM-dV-ecx"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jKe-T2-cah">
-                                <rect key="frame" x="275" y="399" width="51" height="30"/>
-                                <state key="normal" title="Activity">
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="iU7-vI-zRG">
+                                <rect key="frame" x="173" y="430" width="20" height="20"/>
+                            </activityIndicatorView>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="B78-Ru-omF" userLabel="sleepSwitch">
+                                <rect key="frame" x="461" y="405" width="51" height="31"/>
+                            </switch>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EJ9-t8-SpD" userLabel="heartRateSwitch">
+                                <rect key="frame" x="461" y="444" width="51" height="31"/>
+                            </switch>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hn0-8o-Oaf" userLabel="audioSwitch">
+                                <rect key="frame" x="461" y="483" width="51" height="31"/>
+                            </switch>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Ig-FW-q0y">
+                                <rect key="frame" x="367" y="443" width="74" height="30"/>
+                                <state key="normal" title="Heart Rate">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="fetchData:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="nyU-mt-gUp"/>
+                                    <action selector="fetchData:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="Smu-eg-kiY"/>
                                 </connections>
                             </button>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="iU7-vI-zRG">
-                                <rect key="frame" x="290" y="290" width="20" height="20"/>
-                            </activityIndicatorView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8uN-9w-9bH">
+                                <rect key="frame" x="367" y="481" width="40" height="30"/>
+                                <state key="normal" title="Audio">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="fetchData:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="nwX-ab-EAc"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zF3-t6-3NV">
+                                <rect key="frame" x="16" y="72" width="150" height="40"/>
+                                <color key="backgroundColor" white="0.94462958916083917" alpha="0.59999999999999998" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="150" id="3Wz-uD-ftQ"/>
+                                    <constraint firstAttribute="height" constant="40" id="hgM-ly-exf"/>
+                                </constraints>
+                                <state key="normal" title="Sign in">
+                                    <color key="titleShadowColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="startSignIn:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="97L-Bm-ckJ"/>
+                                </connections>
+                            </button>
+                            <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="tew-vr-gzA">
+                                <rect key="frame" x="0.0" y="120" width="600" height="162"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="162" id="BY3-lE-Hdy"/>
+                                    <constraint firstAttribute="width" constant="600" id="DHm-Gf-hpu"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="162" id="LxD-Ju-cbc"/>
+                                </constraints>
+                                <date key="date" timeIntervalSinceReferenceDate="461776950.57920498">
+                                    <!--2015-08-20 15:22:30 +0000-->
+                                </date>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="BY3-lE-Hdy"/>
+                                        <exclude reference="DHm-Gf-hpu"/>
+                                        <exclude reference="LxD-Ju-cbc"/>
+                                    </mask>
+                                </variation>
+                            </datePicker>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="fx3-m2-7Uu" firstAttribute="centerY" secondItem="kh9-bI-dsS" secondAttribute="centerY" id="7x9-qq-qNZ"/>
-                            <constraint firstItem="fx3-m2-7Uu" firstAttribute="centerX" secondItem="c4R-2g-qX9" secondAttribute="centerX" id="AOA-kq-dEy"/>
-                            <constraint firstItem="iU7-vI-zRG" firstAttribute="centerX" secondItem="fx3-m2-7Uu" secondAttribute="centerX" id="Hwa-YI-Kur"/>
-                            <constraint firstItem="c4R-2g-qX9" firstAttribute="centerX" secondItem="piV-X7-Zp9" secondAttribute="centerX" id="IXk-g1-bJQ"/>
-                            <constraint firstItem="piV-X7-Zp9" firstAttribute="centerX" secondItem="jKe-T2-cah" secondAttribute="centerX" id="SK0-eM-EmN"/>
-                            <constraint firstItem="piV-X7-Zp9" firstAttribute="top" secondItem="c4R-2g-qX9" secondAttribute="bottom" constant="8" symbolic="YES" id="Xjk-RS-HTv"/>
-                            <constraint firstItem="iU7-vI-zRG" firstAttribute="centerY" secondItem="fx3-m2-7Uu" secondAttribute="centerY" id="j0Y-Xs-wBj"/>
-                            <constraint firstItem="c4R-2g-qX9" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="oIu-Do-q0q"/>
-                            <constraint firstItem="c4R-2g-qX9" firstAttribute="top" secondItem="fx3-m2-7Uu" secondAttribute="bottom" constant="8" symbolic="YES" id="tUb-cG-Ekd"/>
-                            <constraint firstItem="jKe-T2-cah" firstAttribute="top" secondItem="piV-X7-Zp9" secondAttribute="bottom" constant="8" symbolic="YES" id="wFj-fk-zwK"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="tew-vr-gzA" secondAttribute="trailing" constant="-16" id="7BA-xy-nD8"/>
+                            <constraint firstItem="tew-vr-gzA" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="LGw-a4-qWw"/>
+                            <constraint firstAttribute="trailing" secondItem="tew-vr-gzA" secondAttribute="trailing" id="Ld2-aV-DGj"/>
+                            <constraint firstAttribute="trailing" secondItem="tew-vr-gzA" secondAttribute="trailing" id="W5R-Xk-wdy"/>
+                            <constraint firstItem="zF3-t6-3NV" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" id="WWs-w4-0dh"/>
+                            <constraint firstItem="tew-vr-gzA" firstAttribute="top" secondItem="zF3-t6-3NV" secondAttribute="bottom" constant="8" symbolic="YES" id="cvn-Ws-jdd"/>
+                            <constraint firstItem="zF3-t6-3NV" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="8" symbolic="YES" id="ddL-hC-iYP"/>
+                            <constraint firstItem="tew-vr-gzA" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="-16" id="peV-s3-OM3"/>
+                            <constraint firstItem="tew-vr-gzA" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="th0-b4-3JQ"/>
+                            <constraint firstItem="tew-vr-gzA" firstAttribute="top" secondItem="zF3-t6-3NV" secondAttribute="bottom" constant="8" symbolic="YES" id="w5K-u3-GeZ"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="7BA-xy-nD8"/>
+                                <exclude reference="LGw-a4-qWw"/>
+                                <exclude reference="W5R-Xk-wdy"/>
+                                <exclude reference="peV-s3-OM3"/>
+                                <exclude reference="w5K-u3-GeZ"/>
+                            </mask>
+                        </variation>
                     </view>
                     <navigationItem key="navigationItem" id="7t6-cW-erh"/>
                     <connections>
-                        <outlet property="ButtonForSignIn" destination="fx3-m2-7Uu" id="1BQ-5z-XdY"/>
+                        <outlet property="buttonForSignIn" destination="zF3-t6-3NV" id="x2Q-la-q3C"/>
+                        <outlet property="datePicker" destination="tew-vr-gzA" id="5g0-yD-K2c"/>
                         <outlet property="indicator" destination="iU7-vI-zRG" id="neq-Bp-fID"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1876" y="398"/>
+            <point key="canvasLocation" x="2092" y="434"/>
         </scene>
-        <!--Item-->
-        <scene sceneID="KPL-ps-wVh">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Ord-nK-Chi" customClass="SleepSnoringNavigationViewController" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="BqD-y8-CU2"/>
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="SkQ-u5-rav">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="vXZ-lx-hvc" kind="relationship" relationship="rootViewController" id="Z8k-yf-lcs"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="h2X-6J-HKI" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1121" y="386"/>
-        </scene>
-        <!--Tab Bar Controller-->
+        <!--Main Tab Bar Controller-->
         <scene sceneID="ksG-K6-JIz">
             <objects>
-                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="r02-8f-c05" sceneMemberID="viewController">
+                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="r02-8f-c05" customClass="MainTabBarController" sceneMemberID="viewController">
                     <toolbarItems/>
                     <nil key="simulatedBottomBarMetrics"/>
+                    <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="3g2-dL-fbh">
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </tabBar>
                     <connections>
                         <segue destination="eqW-1q-ybu" kind="relationship" relationship="viewControllers" id="1tY-PK-LVg"/>
-                        <segue destination="Ord-nK-Chi" kind="relationship" relationship="viewControllers" id="NXf-xo-GPU"/>
+                        <segue destination="3DW-hw-dWa" kind="relationship" relationship="viewControllers" id="hdD-6n-yRM"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="j9K-N2-fyz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="311" y="398"/>
+            <point key="canvasLocation" x="239" y="460"/>
         </scene>
         <!--Recording-->
         <scene sceneID="iv0-NV-LA5">
@@ -189,6 +213,25 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CBL-sm-UJt" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1180" y="-515"/>
+        </scene>
+        <!--Item-->
+        <scene sceneID="tFh-0e-cEJ">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="3DW-hw-dWa" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Item" id="5Yi-UO-iSB"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="KPc-Z6-p4Y">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="vXZ-lx-hvc" kind="relationship" relationship="rootViewController" id="Kd2-Rd-FP7"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gfx-ng-e3e" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1280" y="434"/>
         </scene>
     </scenes>
     <resources>

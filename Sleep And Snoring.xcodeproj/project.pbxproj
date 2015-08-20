@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		AA005E301B7FFFD8007DAF05 /* StringConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = AA005E2F1B7FFFD8007DAF05 /* StringConverter.m */; };
+		AA02C30A1B86106800456113 /* MainTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA02C3091B86106800456113 /* MainTabBarController.m */; };
+		AA02C30F1B863C4900456113 /* MainNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA02C30E1B863C4900456113 /* MainNavigationController.m */; };
 		AA0AC9641B853D8500232E88 /* RecordingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA0AC9631B853D8500232E88 /* RecordingViewController.m */; };
 		AA0AC96C1B853DC500232E88 /* RecordingManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AA0AC9691B853DC500232E88 /* RecordingManager.m */; };
 		AA0AC9711B853E3100232E88 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = AA0AC9701B853E3100232E88 /* Constants.m */; };
@@ -40,7 +42,6 @@
 		AA0EEFE61B2F990B004CE5B5 /* libCorePlot-CocoaTouch.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AA0EEFE31B2F9871004CE5B5 /* libCorePlot-CocoaTouch.a */; };
 		AA0EEFEB1B3045AA004CE5B5 /* SleepScatterPlotController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA0EEFEA1B3045AA004CE5B5 /* SleepScatterPlotController.m */; };
 		AA0EEFF71B31AAB7004CE5B5 /* ScatterPlot.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA0EEFF61B31AAB7004CE5B5 /* ScatterPlot.xib */; };
-		AA0EEFFB1B331148004CE5B5 /* SleepSnoringNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA0EEFFA1B331148004CE5B5 /* SleepSnoringNavigationViewController.m */; };
 		AA3BADE31B55587900A03093 /* GenericDate.m in Sources */ = {isa = PBXBuildFile; fileRef = AA3BADE21B55587900A03093 /* GenericDate.m */; };
 		AA7DCA5E1B4F452900F37C7A /* w3.css in Resources */ = {isa = PBXBuildFile; fileRef = AA7DCA5D1B4F452900F37C7A /* w3.css */; };
 		AA7DCA601B4F472A00F37C7A /* sheflogo.gif in Resources */ = {isa = PBXBuildFile; fileRef = AA7DCA5F1B4F472A00F37C7A /* sheflogo.gif */; };
@@ -74,6 +75,10 @@
 /* Begin PBXFileReference section */
 		AA005E2E1B7FFFD8007DAF05 /* StringConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StringConverter.h; sourceTree = "<group>"; };
 		AA005E2F1B7FFFD8007DAF05 /* StringConverter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StringConverter.m; sourceTree = "<group>"; };
+		AA02C3081B86106800456113 /* MainTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainTabBarController.h; sourceTree = "<group>"; };
+		AA02C3091B86106800456113 /* MainTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainTabBarController.m; sourceTree = "<group>"; };
+		AA02C30D1B863C4900456113 /* MainNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainNavigationController.h; sourceTree = "<group>"; };
+		AA02C30E1B863C4900456113 /* MainNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainNavigationController.m; sourceTree = "<group>"; };
 		AA0AC9621B853D8500232E88 /* RecordingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecordingViewController.h; sourceTree = "<group>"; };
 		AA0AC9631B853D8500232E88 /* RecordingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecordingViewController.m; sourceTree = "<group>"; };
 		AA0AC9681B853DC500232E88 /* RecordingManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecordingManager.h; sourceTree = "<group>"; };
@@ -130,8 +135,6 @@
 		AA0EEFE91B3045AA004CE5B5 /* SleepScatterPlotController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SleepScatterPlotController.h; path = ../SleepScatterPlotController.h; sourceTree = "<group>"; };
 		AA0EEFEA1B3045AA004CE5B5 /* SleepScatterPlotController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SleepScatterPlotController.m; path = ../SleepScatterPlotController.m; sourceTree = "<group>"; };
 		AA0EEFF61B31AAB7004CE5B5 /* ScatterPlot.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ScatterPlot.xib; sourceTree = "<group>"; };
-		AA0EEFF91B331148004CE5B5 /* SleepSnoringNavigationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SleepSnoringNavigationViewController.h; path = ../SleepSnoringNavigationViewController.h; sourceTree = "<group>"; };
-		AA0EEFFA1B331148004CE5B5 /* SleepSnoringNavigationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SleepSnoringNavigationViewController.m; path = ../SleepSnoringNavigationViewController.m; sourceTree = "<group>"; };
 		AA3BADE11B55587900A03093 /* GenericDate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GenericDate.h; sourceTree = "<group>"; };
 		AA3BADE21B55587900A03093 /* GenericDate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GenericDate.m; sourceTree = "<group>"; };
 		AA7DCA5D1B4F452900F37C7A /* w3.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = w3.css; sourceTree = "<group>"; };
@@ -348,8 +351,10 @@
 			children = (
 				AA0AC9621B853D8500232E88 /* RecordingViewController.h */,
 				AA0AC9631B853D8500232E88 /* RecordingViewController.m */,
-				AA0EEFF91B331148004CE5B5 /* SleepSnoringNavigationViewController.h */,
-				AA0EEFFA1B331148004CE5B5 /* SleepSnoringNavigationViewController.m */,
+				AA02C30D1B863C4900456113 /* MainNavigationController.h */,
+				AA02C30E1B863C4900456113 /* MainNavigationController.m */,
+				AA02C3081B86106800456113 /* MainTabBarController.h */,
+				AA02C3091B86106800456113 /* MainTabBarController.m */,
 				AA0EEE3F1B2CD5D5004CE5B5 /* SleepSnoringViewController.h */,
 				AA0EEE401B2CD5D5004CE5B5 /* SleepSnoringViewController.m */,
 				AA0EEFE91B3045AA004CE5B5 /* SleepScatterPlotController.h */,
@@ -485,13 +490,14 @@
 				AA0AC9641B853D8500232E88 /* RecordingViewController.m in Sources */,
 				AA0EEE741B2CD66A004CE5B5 /* FitbitActivity.m in Sources */,
 				AA0EEE681B2CD64D004CE5B5 /* GTMHTTPFetcher.m in Sources */,
-				AA0EEFFB1B331148004CE5B5 /* SleepSnoringNavigationViewController.m in Sources */,
 				AA0AC9771B853E8D00232E88 /* SoundLevelMeterView.m in Sources */,
 				AA0AC9711B853E3100232E88 /* Constants.m in Sources */,
 				AA0AC96C1B853DC500232E88 /* RecordingManager.m in Sources */,
 				AA0EEFEB1B3045AA004CE5B5 /* SleepScatterPlotController.m in Sources */,
 				AA0EEE671B2CD64D004CE5B5 /* APIFetcher.m in Sources */,
 				AA0EEE6A1B2CD64D004CE5B5 /* OAuth2ViewController.m in Sources */,
+				AA02C30F1B863C4900456113 /* MainNavigationController.m in Sources */,
+				AA02C30A1B86106800456113 /* MainTabBarController.m in Sources */,
 				AA0EEE3B1B2CD5D5004CE5B5 /* AppDelegate.m in Sources */,
 				AA0AC9741B853E6700232E88 /* Model.m in Sources */,
 				AA0EEE771B2CD66A004CE5B5 /* Sleep2DLandscapeView.m in Sources */,

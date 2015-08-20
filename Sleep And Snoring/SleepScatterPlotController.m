@@ -81,15 +81,6 @@ static NSTimeInterval const oneHour = 60*60;
     sleepPlot.areaFill      = orangeAreaGradientFill;
     sleepPlot.areaBaseValue = CPTDecimalFromDouble(-90.0);
     
-    // Add plot symbols
-    CPTMutableLineStyle *symbolLineStyle = [CPTMutableLineStyle lineStyle];
-    symbolLineStyle.lineColor = [CPTColor whiteColor];
-    CPTPlotSymbol *plotSymbol = [CPTPlotSymbol ellipsePlotSymbol];
-    plotSymbol.fill          = [CPTFill fillWithColor:[CPTColor blueColor]];
-    plotSymbol.lineStyle     = symbolLineStyle;
-    plotSymbol.size          = CGSizeMake(1.0, 1.0);
-    sleepPlot.plotSymbol = plotSymbol;
-    
     // Create a heart rate plot area
     CPTScatterPlot *heartRatePlot = [[CPTScatterPlot alloc] init];
     lineStyle                        = [CPTMutableLineStyle lineStyle];
@@ -138,13 +129,13 @@ static NSTimeInterval const oneHour = 60*60;
     y.axisConstraints = [CPTConstraints constraintWithLowerOffset:60.0];
     y.delegate             = self;
     y.tickDirection = CPTSignPositive;
-    y.tickLabelDirection = CPTSignNone;
-    //y.labelAlignment = CPTAlignmentLeft;
-    //y.labelOffset = -50.0f;
+    y.tickLabelDirection = CPTSignPositive;
+    y.labelAlignment = CPTAlignmentRight;
+    y.labelOffset = -55.0f;
     
     y.labelingPolicy = CPTAxisLabelingPolicyNone;
-    NSArray *customTickLocations = [NSArray arrayWithObjects:[NSDecimalNumber numberWithInt:-90], [NSDecimalNumber numberWithInt:-60], [NSDecimalNumber numberWithInt:-30], [NSDecimalNumber numberWithInt:0], [NSDecimalNumber numberWithInt:15], [NSDecimalNumber numberWithInt:30], [NSDecimalNumber numberWithInt:45], [NSDecimalNumber numberWithInt:60], [NSDecimalNumber numberWithInt:75],[NSDecimalNumber numberWithInt:90], nil];
-    NSArray *yAxisLabels = [NSArray arrayWithObjects:@"Asleep", @"Restless", @"Awake",@"", @"40", @"55",@"70",@"85", @"100", @"115", nil];
+    NSArray *customTickLocations = @[@-90, @-60, @-30, @0, @15, @30, @45, @60, @75, @90];
+    NSArray *yAxisLabels = @[@"Asleep", @"Restless", @"Awake",@"", @"40", @"55",@"70",@"85", @"100", @"115"];
     NSUInteger labelLocation = 0;
     NSMutableArray *customLabels = [NSMutableArray arrayWithCapacity:[yAxisLabels count]];
     
@@ -158,6 +149,7 @@ static NSTimeInterval const oneHour = 60*60;
     }
     y.axisLabels =  [NSSet setWithArray:customLabels];
     axisSet.yAxis.majorTickLocations = [NSSet setWithArray:customTickLocations];
+    
 }
 
 -(void)configureXAxisForGraph:(CPTGraph*)graph{
@@ -181,11 +173,12 @@ static NSTimeInterval const oneHour = 60*60;
     x.titleOffset = 30.0f;
     x.labelRotation = M_PI/8;
     x.labelingPolicy = CPTAxisLabelingPolicyNone;
-    x.tickDirection = CPTSignPositive;
-    //x.tickLabelDirection = CPTSignPositive;
-    NSArray *customTickLocations = [NSArray arrayWithObjects:[NSDecimalNumber numberWithInt:0],[NSDecimalNumber numberWithInt:3], [NSDecimalNumber numberWithInt:6], [NSDecimalNumber numberWithInt:9], [NSDecimalNumber numberWithInt:12],
-                                    [NSDecimalNumber numberWithInt:15], [NSDecimalNumber numberWithInt:18], [NSDecimalNumber numberWithInt:21], [NSDecimalNumber numberWithInt:24],nil];
-    NSArray *xAxisLabels = [NSArray arrayWithObjects:@"0 AM", @"3 AM", @"6 AM", @"9 AM", @"12PM", @"3 PM",@"6 PM",@"9 PM", @"12 AM", nil];
+    x.tickDirection = CPTSignNone;
+    x.tickLabelDirection = CPTSignNegative;
+    NSArray *customTickLocations = @[@0, @1, @2, @3, @4, @5, @6, @7, @8, @9, @10, @11, @12, @13,
+                                    @14, @15, @16, @17, @18, @19, @20, @21, @22, @23];
+    
+    NSArray *xAxisLabels = @[@"0 AM", @"1 AM", @"2 AM", @"3 AM", @"4 AM", @"5 AM",@"6 AM",@"7 AM", @"8 AM",@"9 AM", @"10 AM", @"11 AM", @"12 PM", @"1 PM", @"2 PM",@"3 PM",@"4 PM", @"5 PM", @"6 PM", @"7 PM", @"8 PM", @"9 PM", @"10PM", @"11PM"];
     NSUInteger labelLocation = 0;
     NSMutableArray *customLabels = [NSMutableArray arrayWithCapacity:[xAxisLabels count]];
     
@@ -199,6 +192,7 @@ static NSTimeInterval const oneHour = 60*60;
     }
     x.axisLabels =  [NSSet setWithArray:customLabels];
     axisSet.xAxis.majorTickLocations = [NSSet setWithArray:customTickLocations];
+    axisSet.xAxis.minorTickLocations = [NSSet setWithArray:customTickLocations];
 }
 
 
@@ -208,7 +202,7 @@ static NSTimeInterval const oneHour = 60*60;
 }
 
 -(BOOL)shouldAutorotate {
-    return NO;
+    return YES;
 }
 
 

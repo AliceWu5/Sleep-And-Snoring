@@ -116,6 +116,15 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(BOOL)shouldAutorotate {
+    // keep in portrait mode
+    return YES;
+}
+
+-(NSUInteger)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskPortrait;
+}
+
 -(BOOL)isPowerConnected {
     // if we are running in the simulator, power connection is not an issue
     if (TARGET_IPHONE_SIMULATOR)

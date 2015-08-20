@@ -6,17 +6,18 @@
 //  Copyright (c) 2015年 Xibo Wang. All rights reserved.
 //
 
-#import "SleepSnoringNavigationViewController.h"
+#import "MainNavigationController.h"
 
-@interface SleepSnoringNavigationViewController ()
+@interface MainNavigationController ()
 
 @end
 
-@implementation SleepSnoringNavigationViewController
+@implementation MainNavigationController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.navigationBar.translucent = NO;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -25,7 +26,11 @@
 }
 
 -(NSUInteger)supportedInterfaceOrientations {
-    return UIInterfaceOrientationMaskPortrait;
+    return self.visibleViewController.supportedInterfaceOrientations;
+}
+
+-(BOOL)shouldAutorotate {
+    return self.visibleViewController.shouldAutorotate;
 }
 
 /*

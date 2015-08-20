@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SleepSnoringNavigationViewController : UINavigationController
+@interface MainNavigationController : UINavigationController
 
 @end
