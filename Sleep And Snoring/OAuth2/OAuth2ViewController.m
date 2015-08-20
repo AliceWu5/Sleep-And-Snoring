@@ -7,7 +7,6 @@
 //
 
 #import "OAuth2ViewController.h"
-#import "OAuth2Authentication.h"
 #import "APIFetcher.h"
 
 // UserDefaults
@@ -55,7 +54,7 @@ static NSString *const vOAuth2RefreshTokenKey   = @"refresh_token";
 
 - (OAuth2Authentication *)auth {
     if (!_auth) {
-        _auth = [self customAuth];
+        _auth = [OAuth2ViewController customAuth];
     }
     return _auth;
 }
@@ -94,7 +93,7 @@ static NSString *const vOAuth2RefreshTokenKey   = @"refresh_token";
 }
 
 // create customized OAuth2
-- (OAuth2Authentication *)customAuth {
++ (OAuth2Authentication *)customAuth {
     
     NSString *tokenURL = @"https://api.fitbit.com/oauth2/token";
     NSString *authorizeURL = @"https://www.fitbit.com/oauth2/authorize";

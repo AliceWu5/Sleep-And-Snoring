@@ -16,9 +16,19 @@
 #import "FitbitHeartRate.h"
 #import "Sleep2DLandscapeView.h"
 #import "GenericDate.h"
+#import "SSKeychain.h"
+
+static NSString *const kSleepAndSnoringService          = @"Sleep And Snoring";
+static NSString *const kSleepAndSnoringAccessAccount    = @"com.sleepandsnoring.accesstoken";
+static NSString *const kSleepAndSnoringRefreshAccount   = @"com.sleepandsnoring.refreshtoken";
+
 @interface SleepSnoringViewController ()
 
-@property (strong, nonatomic) IBOutlet UIButton *buttonForSignIn;
+@property (strong, nonatomic) IBOutlet UISwitch *sleepSwitch;
+@property (strong, nonatomic) IBOutlet UISwitch *heartRateSwitch;
+@property (strong, nonatomic) IBOutlet UISwitch *audioSwitch;
+
+
 @property (strong, nonatomic) IBOutlet UIActivityIndicatorView *indicator;
 @property (strong, nonatomic) IBOutlet UIDatePicker *datePicker;
 @property (strong, nonatomic)APIFetcher *fetcher;
@@ -42,6 +52,7 @@
     
     [self initNavigationBarItems];
     self.datePicker.datePickerMode = UIDatePickerModeDate;
+    [self checkLoginDetail];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -58,6 +69,28 @@
     NSLog(@"Button Pressed.");
 }
 
+- (void)checkLoginDetail {
+    
+    // get access token & refresh token from keychain
+    NSString *accessToken = [SSKeychain passwordForService:kSleepAndSnoringService account:kSleepAndSnoringAccessAccount];
+    NSString *refreshToken = [SSKeychain passwordForService:kSleepAndSnoringService account:kSleepAndSnoringRefreshAccount];
+    
+    // if credentials exist then do not need to sign in
+    if (accessToken && refreshToken) {
+        
+        // create a fetcher
+        NSLog(@"User credentials exist.");
+        self.isSignedIn = YES;
+        
+        APIFetcher *fetcher = [APIFetcher fetcherWithOAuth2:[OAuth2ViewController customAuth] accessToken:accessToken refreshToken:refreshToken];
+        self.fetcher = fetcher;
+        
+    } else {
+        NSLog(@"Need to log in.");
+        self.isSignedIn = NO;
+    }
+}
+
 - (IBAction)startSignIn:(UIButton *)sender {
     OAuth2ViewController *authViewController = [[OAuth2ViewController alloc] init];
     authViewController.delegate = self;
@@ -66,21 +99,40 @@
     [[self navigationController] pushViewController:authViewController animated:YES];
 }
 
-
-- (IBAction)fetchData:(UIButton *)sender {
-    NSLog(@"%@", sender.titleLabel.text);
-    if ([sender.titleLabel.text isEqualToString:@"User"]) {
-        // get user data
-        [self getUserProfile];
-    }
-    if ([sender.titleLabel.text isEqualToString:@"Sleep"]) {
-        // get sleep data
-        [self getSleepData];
-    }
-
+- (IBAction)startSignOut:(UIButton *)sender {
+    // user sign out
+    [self sendAlterMessage:@"You have signed out"];
+    
+    // delete keychains
+    [SSKeychain deletePasswordForService:kSleepAndSnoringService account:kSleepAndSnoringAccessAccount];
+    [SSKeychain deletePasswordForService:kSleepAndSnoringService account:kSleepAndSnoringRefreshAccount];
 }
 
-- (IBAction)syncData:(UIButton *)sender {
+- (IBAction)plotSelectedData:(UIButton *)sender {
+    
+    if (self.isSignedIn) {
+        BOOL hrSwitch = self.heartRateSwitch.on;
+        BOOL sleepSwitch = self.sleepSwitch.on;
+        BOOL audioSwitch = self.audioSwitch.on;
+        
+        if (hrSwitch && sleepSwitch && audioSwitch) {
+            [self getSleepAndData];
+        } else if (hrSwitch && sleepSwitch) {
+            
+        } else if (hrSwitch && audioSwitch) {
+            
+        } else if (sleepSwitch && audioSwitch) {
+            
+        }
+
+    } else {
+        [self sendAlterMessage:@"Please Sign in"];
+    }
+    
+    
+}
+
+- (void)syncData:(UIButton *)sender {
     NSLog(@"Synchronize data from Fitbit.");
     if (self.isSignedIn) {
         [self.indicator startAnimating];
@@ -92,7 +144,8 @@
             NSLog(@"should stop animating");
         }];
     } else {
-        [self sendAlterMessage:@"Please Sign in."];
+        // to do
+        [self sendAlterMessage:@"Please Sign in"];
     }
 }
 
@@ -101,6 +154,15 @@
     if ([item isKindOfClass:[APIFetcher class]]) {
         self.fetcher = item;
         self.isSignedIn = true;
+        
+        // set keychains when user credentials created
+        [SSKeychain setPassword:self.fetcher.accessToken forService:kSleepAndSnoringService
+                        account:kSleepAndSnoringAccessAccount];
+        [SSKeychain setPassword:self.fetcher.refreshToken forService:kSleepAndSnoringService
+                        account:kSleepAndSnoringRefreshAccount];
+        // send alter message only when user have log in action
+        [self sendAlterMessage:@"Sucessful!"];
+
     } else {
         [self sendAlterMessage:message];
     }
@@ -109,7 +171,7 @@
 #pragma mark Fitbit API Methods
 
 
-- (void)getSleepData {
+- (void)getSleepAndData {
     
     if (self.isSignedIn) {
         // get selected date sleep data
@@ -133,11 +195,9 @@
                 }];
                 
             }];
-            
-            
         }];
-        
-        
+    } else {
+        [self sendAlterMessage:@"Please Sign in"];
     }
 }
 
@@ -150,16 +210,11 @@
 
 #pragma mark Accessors
 
-- (BOOL)isSignedIn {
-    if (!_isSignedIn) {
-        [self sendAlterMessage:@"Please Sign in"];
-    }
-    return _isSignedIn;
-}
+
 
 - (void)setIsSignedIn:(BOOL)isSignedIn {
     if (isSignedIn) {
-        [self sendAlterMessage:@"Sucessful!"];
+        
         self.user = [FitbitUser userWithAPIFetcher:self.fetcher];
         [self.user updateUserProfile];
         

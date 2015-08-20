@@ -2,6 +2,8 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="r02-8f-c05">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -17,61 +19,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="piV-X7-Zp9">
-                                <rect key="frame" x="42" y="443" width="39" height="30"/>
-                                <state key="normal" title="Sleep">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="fetchData:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="aWM-dV-ecx"/>
-                                </connections>
-                            </button>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="iU7-vI-zRG">
-                                <rect key="frame" x="173" y="430" width="20" height="20"/>
-                            </activityIndicatorView>
-                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="B78-Ru-omF" userLabel="sleepSwitch">
-                                <rect key="frame" x="461" y="405" width="51" height="31"/>
-                            </switch>
-                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EJ9-t8-SpD" userLabel="heartRateSwitch">
-                                <rect key="frame" x="461" y="444" width="51" height="31"/>
-                            </switch>
-                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hn0-8o-Oaf" userLabel="audioSwitch">
-                                <rect key="frame" x="461" y="483" width="51" height="31"/>
-                            </switch>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Ig-FW-q0y">
-                                <rect key="frame" x="367" y="443" width="74" height="30"/>
-                                <state key="normal" title="Heart Rate">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="fetchData:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="Smu-eg-kiY"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8uN-9w-9bH">
-                                <rect key="frame" x="367" y="481" width="40" height="30"/>
-                                <state key="normal" title="Audio">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="fetchData:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="nwX-ab-EAc"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zF3-t6-3NV">
-                                <rect key="frame" x="16" y="72" width="150" height="40"/>
-                                <color key="backgroundColor" white="0.94462958916083917" alpha="0.59999999999999998" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="150" id="3Wz-uD-ftQ"/>
-                                    <constraint firstAttribute="height" constant="40" id="hgM-ly-exf"/>
-                                </constraints>
-                                <state key="normal" title="Sign in">
-                                    <color key="titleShadowColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="startSignIn:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="97L-Bm-ckJ"/>
-                                </connections>
-                            </button>
-                            <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="tew-vr-gzA">
-                                <rect key="frame" x="0.0" y="120" width="600" height="162"/>
+                            <datePicker contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="tew-vr-gzA">
+                                <rect key="frame" x="0.0" y="110" width="600" height="162"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="162" id="BY3-lE-Hdy"/>
                                     <constraint firstAttribute="width" constant="600" id="DHm-Gf-hpu"/>
@@ -88,22 +37,108 @@
                                     </mask>
                                 </variation>
                             </datePicker>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="B78-Ru-omF" userLabel="sleepSwitch">
+                                <rect key="frame" x="116" y="473" width="51" height="31"/>
+                            </switch>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EJ9-t8-SpD" userLabel="heartRateSwitch">
+                                <rect key="frame" x="116" y="434" width="51" height="31"/>
+                            </switch>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hn0-8o-Oaf" userLabel="audioSwitch">
+                                <rect key="frame" x="116" y="512" width="51" height="31"/>
+                            </switch>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zF3-t6-3NV">
+                                <rect key="frame" x="16" y="72" width="280" height="30"/>
+                                <color key="backgroundColor" white="0.94462958916083917" alpha="0.59999999999999998" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Sign in">
+                                    <color key="titleShadowColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="startSignIn:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="97L-Bm-ckJ"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3io-tj-FlV">
+                                <rect key="frame" x="304" y="72" width="280" height="30"/>
+                                <color key="backgroundColor" white="0.94462958919999995" alpha="0.59999999999999998" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Sign out">
+                                    <color key="titleShadowColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="startSignOut:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="HKj-Ge-kDO"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Audio :" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wDv-3V-Jpf">
+                                <rect key="frame" x="16" y="517" width="55" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Heart Rate :" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mf3-Z9-QiW">
+                                <rect key="frame" x="16" y="439" width="92" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sleep :" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0BC-tq-bIv">
+                                <rect key="frame" x="16" y="478" width="54" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0QM-l4-b7f">
+                                <rect key="frame" x="173" y="449" width="411" height="80"/>
+                                <color key="backgroundColor" white="0.93511035839160828" alpha="0.59999999999999998" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Result">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="plotSelectedData:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="AcH-W7-b1L"/>
+                                </connections>
+                            </button>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="iU7-vI-zRG">
+                                <rect key="frame" x="290" y="290" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="zF3-t6-3NV" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" id="08f-de-EaY"/>
+                            <constraint firstAttribute="trailing" secondItem="tew-vr-gzA" secondAttribute="trailing" id="0dr-nG-rnn"/>
+                            <constraint firstItem="hn0-8o-Oaf" firstAttribute="centerY" secondItem="wDv-3V-Jpf" secondAttribute="centerY" id="31e-Ty-7Q4"/>
+                            <constraint firstItem="hn0-8o-Oaf" firstAttribute="top" secondItem="B78-Ru-omF" secondAttribute="bottom" constant="8" symbolic="YES" id="5Q2-Bp-Lk0"/>
+                            <constraint firstItem="zF3-t6-3NV" firstAttribute="height" secondItem="3io-tj-FlV" secondAttribute="height" id="5vy-pK-eyH"/>
+                            <constraint firstItem="EJ9-t8-SpD" firstAttribute="leading" secondItem="Mf3-Z9-QiW" secondAttribute="trailing" constant="8" symbolic="YES" id="6PU-OE-fPe"/>
                             <constraint firstAttribute="trailingMargin" secondItem="tew-vr-gzA" secondAttribute="trailing" constant="-16" id="7BA-xy-nD8"/>
+                            <constraint firstItem="0QM-l4-b7f" firstAttribute="leading" secondItem="EJ9-t8-SpD" secondAttribute="trailing" constant="8" symbolic="YES" id="AOc-fZ-acx"/>
+                            <constraint firstItem="zF3-t6-3NV" firstAttribute="width" secondItem="3io-tj-FlV" secondAttribute="width" id="BTV-TI-ABW"/>
+                            <constraint firstItem="B78-Ru-omF" firstAttribute="centerY" secondItem="0BC-tq-bIv" secondAttribute="centerY" id="Bji-jx-f2S"/>
+                            <constraint firstItem="iU7-vI-zRG" firstAttribute="centerX" secondItem="tew-vr-gzA" secondAttribute="centerX" id="DB7-kU-0z1"/>
                             <constraint firstItem="tew-vr-gzA" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="LGw-a4-qWw"/>
-                            <constraint firstAttribute="trailing" secondItem="tew-vr-gzA" secondAttribute="trailing" id="Ld2-aV-DGj"/>
+                            <constraint firstItem="3io-tj-FlV" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="8" id="M0j-NO-Fvt"/>
+                            <constraint firstItem="iU7-vI-zRG" firstAttribute="centerY" secondItem="kh9-bI-dsS" secondAttribute="centerY" id="Ojc-Ou-DXx"/>
+                            <constraint firstItem="zF3-t6-3NV" firstAttribute="height" secondItem="3io-tj-FlV" secondAttribute="height" id="Qaq-0c-wEl"/>
+                            <constraint firstItem="B78-Ru-omF" firstAttribute="leading" secondItem="EJ9-t8-SpD" secondAttribute="leading" id="SiZ-G5-NZl"/>
+                            <constraint firstItem="B78-Ru-omF" firstAttribute="top" secondItem="EJ9-t8-SpD" secondAttribute="bottom" constant="8" symbolic="YES" id="Tvi-AM-myd"/>
                             <constraint firstAttribute="trailing" secondItem="tew-vr-gzA" secondAttribute="trailing" id="W5R-Xk-wdy"/>
-                            <constraint firstItem="zF3-t6-3NV" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" id="WWs-w4-0dh"/>
-                            <constraint firstItem="tew-vr-gzA" firstAttribute="top" secondItem="zF3-t6-3NV" secondAttribute="bottom" constant="8" symbolic="YES" id="cvn-Ws-jdd"/>
-                            <constraint firstItem="zF3-t6-3NV" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="8" symbolic="YES" id="ddL-hC-iYP"/>
+                            <constraint firstItem="0BC-tq-bIv" firstAttribute="baseline" secondItem="0QM-l4-b7f" secondAttribute="firstBaseline" id="WPm-NG-6l2"/>
+                            <constraint firstItem="tew-vr-gzA" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="ZMr-BH-ias"/>
+                            <constraint firstItem="Mf3-Z9-QiW" firstAttribute="leading" secondItem="zF3-t6-3NV" secondAttribute="leading" id="aoC-k7-7iw"/>
+                            <constraint firstItem="0BC-tq-bIv" firstAttribute="leading" secondItem="wDv-3V-Jpf" secondAttribute="leading" id="b5P-iZ-ChB"/>
+                            <constraint firstItem="3io-tj-FlV" firstAttribute="leading" secondItem="zF3-t6-3NV" secondAttribute="trailing" constant="8" symbolic="YES" id="dia-2T-XYk"/>
+                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="0QM-l4-b7f" secondAttribute="bottom" constant="22" id="kbt-vH-rZ6"/>
+                            <constraint firstItem="Mf3-Z9-QiW" firstAttribute="centerY" secondItem="EJ9-t8-SpD" secondAttribute="centerY" id="laS-t3-n22"/>
+                            <constraint firstItem="0QM-l4-b7f" firstAttribute="trailing" secondItem="3io-tj-FlV" secondAttribute="trailing" id="lgs-V7-v4k"/>
+                            <constraint firstItem="hn0-8o-Oaf" firstAttribute="leading" secondItem="B78-Ru-omF" secondAttribute="leading" id="nA3-wz-rLH"/>
+                            <constraint firstItem="0BC-tq-bIv" firstAttribute="leading" secondItem="Mf3-Z9-QiW" secondAttribute="leading" id="nhh-h3-EwV"/>
+                            <constraint firstItem="tew-vr-gzA" firstAttribute="top" secondItem="zF3-t6-3NV" secondAttribute="bottom" constant="8" symbolic="YES" id="ny8-ik-CyO"/>
+                            <constraint firstItem="zF3-t6-3NV" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="8" id="pHE-76-ZG9"/>
                             <constraint firstItem="tew-vr-gzA" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="-16" id="peV-s3-OM3"/>
-                            <constraint firstItem="tew-vr-gzA" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="th0-b4-3JQ"/>
+                            <constraint firstItem="3io-tj-FlV" firstAttribute="trailing" secondItem="kh9-bI-dsS" secondAttribute="trailingMargin" id="v3C-Ua-xPx"/>
                             <constraint firstItem="tew-vr-gzA" firstAttribute="top" secondItem="zF3-t6-3NV" secondAttribute="bottom" constant="8" symbolic="YES" id="w5K-u3-GeZ"/>
+                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="hn0-8o-Oaf" secondAttribute="bottom" constant="8" symbolic="YES" id="y46-Jy-YDE"/>
+                            <constraint firstItem="0BC-tq-bIv" firstAttribute="baseline" secondItem="0QM-l4-b7f" secondAttribute="baseline" id="z0g-N0-jI9"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
+                                <exclude reference="5vy-pK-eyH"/>
                                 <exclude reference="7BA-xy-nD8"/>
                                 <exclude reference="LGw-a4-qWw"/>
                                 <exclude reference="W5R-Xk-wdy"/>
@@ -114,9 +149,11 @@
                     </view>
                     <navigationItem key="navigationItem" id="7t6-cW-erh"/>
                     <connections>
-                        <outlet property="buttonForSignIn" destination="zF3-t6-3NV" id="x2Q-la-q3C"/>
+                        <outlet property="audioSwitch" destination="hn0-8o-Oaf" id="vBs-4e-cqx"/>
                         <outlet property="datePicker" destination="tew-vr-gzA" id="5g0-yD-K2c"/>
+                        <outlet property="heartRateSwitch" destination="EJ9-t8-SpD" id="dlz-Lb-rYN"/>
                         <outlet property="indicator" destination="iU7-vI-zRG" id="neq-Bp-fID"/>
+                        <outlet property="sleepSwitch" destination="B78-Ru-omF" id="WWV-xO-uqX"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>

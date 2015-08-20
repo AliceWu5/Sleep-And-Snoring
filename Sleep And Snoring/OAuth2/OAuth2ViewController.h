@@ -7,10 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "OAuth2Authentication.h"
+
 #import "GenericDelegate.h"
 @interface OAuth2ViewController : UIViewController<UIWebViewDelegate>
 
 @property (nonatomic, weak) id <GenericDelegate> delegate;
 - (void)signOut;
+
++ (OAuth2Authentication *)customAuth;
 
 @end

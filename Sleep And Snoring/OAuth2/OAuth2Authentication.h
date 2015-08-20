@@ -22,6 +22,7 @@
                                             refreshTokenURI:(NSString *)refreshTokenURI
                                                 redirectURI:(NSString *)redirectURI;
 
+
 - (NSURL *)getAuthorizationPageWithOptions:(NSString *)options;
 - (BOOL)authorizationFinishedWithURL:(NSURL *)callbackURL;
 - (NSDictionary *)getAuthorizationResultFromURL:(NSURL *)callbackURL;
