@@ -135,15 +135,16 @@ static NSTimeInterval const oneHour = 60*60;
     CPTXYAxisSet *axisSet = (CPTXYAxisSet *)graph.axisSet;
     CPTXYAxis *y = axisSet.yAxis;
     y.orthogonalCoordinateDecimal = CPTDecimalFromDouble(0.0);
-    //y.axisConstraints = [CPTConstraints constraintWithLowerOffset:10.0];
+    y.axisConstraints = [CPTConstraints constraintWithLowerOffset:60.0];
     y.delegate             = self;
-
-    y.tickLabelDirection = CPTSignPositive;
+    y.tickDirection = CPTSignPositive;
+    y.tickLabelDirection = CPTSignNone;
+    //y.labelAlignment = CPTAlignmentLeft;
     //y.labelOffset = -50.0f;
     
     y.labelingPolicy = CPTAxisLabelingPolicyNone;
     NSArray *customTickLocations = [NSArray arrayWithObjects:[NSDecimalNumber numberWithInt:-90], [NSDecimalNumber numberWithInt:-60], [NSDecimalNumber numberWithInt:-30], [NSDecimalNumber numberWithInt:0], [NSDecimalNumber numberWithInt:15], [NSDecimalNumber numberWithInt:30], [NSDecimalNumber numberWithInt:45], [NSDecimalNumber numberWithInt:60], [NSDecimalNumber numberWithInt:75],[NSDecimalNumber numberWithInt:90], nil];
-    NSArray *yAxisLabels = [NSArray arrayWithObjects:@"Asleep", @"Restless", @"Awake", @"0", @"15", @"30",@"45",@"60", @"75", @"90", nil];
+    NSArray *yAxisLabels = [NSArray arrayWithObjects:@"Asleep", @"Restless", @"Awake",@"", @"40", @"55",@"70",@"85", @"100", @"115", nil];
     NSUInteger labelLocation = 0;
     NSMutableArray *customLabels = [NSMutableArray arrayWithCapacity:[yAxisLabels count]];
     
@@ -156,6 +157,7 @@ static NSTimeInterval const oneHour = 60*60;
         [customLabels addObject:newLabel];
     }
     y.axisLabels =  [NSSet setWithArray:customLabels];
+    axisSet.yAxis.majorTickLocations = [NSSet setWithArray:customTickLocations];
 }
 
 -(void)configureXAxisForGraph:(CPTGraph*)graph{
@@ -174,11 +176,12 @@ static NSTimeInterval const oneHour = 60*60;
     x.visibleRange = xAxisRange;
     
     x.orthogonalCoordinateDecimal = CPTDecimalFromString(@"0");
-    x.title = @"Hours";
+    //x.title = @"Hours";
     x.titleTextStyle = majorTextStyle;
     x.titleOffset = 30.0f;
     x.labelRotation = M_PI/8;
     x.labelingPolicy = CPTAxisLabelingPolicyNone;
+    x.tickDirection = CPTSignPositive;
     //x.tickLabelDirection = CPTSignPositive;
     NSArray *customTickLocations = [NSArray arrayWithObjects:[NSDecimalNumber numberWithInt:0],[NSDecimalNumber numberWithInt:3], [NSDecimalNumber numberWithInt:6], [NSDecimalNumber numberWithInt:9], [NSDecimalNumber numberWithInt:12],
                                     [NSDecimalNumber numberWithInt:15], [NSDecimalNumber numberWithInt:18], [NSDecimalNumber numberWithInt:21], [NSDecimalNumber numberWithInt:24],nil];
@@ -195,6 +198,7 @@ static NSTimeInterval const oneHour = 60*60;
         [customLabels addObject:newLabel];
     }
     x.axisLabels =  [NSSet setWithArray:customLabels];
+    axisSet.xAxis.majorTickLocations = [NSSet setWithArray:customTickLocations];
 }
 
 
@@ -289,7 +293,7 @@ static NSTimeInterval const oneHour = 60*60;
             } else if ([(NSString *)plot.identifier isEqualToString:@"Heart Rate Plot"]){
                 // heart rate plot
                 int heartRate = ((NSNumber *)self.heartRateDataForPlot[index][@(fieldEnum)]).intValue;
-                value = [NSNumber numberWithDouble:heartRate];
+                value = [NSNumber numberWithDouble:heartRate - 25];
             }
             break;
         }
