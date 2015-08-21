@@ -194,6 +194,7 @@ static NSString *const vTokenFetchSelectorKey = @"sel";
     // fetch data using GTMHTTPFetcher
     GTMHTTPFetcher *fetcher = [GTMHTTPFetcher fetcherWithRequest:request];
     
+    NSLog(@"%@", request);
     // callback for user
     [fetcher beginFetchWithCompletionHandler:^(NSData *data, NSError *error) {
         handler(data, error);

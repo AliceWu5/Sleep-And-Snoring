@@ -23,13 +23,12 @@
 
 // fetch api
 
-
-//- (void)sendTestRquestToAPI:(NSURLRequest *)request onCompletion:(void (^)(NSData *data, NSError *error))handler;
-
 - (void)sendGetRequestToAPIPath:(NSString *)path onCompletion:(void (^)(NSData *data, NSError *error))handler;
 
-- (void)getUserProfile;
+// just for testing
+- (void)refreshAccessToken;
 
+- (void)getUserProfile;
 - (void)getLastSyncTimeOnCompletion:(void (^)(BOOL needUpdate, NSError *error))handler;
 
 @end

@@ -9,6 +9,7 @@
 #import "APIFetcher.h"
 #import "GTMHTTPFetcher.h"
 #import "FitbitAPI.h"
+#import "SSKeychain.h"
 // UserDefaults
 static NSString *const vServiceProvider = @"Fitbit";
 static NSString *const vClientID        = @"229Q8T";
@@ -17,6 +18,12 @@ static NSString *const vClientSecret    = @"1515d15713ba40771aee66b4cbc33e9b";
 // keys
 static NSString *const kOAuth2AccessTokenKey    = @"access_token";
 static NSString *const kOAuth2RefreshTokenKey   = @"refresh_token";
+
+
+// keychains constants
+static NSString *const kSleepAndSnoringService          = @"Sleep And Snoring";
+static NSString *const kSleepAndSnoringAccessAccount    = @"com.sleepandsnoring.accesstoken";
+static NSString *const kSleepAndSnoringRefreshAccount   = @"com.sleepandsnoring.refreshtoken";
 
 
 @interface APIFetcher ()
@@ -48,21 +55,86 @@ static NSString *const kOAuth2RefreshTokenKey   = @"refresh_token";
     NSMutableURLRequest *request = [self setCustomURLRequestWithAPIPath:path];
     GTMHTTPFetcher *fetcher = [GTMHTTPFetcher fetcherWithRequest:request];
     [fetcher beginFetchWithCompletionHandler:^(NSData *data, NSError *error) {
-            handler(data, error);
+        if (error) {
+            // try to refresh the token to solve the error
+            [self.auth refreshAccessTokenByRefreshToken:self.refreshToken onCompletion:^(NSData *refreshData, NSError *refreshError) {
+                
+                // success refresh access token
+                if (!refreshError) {
+                    
+                    // get refreshed data
+                    NSDictionary *fetchResult = [NSJSONSerialization JSONObjectWithData:refreshData
+                                                                                options:kNilOptions
+                                                                                  error:nil];
+                    
+                    self.accessToken = [fetchResult objectForKey:kOAuth2AccessTokenKey];
+                    self.refreshToken = [fetchResult objectForKey:kOAuth2RefreshTokenKey];
+                    
+                    // set the access/refresh token after refreshing
+                    [SSKeychain setPassword:self.accessToken forService:kSleepAndSnoringService account:kSleepAndSnoringAccessAccount];
+                    [SSKeychain setPassword:self.refreshToken forService:kSleepAndSnoringService account:kSleepAndSnoringRefreshAccount];
+                    
+                    NSLog(@"Refresh Result : %@", fetchResult);
 
-            /*
-             Print error use the same way as print data
-             
-            NSError* errorInSerialization;
-            NSDictionary *errorDictionary = [NSJSONSerialization JSONObjectWithData:data
-                                                                        options:kNilOptions
-                                                                          error:&errorInSerialization];
-            NSLog(@"Error happens during fetching data from %@ : %@",path, errorDictionary);
-            */
+                } else {
+                    NSDictionary *errorResult = [NSJSONSerialization JSONObjectWithData:refreshData
+                                                                                options:kNilOptions
+                                                                                  error:nil];
+                    NSLog(@"error : %@ ", errorResult);
+                    // report if fail to refresh access token
+                    handler(data, error);
+                }
+                
+            }];
+        }
+        // if no error then get data successfully
+        else {
+            handler(data, error);
+        }
+        
+        /*
+         Print error use the same way as print data
+         
+        NSError* errorInSerialization;
+        NSDictionary *errorDictionary = [NSJSONSerialization JSONObjectWithData:data
+                                                                    options:kNilOptions
+                                                                      error:&errorInSerialization];
+        NSLog(@"Error happens during fetching data from %@ : %@",path, errorDictionary);
+        */
         
     }];
-    
 }
+
+-(void)refreshAccessToken {
+    [self.auth refreshAccessTokenByRefreshToken:self.refreshToken onCompletion:^(NSData *refreshData, NSError *refreshError) {
+        
+        // success refresh access token
+        if (!refreshError) {
+            
+            NSDictionary *fetchResult = [NSJSONSerialization JSONObjectWithData:refreshData
+                                                                        options:kNilOptions
+                                                                          error:nil];
+            
+            self.accessToken = [fetchResult objectForKey:kOAuth2AccessTokenKey];
+            self.refreshToken = [fetchResult objectForKey:kOAuth2RefreshTokenKey];
+            
+            // set the access token after refreshing
+            [SSKeychain setPassword:self.accessToken forService:kSleepAndSnoringService account:kSleepAndSnoringAccessAccount];
+            
+            NSLog(@"Refresh Result : %@", fetchResult);
+            
+        } else {
+            NSDictionary *errorResult = [NSJSONSerialization JSONObjectWithData:refreshData
+                                                                        options:kNilOptions
+                                                                          error:nil];
+            NSLog(@"error : %@ ", errorResult);
+            // report if fail to refresh access token
+        }
+        
+    }];
+}
+
+
 
 - (void)sendTestRquestToAPI:(NSURLRequest *)request onCompletion:(void (^)(NSData *data, NSError *error))handler {
     // test get user profile

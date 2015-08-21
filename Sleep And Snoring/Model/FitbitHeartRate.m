@@ -37,19 +37,23 @@
     NSString *path = [NSString stringWithFormat:@"/1/user/-/activities/heart/date/%@/1d/1sec.json", dateKey];
     NSLog(@"%@", path);
     [self.fetcher sendGetRequestToAPIPath:path onCompletion:^(NSData *data, NSError *error) {
-        NSError *jsonError;
         
-        // user heart rate in a day in JSON
-        NSDictionary *fetchResult = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&jsonError];
-        NSLog(@"%@", jsonError);
-        
-        // Use JSON result to create heart rate
-        NSDictionary *heartrate = fetchResult[kFitbitHeartRateIntradayKey];
-        NSArray *dataset = heartrate[kFitbitHeartRateIntradayDatasetKey];
-        handler(dataset);
-        
-        // Store data
-        [self.heartRateData setObject:dataset forKey:dateKey];
+        if (!error) {
+            // user heart rate in a day in JSON
+            NSDictionary *fetchResult = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
+            //NSLog(@"%@", [NSJSONSerialization JSONObjectWithData:[error userInfo][@"data"] options:kNilOptions error:nil]);
+            
+            // Use JSON result to create heart rate
+            NSDictionary *heartrate = fetchResult[kFitbitHeartRateIntradayKey];
+            NSArray *dataset = heartrate[kFitbitHeartRateIntradayDatasetKey];
+            handler(dataset);
+            
+            // Store data
+            [self.heartRateData setObject:dataset forKey:dateKey];
+        } else {
+            // do something
+            NSLog(@"Errors occur when fetching heart rate data.");
+        }
 
     }];
 }

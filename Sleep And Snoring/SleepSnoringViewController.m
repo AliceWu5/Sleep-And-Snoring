@@ -38,14 +38,15 @@ static NSString *const kSleepAndSnoringRefreshAccount   = @"com.sleepandsnoring.
 @property (strong, nonatomic)FitbitActivity *activity;
 
 
-@property BOOL isSignedIn;
+@property (nonatomic)BOOL isSignedIn;
 @end
 
 @implementation SleepSnoringViewController
-@synthesize isSignedIn = _isSignedIn;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    // set indicator
     self.indicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
     self.indicator.hidesWhenStopped = YES;
     // Do any additional setup after loading the view, typically from a nib.
@@ -91,11 +92,15 @@ static NSString *const kSleepAndSnoringRefreshAccount   = @"com.sleepandsnoring.
     }
 }
 
+#pragma mark Press button methods
+
 - (IBAction)startSignIn:(UIButton *)sender {
+    
+    // init view for login
     OAuth2ViewController *authViewController = [[OAuth2ViewController alloc] init];
     authViewController.delegate = self;
-    // manually sign out
-    //[authViewController signOut];
+    
+    // push view for login
     [[self navigationController] pushViewController:authViewController animated:YES];
 }
 
@@ -106,6 +111,14 @@ static NSString *const kSleepAndSnoringRefreshAccount   = @"com.sleepandsnoring.
     // delete keychains
     [SSKeychain deletePasswordForService:kSleepAndSnoringService account:kSleepAndSnoringAccessAccount];
     [SSKeychain deletePasswordForService:kSleepAndSnoringService account:kSleepAndSnoringRefreshAccount];
+    
+    // clear fetcher
+    self.fetcher = nil;
+    self.isSignedIn = NO;
+}
+
+- (IBAction)startTest:(UIButton *)sender {
+    [self.fetcher refreshAccessToken];
 }
 
 - (IBAction)plotSelectedData:(UIButton *)sender {
@@ -155,11 +168,16 @@ static NSString *const kSleepAndSnoringRefreshAccount   = @"com.sleepandsnoring.
         self.fetcher = item;
         self.isSignedIn = true;
         
+        // clear keychains first
+        [SSKeychain deletePasswordForService:kSleepAndSnoringService account:kSleepAndSnoringAccessAccount];
+        [SSKeychain deletePasswordForService:kSleepAndSnoringService account:kSleepAndSnoringRefreshAccount];
+        
         // set keychains when user credentials created
         [SSKeychain setPassword:self.fetcher.accessToken forService:kSleepAndSnoringService
                         account:kSleepAndSnoringAccessAccount];
         [SSKeychain setPassword:self.fetcher.refreshToken forService:kSleepAndSnoringService
                         account:kSleepAndSnoringRefreshAccount];
+        
         // send alter message only when user have log in action
         [self sendAlterMessage:@"Sucessful!"];
 
@@ -201,6 +219,7 @@ static NSString *const kSleepAndSnoringRefreshAccount   = @"com.sleepandsnoring.
     }
 }
 
+
 - (void)getUserProfile {
     if (self.isSignedIn) {
         NSLog(@"My name : %@", self.user.displayName);
@@ -210,23 +229,63 @@ static NSString *const kSleepAndSnoringRefreshAccount   = @"com.sleepandsnoring.
 
 #pragma mark Accessors
 
+-(void)setFetcher:(APIFetcher *)fetcher {
+    
+    BOOL accessTokenIsSet = NO;
+    BOOL refreshTokenIsSet = NO;
+    
+    
+    // set the keychain when fetch is created
+    accessTokenIsSet = [SSKeychain setPassword:fetcher.accessToken forService:kSleepAndSnoringService account:kSleepAndSnoringAccessAccount];
+    refreshTokenIsSet = [SSKeychain setPassword:fetcher.refreshToken forService:kSleepAndSnoringService account:kSleepAndSnoringRefreshAccount];
+    
+    NSLog(@"Access Token Set : %i Refresh Token Set : %i",accessTokenIsSet ,refreshTokenIsSet);
+    
+    
+    _fetcher = fetcher;
+}
 
 
 - (void)setIsSignedIn:(BOOL)isSignedIn {
     if (isSignedIn) {
         
-        self.user = [FitbitUser userWithAPIFetcher:self.fetcher];
-        [self.user updateUserProfile];
-        
-        self.activity = [FitbitActivity activityWithAPIFetcher:self.fetcher];
-        
-        self.sleep = [FitbitSleep sleepWithAPIFetcher:self.fetcher];
-        
-        self.heartRate = [FitbitHeartRate heartRateWithAPIFetcher:self.fetcher];
     }
     _isSignedIn = isSignedIn;
 }
 
+
+-(FitbitUser *)user {
+    if (_fetcher && !_user) {
+        _user = [FitbitUser userWithAPIFetcher:self.fetcher];
+    }
+    return _user;
+}
+
+
+-(FitbitSleep *)sleep {
+    NSLog(@"The f: %@ s: %@",_fetcher,_sleep);
+    if (_fetcher && !_sleep) {
+        NSLog(@"Create fitbit sleep.");
+        _sleep = [FitbitSleep sleepWithAPIFetcher:self.fetcher];
+    }
+    return _sleep;
+}
+
+
+-(FitbitActivity *)activity {
+    if (_fetcher && !_activity) {
+        _activity = [FitbitActivity activityWithAPIFetcher:self.fetcher];
+    }
+    return _activity;
+}
+
+
+-(FitbitHeartRate *)heartRate {
+    if (_fetcher && !_heartRate) {
+        _heartRate = [FitbitHeartRate heartRateWithAPIFetcher:self.fetcher];
+    }
+    return _heartRate;
+}
 
 #pragma mark System Message Method
 
@@ -247,23 +306,7 @@ static NSString *const kSleepAndSnoringRefreshAccount   = @"com.sleepandsnoring.
     [self presentViewController:alert animated:YES completion:nil];
 }
 
-#pragma mark Date Processing Methods
 
 
-// negative num go back
-// positive num go forward
-- (NSString *)getDateByNumberOfDays:(NSInteger)days {
-    
-    NSDate *today = [NSDate date];
-    NSDateFormatter *dateFormatter=[[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
-    
-    if (days) {
-        // days * hours * minutes * seconds
-        today = [today dateByAddingTimeInterval:days * 24 * 60 * 60];
-    }
-    
-    return [dateFormatter stringFromDate:today];
-}
 
 @end

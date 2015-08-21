@@ -42,28 +42,35 @@
 }
 
 - (void)updateSleepByDate:(NSDate *)date completion:(void (^)(NSArray *))handler {
-    //NSDate *yesterday = [date dateByAddingTimeInterval:- 24 * 60 * 60];
+
     NSString *dateKey = [StringConverter convertDateToString:date];
     
     NSString *path = [NSString stringWithFormat:@"/1/user/-/sleep/date/%@.json", dateKey];
+    
     [self.fetcher sendGetRequestToAPIPath:path onCompletion:^(NSData *data, NSError *error) {
-        NSLog(@"%@", path);
-        // sleep data in JSON
-        NSDictionary *fetchResult = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
-        NSLog(@"%@", fetchResult);
-        NSArray *sleeps = fetchResult[kFitbitSleepDataKey];
-        NSDictionary *summary = fetchResult[kFitbitSleepSummaryKey];
+        if (!error) {
+            // sleep data in JSON
+            NSDictionary *fetchResult = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
 
-        if ([sleeps count] == 0) {
-            NSLog(@"%@'s sleep is empty.", dateKey);
-            NSLog(@"%@", sleeps);
+            NSArray *sleeps = fetchResult[kFitbitSleepDataKey];
+            NSDictionary *summary = fetchResult[kFitbitSleepSummaryKey];
+            
+            if ([sleeps count] == 0) {
+                NSLog(@"%@'s sleep is empty.", dateKey);
+                NSLog(@"%@", sleeps);
+                sleeps = [[NSArray alloc] init];
+            }
+            
+            // Store data
+            [self.summarys setObject:summary forKey:dateKey];
+            [self.sleepData setObject:sleeps forKey:dateKey];
+            
+            handler(sleeps);
+        } else {
+            // do something
+            NSLog(@"Errors occur when fetching sleep data.");
         }
         
-        // Store data
-        [self.summarys setObject:summary forKey:dateKey];
-        [self.sleepData setObject:sleeps forKey:dateKey];
-        
-        handler(sleeps);
     }];
 }
 
