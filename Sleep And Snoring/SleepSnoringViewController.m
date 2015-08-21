@@ -53,7 +53,7 @@ static NSString *const kSleepAndSnoringRefreshAccount   = @"com.sleepandsnoring.
     
     [self initNavigationBarItems];
     self.datePicker.datePickerMode = UIDatePickerModeDate;
-    [self checkLoginDetail];
+    [self updateLoginStatus];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -70,7 +70,7 @@ static NSString *const kSleepAndSnoringRefreshAccount   = @"com.sleepandsnoring.
     NSLog(@"Button Pressed.");
 }
 
-- (void)checkLoginDetail {
+- (void)updateLoginStatus {
     
     // get access token & refresh token from keychain
     NSString *accessToken = [SSKeychain passwordForService:kSleepAndSnoringService account:kSleepAndSnoringAccessAccount];
