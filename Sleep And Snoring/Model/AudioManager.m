@@ -42,7 +42,7 @@
 
         [session setActive:YES error:nil];
         
-        [self.recorder record];
+        
         self.recorder = [[AVAudioRecorder alloc] initWithURL:audioFileURL
                           settings:recordSettings
                           error:&error];
@@ -52,13 +52,15 @@
             return NO;
         } else {
             [self.recorder prepareToRecord];
+            [self.recorder record];
         }
     }
     return YES;
 }
 
 -(void)stopRecording {
-    
+    [self.recorder stop];
+    self.isRecording = NO;
 }
 
 #pragma mark accessor
