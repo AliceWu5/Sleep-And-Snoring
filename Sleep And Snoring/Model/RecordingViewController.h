@@ -7,15 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "RecordingManager.h"
-#import "Model.h"
+#import "AudioManager.h"
+//#import "Model.h"
 //#import "LogTableController.h"
 //#import "SettingsViewController.h"
 #import "SoundLevelMeterView.h"
 
 @interface RecordingViewController : UIViewController
 
-@property RecordingManager *manager;
+@property AudioManager *manager;
 @property IBOutlet UIButton *recordButton;
 @property IBOutlet SoundLevelMeterView *meter;
 @property (strong) NSTimer *meterTimer;

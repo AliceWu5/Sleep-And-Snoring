@@ -1,0 +1,21 @@
+//
+//  AudioRecorder.h
+//  Sleep And Snoring
+//
+//  Created by Jiao Liu on 15/8/21.
+//  Copyright (c) 2015年 Xibo Wang. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+#import <AVFoundation/AVFoundation.h>
+
+@interface AudioManager : NSObject<AVAudioRecorderDelegate, AVAudioPlayerDelegate>
+
+@property (strong, nonatomic)AVAudioRecorder *recorder;
+@property (strong, nonatomic)AVAudioPlayer *player;
+@property (assign)BOOL isRecording;
+
+-(BOOL)startRecording;
+-(void)stopRecording;
+
+@end

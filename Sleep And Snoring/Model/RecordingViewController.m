@@ -7,11 +7,7 @@
 //
 
 #import "RecordingViewController.h"
-//#import "SessionInfo.h"
-#import "Model.h"
-#import "Constants.h"
-#import "SSKeychain.h"
-//#import "ServerCommunicationController.h"
+#import "AudioManager.h"
 #import <SystemConfiguration/SystemConfiguration.h>
 
 @interface RecordingViewController ()
@@ -30,11 +26,11 @@
     
     // register for AV notification so we are told if sound recording is interrupted by call or Siri
     
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(stopRecordingDueToInterruption)
-                                                 name:AVAudioSessionInterruptionNotification
-                                               object:nil];
-    
+//    [[NSNotificationCenter defaultCenter] addObserver:self
+//                                             selector:@selector(stopRecordingDueToInterruption)
+//                                                 name:AVAudioSessionInterruptionNotification
+//                                               object:nil];
+//    
     // disable the tab bar
     
     //UITabBarItem *settingsItem = [self.tabBarController.tabBar.items objectAtIndex:TAB_BAR_INDEX];
@@ -47,37 +43,26 @@
     [self clearElapsedTime];
     
     // set up a session to make sure that we have access to the microphone
-    AVAudioSession *session = [AVAudioSession sharedInstance];
-    [session setCategory:AVAudioSessionCategoryPlayAndRecord error:nil];
-    [session requestRecordPermission:^(BOOL granted) {}];
+//    AVAudioSession *session = [AVAudioSession sharedInstance];
+//    [session setCategory:AVAudioSessionCategoryPlayAndRecord error:nil];
+//    [session requestRecordPermission:^(BOOL granted) {}];
     
     // get a reference to the model since we will use it quite a bit
-    Model *model = [Model sharedInstance];
     
     // check whether this device allows audio gain to be set
-    model.gainChangeIsEnabled = session.inputGainSettable;
-    if (session.inputGainSettable) {
-        // enable audio gain controls
-    } else {
-        [model writeToLog:@"Cannot set audio gain for this device"];
-    }
-    
-    // set the mode to disable automatic gain control and use the primary microphone
-    NSError *error;
-    [session setMode:AVAudioSessionModeMeasurement error:&error];
-    if (error) {
-        [model writeToLog:@"Cannot set audio measurement mode on this device"];
-    }
-    
+//    if (session.inputGainSettable) {
+//        // enable audio gain controls
+//    } else {
+//    }
+//    
+//    // set the mode to disable automatic gain control and use the primary microphone
+//    NSError *error;
+//    [session setMode:AVAudioSessionModeMeasurement error:&error];
+//    if (error) {
+//    }
+//    
     // if the username and password credentials are already in the keychain, retrieve them
-    NSArray* accounts = [SSKeychain accountsForService:SERVICE_NAME];
-    if ([accounts count] > 0)
-    {
-        id account = [accounts objectAtIndex:0];
-        NSString* user = [account objectForKey:@"acct"];
-        NSString* pass = [SSKeychain passwordForService:SERVICE_NAME account:user];
-        if (pass)
-        {
+
 //            BOOL login = [ServerCommunicationController attemptLoginWithUser:user password:pass];
 //            if (login) {
 //                model.username = user;
@@ -92,23 +77,17 @@
 //                model.currentlyLoggedIn = NO;
 //                [model writeToLog:[ServerCommunicationController loginError]];
 //            }
-        }
-    }
-    [self updateLoginStatus];
+//        }
+//    }
+    //[self updateLoginStatus];
     
     // get reference to the recording manager
-    self.manager = [[RecordingManager alloc] init];
+    self.manager = [[AudioManager alloc] init];
     
 }
 
--(void)updateLoginStatus
-{
-    Model *model = [Model sharedInstance];
-//    if (model.currentlyLoggedIn) {
-//        self.networkStatus.text = [NSString stringWithFormat:@"Signed in as user %@",model.username];
-//    } else {
-//        self.networkStatus.text = @"Not signed in";
-//    }
+-(void)updateLoginStatus {
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -135,36 +114,36 @@
     return (currentState==UIDeviceBatteryStateCharging || currentState==UIDeviceBatteryStateFull);
 }
 
--(BOOL)isWifiConnected {
-    Model *model = [Model sharedInstance];
-    // check that we are connected via WiFi and not 3G
-    SCNetworkReachabilityRef reachability = SCNetworkReachabilityCreateWithName(NULL, "8.8.8.8");
-    SCNetworkReachabilityFlags flags;
-    BOOL success = SCNetworkReachabilityGetFlags(reachability, &flags);
-    if (!success) {
-        [model writeToLog:@"Error - unknown type of network connection"];
-        return NO;
-    }
-    BOOL isReachable = ((flags & kSCNetworkReachabilityFlagsReachable) != 0);
-    BOOL needsConnection = ((flags & kSCNetworkReachabilityFlagsConnectionRequired) != 0);
-    BOOL isNetworkReachable = (isReachable && !needsConnection);
-    CFRelease(reachability);
-    if (!isNetworkReachable) {
-        [model writeToLog:@"Error - no network connection"];
-        return NO;
-    } else if ((flags & kSCNetworkReachabilityFlagsIsWWAN) != 0) {
-        [model writeToLog:@"Connected to 3G network"];
-        return NO;
-    } else {
-        [model writeToLog:@"Connected to WiFi network"];
-        return YES; // wifi connection
-    }
-}
+//-(BOOL)isWifiConnected {
+//    // check that we are connected via WiFi and not 3G
+//    SCNetworkReachabilityRef reachability = SCNetworkReachabilityCreateWithName(NULL, "8.8.8.8");
+//    SCNetworkReachabilityFlags flags;
+//    BOOL success = SCNetworkReachabilityGetFlags(reachability, &flags);
+//    if (!success) {
+//        [model writeToLog:@"Error - unknown type of network connection"];
+//        return NO;
+//    }
+//    BOOL isReachable = ((flags & kSCNetworkReachabilityFlagsReachable) != 0);
+//    BOOL needsConnection = ((flags & kSCNetworkReachabilityFlagsConnectionRequired) != 0);
+//    BOOL isNetworkReachable = (isReachable && !needsConnection);
+//    CFRelease(reachability);
+//    if (!isNetworkReachable) {
+//        [model writeToLog:@"Error - no network connection"];
+//        return NO;
+//    } else if ((flags & kSCNetworkReachabilityFlagsIsWWAN) != 0) {
+//        [model writeToLog:@"Connected to 3G network"];
+//        return NO;
+//    } else {
+//        [model writeToLog:@"Connected to WiFi network"];
+//        return YES; // wifi connection
+//    }
+//}
 
 -(IBAction)recordPressed:(id)sender
 {
+    [self.manager startRecording];
     // get reference to data model
-    Model *model = [Model sharedInstance];
+//    Model *model = [Model sharedInstance];
     NSMutableArray *errorStrings = [NSMutableArray arrayWithCapacity:5];
     // check that the user has given permission to record audio
     // if not, we can't proceed
@@ -173,20 +152,20 @@
         [errorStrings addObject:@"you have not given permission to record audio"];
     }
     // check that we are logged in
-    if (model.currentlyLoggedIn==NO) {
-        // we are not connected to the server, so can't proceed
-        [errorStrings addObject:@"you are not signed in"];
-    }
-    if (model.safeMode) {
+//    if (model.currentlyLoggedIn==NO) {
+//        // we are not connected to the server, so can't proceed
+//        [errorStrings addObject:@"you are not signed in"];
+//    }
+        // not need to connect to wifi
         // safe mode is on, so check that we are connected through WiFi (not 3G) and that
         // the power cable is plugged in
-        if ([self isWifiConnected]==NO) {
-            [errorStrings addObject:@"you are not connected to WiFi"];
-        }
+        //if ([self isWifiConnected]==NO) {
+        //    [errorStrings addObject:@"you are not connected to WiFi"];
+        //}
         if ([self isPowerConnected]==NO) {
             [errorStrings addObject:@"the power cable is not plugged in"];
         }
-    }
+    
     // if there is a problem, go no further
     NSUInteger numErrors = [errorStrings count];
     if (numErrors>0) {
@@ -204,46 +183,50 @@
         return;
     }
     // otherwise ...
-    if (model.isRecording) {
+    if (self.manager.isRecording) {
         // stop recording
-        model.isRecording = NO;
+        self.manager.isRecording = NO;
         [self setRecordButtonOff];
         [self.manager stopRecording];
         [self.meterTimer invalidate];
         self.meterTimer=nil;
         self.meter.level=0.0;
         // return the screen to original brightness level
-        [UIScreen mainScreen].brightness = model.brightness;
+        //[UIScreen mainScreen].brightness = model.brightness;
         // clear the elapsed time
         [self clearElapsedTime];
         // now switch to the demographics to collect and upload user information
-        [self performSegueWithIdentifier:@"goDemographics" sender:self];
+        //[self performSegueWithIdentifier:@"goDemographics" sender:self];
     } else {
         // just to be sure to remove any hangers-on, delete all files in the documents
         // directory from the last time this was run
         [self deleteAllAudioFiles];
         // clear the log so that we start with an empty table
-        [model clearUploadTable];
-        [model clearLog];
+        //[model clearUploadTable];
+        //[model clearLog];
         // start recording
         BOOL ok = [self.manager startRecording];
         if (ok) {
             // set record button to red
             [self setRecordButtonOn];
-            model.isRecording = YES;
+            self.manager.isRecording = YES;
             // start a timer to update the sound level meter at regular intervals
             self.meterTimer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(updateSoundLevelMeter) userInfo:nil repeats:YES];
             // cache the brightness and dim the screen
+            // no need to dim the screen
+            /*
             model.brightness = [UIScreen mainScreen].brightness;
+            
             if ([model dimmingEnabled]) {
                 [UIScreen mainScreen].brightness = DIMMED_BRIGHTNESS;
             }
+             */
             // log the current time as the time that recording started
-            [Model sharedInstance].timeRecordingStarted = [NSDate date];
+            //[Model sharedInstance].timeRecordingStarted = [NSDate date];
             // write to the log that we have started
-            [[Model sharedInstance] writeToLog:@"Recording started"];
+            //[[Model sharedInstance] writeToLog:@"Recording started"];
         } else {
-            [[Model sharedInstance] writeToLog:@"ERROR: you are not signed in to the server"];
+            //[[Model sharedInstance] writeToLog:@"ERROR: you are not signed in to the server"];
         }
     }
 }
@@ -263,21 +246,21 @@
 
 -(void)stopRecordingDueToInterruption
 {
-    Model *model = [Model sharedInstance];
-    model.isRecording = NO;
+    //Model *model = [Model sharedInstance];
+    self.manager.isRecording = NO;
     [self setRecordButtonOff];
     [self.manager stopRecording];
     [self.meterTimer invalidate];
     self.meterTimer=nil;
     self.meter.level=0.0;
     // return the screen to original brightness level
-    [UIScreen mainScreen].brightness = model.brightness;
+    //[UIScreen mainScreen].brightness = model.brightness;
     // clear the elapsed time
     [self clearElapsedTime];
     // write a message to the log
-    [model writeToLog:@"Recording was interrupted by call or Siri"];
+    //[model writeToLog:@"Recording was interrupted by call or Siri"];
     // now switch to the demographics to collect and upload user information
-    [self performSegueWithIdentifier:@"goDemographics" sender:self];
+    //[self performSegueWithIdentifier:@"goDemographics" sender:self];
 }
 
 -(void)clearElapsedTime
@@ -287,14 +270,14 @@
 
 -(void)updateSoundLevelMeter
 {
-    self.meter.level = [self.manager getNormalisedSoundLevel];
+    //self.meter.level = [self.manager getNormalisedSoundLevel];
     // also update the time since now text - really this should be in a separate method
-    NSTimeInterval timeDiff = [[Model sharedInstance].timeRecordingStarted timeIntervalSinceNow];
-    int ti = -(int)timeDiff;
-    int seconds = ti % 60;
-    int minutes = (ti / 60) % 60;
-    int hours = (ti / 3600);
-    self.timeElapsed.text = [NSString stringWithFormat:@"Recording time so far: %02dh:%02dm:%02ds",hours,minutes,seconds];
+    //NSTimeInterval timeDiff = [[Model sharedInstance].timeRecordingStarted timeIntervalSinceNow];
+//    int ti = -(int)timeDiff;
+//    int seconds = ti % 60;
+//    int minutes = (ti / 60) % 60;
+//    int hours = (ti / 3600);
+//    self.timeElapsed.text = [NSString stringWithFormat:@"Recording time so far: %02dh:%02dm:%02ds",hours,minutes,seconds];
 }
 
 -(void)deleteAllAudioFiles
@@ -312,7 +295,7 @@
         // remove it
         BOOL ok = [fm removeItemAtPath:filePath error:&error];
         if (!ok) {
-            [[Model sharedInstance] writeToLog:[NSString stringWithFormat:@"Error in deleteAllAudioFiles: could not delete file %@",filePath]];
+//            [[Model sharedInstance] writeToLog:[NSString stringWithFormat:@"Error in deleteAllAudioFiles: could not delete file %@",filePath]];
         }
     }
 }

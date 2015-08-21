@@ -59,9 +59,13 @@
 -(BOOL)startRecording
 {
     Model *model = [Model sharedInstance];
+    
+    /*
+    store in local, login not required
+     
     if (model.currentlyLoggedIn==NO)
         return false;
-    
+    */
     // display the device information
     
     [model writeToLog:model.deviceinfo];
@@ -303,6 +307,7 @@ void AudioInputCallback(void *inUserData,
     // upload whatever we got in the last file
     
     if (self.currentFilename) {
+        NSLog(@"%@", self.currentFilename);
         //UploadManager *uploader = [[UploadManager alloc]initWithFilename:self.currentFilename delegate:self];
         // add to the upload queue
         //[self.queue addObject:uploader];

@@ -10,6 +10,8 @@
 		AA005E301B7FFFD8007DAF05 /* StringConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = AA005E2F1B7FFFD8007DAF05 /* StringConverter.m */; };
 		AA02C30A1B86106800456113 /* MainTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA02C3091B86106800456113 /* MainTabBarController.m */; };
 		AA02C30F1B863C4900456113 /* MainNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA02C30E1B863C4900456113 /* MainNavigationController.m */; };
+		AA02C3171B87CBE400456113 /* LogTableController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA02C3161B87CBE400456113 /* LogTableController.m */; };
+		AA02C31A1B87D84500456113 /* AudioManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AA02C3191B87D84500456113 /* AudioManager.m */; };
 		AA0AC9641B853D8500232E88 /* RecordingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA0AC9631B853D8500232E88 /* RecordingViewController.m */; };
 		AA0AC96C1B853DC500232E88 /* RecordingManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AA0AC9691B853DC500232E88 /* RecordingManager.m */; };
 		AA0AC9711B853E3100232E88 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = AA0AC9701B853E3100232E88 /* Constants.m */; };
@@ -79,6 +81,10 @@
 		AA02C3091B86106800456113 /* MainTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainTabBarController.m; sourceTree = "<group>"; };
 		AA02C30D1B863C4900456113 /* MainNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainNavigationController.h; sourceTree = "<group>"; };
 		AA02C30E1B863C4900456113 /* MainNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainNavigationController.m; sourceTree = "<group>"; };
+		AA02C3151B87CBE400456113 /* LogTableController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogTableController.h; sourceTree = "<group>"; };
+		AA02C3161B87CBE400456113 /* LogTableController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogTableController.m; sourceTree = "<group>"; };
+		AA02C3181B87D84500456113 /* AudioManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioManager.h; sourceTree = "<group>"; };
+		AA02C3191B87D84500456113 /* AudioManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioManager.m; sourceTree = "<group>"; };
 		AA0AC9621B853D8500232E88 /* RecordingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecordingViewController.h; sourceTree = "<group>"; };
 		AA0AC9631B853D8500232E88 /* RecordingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecordingViewController.m; sourceTree = "<group>"; };
 		AA0AC9681B853DC500232E88 /* RecordingManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecordingManager.h; sourceTree = "<group>"; };
@@ -167,11 +173,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AA02C3121B87BE4200456113 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				AA0AC9821B85425E00232E88 /* AudioToolbox.framework */,
+				AA0AC9831B85425E00232E88 /* Security.framework */,
+				AA0AC9801B85425400232E88 /* AVFoundation.framework */,
+				AA0EEFD81B2F9093004CE5B5 /* QuartzCore.framework */,
+				AA0EEFD61B2F906F004CE5B5 /* Accelerate.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		AA0AC9671B853D9E00232E88 /* Auduo Recording */ = {
 			isa = PBXGroup;
 			children = (
 				AA0AC9681B853DC500232E88 /* RecordingManager.h */,
 				AA0AC9691B853DC500232E88 /* RecordingManager.m */,
+				AA02C3181B87D84500456113 /* AudioManager.h */,
+				AA02C3191B87D84500456113 /* AudioManager.m */,
 			);
 			name = "Auduo Recording";
 			path = Model;
@@ -210,12 +230,8 @@
 			isa = PBXGroup;
 			children = (
 				AA0EEFDC1B2F9871004CE5B5 /* CorePlot-CocoaTouch.xcodeproj */,
-				AA0AC9821B85425E00232E88 /* AudioToolbox.framework */,
-				AA0AC9831B85425E00232E88 /* Security.framework */,
-				AA0AC9801B85425400232E88 /* AVFoundation.framework */,
-				AA0EEFD81B2F9093004CE5B5 /* QuartzCore.framework */,
-				AA0EEFD61B2F906F004CE5B5 /* Accelerate.framework */,
-				AA0EEE341B2CD5D5004CE5B5 /* Sleep And Snoring */,
+				AA02C3121B87BE4200456113 /* Frameworks */,
+				AA0EEE341B2CD5D5004CE5B5 /* Classes */,
 				AA0EEFF21B305AE1004CE5B5 /* Resources */,
 				AA0EEE511B2CD5D5004CE5B5 /* Sleep And SnoringTests */,
 				AA0EEE331B2CD5D5004CE5B5 /* Products */,
@@ -231,7 +247,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		AA0EEE341B2CD5D5004CE5B5 /* Sleep And Snoring */ = {
+		AA0EEE341B2CD5D5004CE5B5 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
 				AA0AC96E1B853E2200232E88 /* Miscellaneous */,
@@ -250,6 +266,7 @@
 				AA0EEE3C1B2CD5D5004CE5B5 /* Sleep_And_Snoring.xcdatamodeld */,
 				AA0EEE351B2CD5D5004CE5B5 /* Supporting Files */,
 			);
+			name = Classes;
 			path = "Sleep And Snoring";
 			sourceTree = "<group>";
 		};
@@ -355,6 +372,8 @@
 				AA02C30E1B863C4900456113 /* MainNavigationController.m */,
 				AA02C3081B86106800456113 /* MainTabBarController.h */,
 				AA02C3091B86106800456113 /* MainTabBarController.m */,
+				AA02C3151B87CBE400456113 /* LogTableController.h */,
+				AA02C3161B87CBE400456113 /* LogTableController.m */,
 				AA0EEE3F1B2CD5D5004CE5B5 /* SleepSnoringViewController.h */,
 				AA0EEE401B2CD5D5004CE5B5 /* SleepSnoringViewController.m */,
 				AA0EEFE91B3045AA004CE5B5 /* SleepScatterPlotController.h */,
@@ -497,6 +516,7 @@
 				AA0EEE671B2CD64D004CE5B5 /* APIFetcher.m in Sources */,
 				AA0EEE6A1B2CD64D004CE5B5 /* OAuth2ViewController.m in Sources */,
 				AA02C30F1B863C4900456113 /* MainNavigationController.m in Sources */,
+				AA02C3171B87CBE400456113 /* LogTableController.m in Sources */,
 				AA02C30A1B86106800456113 /* MainTabBarController.m in Sources */,
 				AA0EEE3B1B2CD5D5004CE5B5 /* AppDelegate.m in Sources */,
 				AA0AC9741B853E6700232E88 /* Model.m in Sources */,
@@ -505,6 +525,7 @@
 				AA0EEE411B2CD5D5004CE5B5 /* SleepSnoringViewController.m in Sources */,
 				AA0AC97E1B853EB500232E88 /* SSKeychainQuery.m in Sources */,
 				AA005E301B7FFFD8007DAF05 /* StringConverter.m in Sources */,
+				AA02C31A1B87D84500456113 /* AudioManager.m in Sources */,
 				AA0AC97D1B853EB500232E88 /* SSKeychain.m in Sources */,
 				AA0EEE381B2CD5D5004CE5B5 /* main.m in Sources */,
 				AA0EEE761B2CD66A004CE5B5 /* FitbitUser.m in Sources */,
@@ -645,6 +666,7 @@
 				);
 				INFOPLIST_FILE = "Sleep And Snoring/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

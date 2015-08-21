@@ -23,7 +23,7 @@ int const BLOCK_SIZE_SEC = 120;
 
 // prefix for filenames (can be set to null)
 
-NSString* const FILENAME_PREFIX = @"";
+NSString* const FILENAME_PREFIX = @"snore";
 
 // upload in progress
 
