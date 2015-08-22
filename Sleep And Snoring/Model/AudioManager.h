@@ -9,6 +9,10 @@
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
 
+// user defaults storing key
+static NSString *const kUserDefaultsAudioKey    = @"com.sleepandsnoring.audio";
+
+
 @interface AudioManager : NSObject<AVAudioRecorderDelegate, AVAudioPlayerDelegate>
 
 @property (strong, nonatomic)AVAudioRecorder *recorder;

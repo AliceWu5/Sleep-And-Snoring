@@ -249,6 +249,12 @@
                         </connections>
                     </tableView>
                     <tabBarItem key="tabBarItem" title="Log" badgeValue="1" id="CVs-7T-Kn9"/>
+                    <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="yaI-5R-8Iq">
+                        <autoresizingMask key="autoresizingMask"/>
+                        <connections>
+                            <action selector="refresh:" destination="QWK-z6-NR3" eventType="valueChanged" id="hfi-Nl-Lu4"/>
+                        </connections>
+                    </refreshControl>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GBq-R8-HLe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

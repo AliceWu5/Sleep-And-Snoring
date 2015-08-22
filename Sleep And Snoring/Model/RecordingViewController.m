@@ -42,6 +42,22 @@
     // clear the elapsed time
     [self clearElapsedTime];
     
+    // set up audio session
+    AVAudioSession *session = [AVAudioSession sharedInstance];
+    [session setCategory:AVAudioSessionCategoryPlayAndRecord error:nil];
+    [session requestRecordPermission:^(BOOL granted) {}];
+    [session setActive:YES error:nil];
+    
+    if (session.inputGainSettable) {
+        // enable audio gain controls
+    } else {
+        
+    }
+    
+
+    
+    
+    
     // set up a session to make sure that we have access to the microphone
 //    AVAudioSession *session = [AVAudioSession sharedInstance];
 //    [session setCategory:AVAudioSessionCategoryPlayAndRecord error:nil];
@@ -141,7 +157,7 @@
 
 -(IBAction)recordPressed:(id)sender
 {
-    [self.manager startRecording];
+    //[self.manager startRecording];
     // get reference to data model
 //    Model *model = [Model sharedInstance];
     NSMutableArray *errorStrings = [NSMutableArray arrayWithCapacity:5];
@@ -200,13 +216,15 @@
     } else {
         // just to be sure to remove any hangers-on, delete all files in the documents
         // directory from the last time this was run
-        [self deleteAllAudioFiles];
+        //[self deleteAllAudioFiles];
         // clear the log so that we start with an empty table
         //[model clearUploadTable];
         //[model clearLog];
         // start recording
         BOOL ok = [self.manager startRecording];
+        NSLog(@"Is trying to record");
         if (ok) {
+            NSLog(@"Is recording");
             // set record button to red
             [self setRecordButtonOn];
             self.manager.isRecording = YES;
@@ -227,6 +245,7 @@
             //[[Model sharedInstance] writeToLog:@"Recording started"];
         } else {
             //[[Model sharedInstance] writeToLog:@"ERROR: you are not signed in to the server"];
+            NSLog(@"Unable to record");
         }
     }
 }
@@ -246,21 +265,14 @@
 
 -(void)stopRecordingDueToInterruption
 {
-    //Model *model = [Model sharedInstance];
     self.manager.isRecording = NO;
     [self setRecordButtonOff];
     [self.manager stopRecording];
     [self.meterTimer invalidate];
     self.meterTimer=nil;
     self.meter.level=0.0;
-    // return the screen to original brightness level
-    //[UIScreen mainScreen].brightness = model.brightness;
     // clear the elapsed time
     [self clearElapsedTime];
-    // write a message to the log
-    //[model writeToLog:@"Recording was interrupted by call or Siri"];
-    // now switch to the demographics to collect and upload user information
-    //[self performSegueWithIdentifier:@"goDemographics" sender:self];
 }
 
 -(void)clearElapsedTime
