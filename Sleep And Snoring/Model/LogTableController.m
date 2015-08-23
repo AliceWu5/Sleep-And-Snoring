@@ -46,12 +46,15 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"LogTableCell"];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
-    // the data model is a singleton
-    //UploadManager *item = [Model sharedInstance].items[indexPath.row];
-    //cell.textLabel.text = [item tableCellTitle];
-    //cell.detailTextLabel.text = [item tableCellSubtitle];
+
+    NSURL *fileURL = [NSURL URLWithString:self.audioFiles[indexPath.row]];
+
+    AVURLAsset* audioAsset = [AVURLAsset URLAssetWithURL:fileURL options:nil];
+    CMTime audioDuration = audioAsset.duration;
+    NSTimeInterval audioDurationSeconds = CMTimeGetSeconds(audioDuration);
+
     cell.textLabel.text = [self.audioFiles[indexPath.row] lastPathComponent];
-    cell.detailTextLabel.text = @"unknown";
+    cell.detailTextLabel.text = [self stringFromTimeInterval:audioDurationSeconds];
     return cell;
 }
 
@@ -64,10 +67,9 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 
     if (!self.isPlaying) {
-//        AVAudioSession *session = [AVAudioSession sharedInstance];
-//        [session setCategory:AVAudioSessionCategoryPlayAndRecord error:nil];
+
         NSError *error = nil;
-        NSLog(@"THE AUDIO PATH : %@", self.audioFiles[indexPath.row]);
+
         self.player = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL URLWithString:self.audioFiles[indexPath.row]] error:&error];
         [self.player setDelegate:self];
         if (!error) {
@@ -77,15 +79,26 @@
             NSLog(@"Error : %@", error);
         }
         
-
-        NSLog(@"Is playing : %i", self.isPlaying);
     } else {
         [self.player stop];
         self.isPlaying = NO;
-        NSLog(@"Cannot play");
+        NSLog(@"Stop playing");
     }
 }
 
+-(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    return YES;
+}
+
+-(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        // remove the file
+        [[NSFileManager defaultManager] removeItemAtPath: self.audioFiles[indexPath.row] error: nil];
+        // refresh data source
+        self.audioFiles = [self getAllFiles];
+        [tableView reloadData];
+    }
+}
 
 - (IBAction)refresh:(UIRefreshControl *)sender {
 
@@ -132,4 +145,12 @@
     NSLog(@"error happens during playing");
 }
 
+
+- (NSString *)stringFromTimeInterval:(NSTimeInterval)interval {
+    NSInteger ti = (NSInteger)interval;
+    NSInteger seconds = ti % 60;
+    NSInteger minutes = (ti / 60) % 60;
+    NSInteger hours = (ti / 3600);
+    return [NSString stringWithFormat:@"%02ld:%02ld:%02ld", (long)hours, (long)minutes, (long)seconds];
+}
 @end
