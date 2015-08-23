@@ -16,6 +16,8 @@
 #import "FitbitHeartRate.h"
 #import "Sleep2DLandscapeView.h"
 #import "GenericDate.h"
+#import "AudioModel.h"
+#import "StringConverter.h"
 #import "SSKeychain.h"
 
 static NSString *const kSleepAndSnoringService          = @"Sleep And Snoring";
@@ -36,6 +38,11 @@ static NSString *const kSleepAndSnoringRefreshAccount   = @"com.sleepandsnoring.
 @property (strong, nonatomic)FitbitUser *user;
 @property (strong, nonatomic)FitbitSleep *sleep;
 @property (strong, nonatomic)FitbitActivity *activity;
+
+@property (strong, nonatomic)NSArray *heartRateData;
+@property (strong, nonatomic)NSArray *sleepData;
+@property (strong, nonatomic)NSArray *audioData;
+
 
 
 @property (nonatomic)BOOL isSignedIn;
@@ -136,6 +143,13 @@ static NSString *const kSleepAndSnoringRefreshAccount   = @"com.sleepandsnoring.
             
         } else if (sleepSwitch && audioSwitch) {
             
+        } else if (hrSwitch) {
+            
+        } else if (sleepSwitch) {
+            
+        } else if (audioSwitch) {
+            NSLog(@"audio switch on");
+            [self getAudioData];
         }
 
     } else {
@@ -219,6 +233,17 @@ static NSString *const kSleepAndSnoringRefreshAccount   = @"com.sleepandsnoring.
     }
 }
 
+-(void)getAudioData {
+    AudioModel *model = [AudioModel shareInstance];
+    self.audioData = [model getAudioByDate:self.datePicker.date];
+    NSLog(@"%@", self.audioData);
+    // init plot
+    SleepScatterPlotController *plotController = [[SleepScatterPlotController alloc] init];
+    plotController.audioDataForPlot = [AudioModel getDataForPlotFromAudioData:self.audioData];
+    [self presentViewController:plotController animated:YES completion:^{
+        // to do
+    }];
+}
 
 - (void)getUserProfile {
     if (self.isSignedIn) {

@@ -26,16 +26,11 @@
     
     // register for AV notification so we are told if sound recording is interrupted by call or Siri
     
-//    [[NSNotificationCenter defaultCenter] addObserver:self
-//                                             selector:@selector(stopRecordingDueToInterruption)
-//                                                 name:AVAudioSessionInterruptionNotification
-//                                               object:nil];
-//    
-    // disable the tab bar
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(stopRecordingDueToInterruption)
+                                                 name:AVAudioSessionInterruptionNotification
+                                               object:nil];
     
-    //UITabBarItem *settingsItem = [self.tabBarController.tabBar.items objectAtIndex:TAB_BAR_INDEX];
-    //[settingsItem setEnabled:NO];
-
     // Initialise the sound level meter
     [self.meter setup];
     
@@ -45,6 +40,8 @@
     // set up audio session
     AVAudioSession *session = [AVAudioSession sharedInstance];
     [session setCategory:AVAudioSessionCategoryPlayAndRecord error:nil];
+    [session overrideOutputAudioPort:AVAudioSessionPortOverrideSpeaker error:nil];
+    [session setInputGain:1.0f error:nil];
     [session requestRecordPermission:^(BOOL granted) {}];
     [session setActive:YES error:nil];
     
@@ -53,49 +50,6 @@
     } else {
         
     }
-    
-
-    
-    
-    
-    // set up a session to make sure that we have access to the microphone
-//    AVAudioSession *session = [AVAudioSession sharedInstance];
-//    [session setCategory:AVAudioSessionCategoryPlayAndRecord error:nil];
-//    [session requestRecordPermission:^(BOOL granted) {}];
-    
-    // get a reference to the model since we will use it quite a bit
-    
-    // check whether this device allows audio gain to be set
-//    if (session.inputGainSettable) {
-//        // enable audio gain controls
-//    } else {
-//    }
-//    
-//    // set the mode to disable automatic gain control and use the primary microphone
-//    NSError *error;
-//    [session setMode:AVAudioSessionModeMeasurement error:&error];
-//    if (error) {
-//    }
-//    
-    // if the username and password credentials are already in the keychain, retrieve them
-
-//            BOOL login = [ServerCommunicationController attemptLoginWithUser:user password:pass];
-//            if (login) {
-//                model.username = user;
-//                model.currentlyLoggedIn = YES;
-//                [model writeToLog:@"Logged in to server"];
-//                SessionInfo *sessionInfo = [SessionInfo sharedInstance];
-//                [model writeToLog:[sessionInfo.session description]];
-//                [settingsItem setEnabled:sessionInfo.session.isAdmin];
-//            } else {
-//                [SSKeychain deletePasswordForService:SERVICE_NAME account:user];
-//                model.username = @"";
-//                model.currentlyLoggedIn = NO;
-//                [model writeToLog:[ServerCommunicationController loginError]];
-//            }
-//        }
-//    }
-    //[self updateLoginStatus];
     
     // get reference to the recording manager
     self.manager = [[AudioManager alloc] init];
@@ -157,9 +111,6 @@
 
 -(IBAction)recordPressed:(id)sender
 {
-    //[self.manager startRecording];
-    // get reference to data model
-//    Model *model = [Model sharedInstance];
     NSMutableArray *errorStrings = [NSMutableArray arrayWithCapacity:5];
     // check that the user has given permission to record audio
     // if not, we can't proceed
@@ -167,20 +118,11 @@
     if (session.recordPermission!=AVAudioSessionRecordPermissionGranted) {
         [errorStrings addObject:@"you have not given permission to record audio"];
     }
-    // check that we are logged in
-//    if (model.currentlyLoggedIn==NO) {
-//        // we are not connected to the server, so can't proceed
-//        [errorStrings addObject:@"you are not signed in"];
-//    }
-        // not need to connect to wifi
-        // safe mode is on, so check that we are connected through WiFi (not 3G) and that
-        // the power cable is plugged in
-        //if ([self isWifiConnected]==NO) {
-        //    [errorStrings addObject:@"you are not connected to WiFi"];
-        //}
-        if ([self isPowerConnected]==NO) {
-            [errorStrings addObject:@"the power cable is not plugged in"];
-        }
+
+    // check if the power cable is plugged in
+    if ([self isPowerConnected]==NO) {
+        [errorStrings addObject:@"the power cable is not plugged in"];
+    }
     
     // if there is a problem, go no further
     NSUInteger numErrors = [errorStrings count];
@@ -201,50 +143,24 @@
     // otherwise ...
     if (self.manager.isRecording) {
         // stop recording
-        self.manager.isRecording = NO;
         [self setRecordButtonOff];
         [self.manager stopRecording];
         [self.meterTimer invalidate];
         self.meterTimer=nil;
         self.meter.level=0.0;
-        // return the screen to original brightness level
-        //[UIScreen mainScreen].brightness = model.brightness;
         // clear the elapsed time
         [self clearElapsedTime];
-        // now switch to the demographics to collect and upload user information
-        //[self performSegueWithIdentifier:@"goDemographics" sender:self];
     } else {
-        // just to be sure to remove any hangers-on, delete all files in the documents
-        // directory from the last time this was run
-        //[self deleteAllAudioFiles];
-        // clear the log so that we start with an empty table
-        //[model clearUploadTable];
-        //[model clearLog];
         // start recording
         BOOL ok = [self.manager startRecording];
-        NSLog(@"Is trying to record");
         if (ok) {
             NSLog(@"Is recording");
             // set record button to red
             [self setRecordButtonOn];
-            self.manager.isRecording = YES;
             // start a timer to update the sound level meter at regular intervals
             self.meterTimer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(updateSoundLevelMeter) userInfo:nil repeats:YES];
-            // cache the brightness and dim the screen
-            // no need to dim the screen
-            /*
-            model.brightness = [UIScreen mainScreen].brightness;
-            
-            if ([model dimmingEnabled]) {
-                [UIScreen mainScreen].brightness = DIMMED_BRIGHTNESS;
-            }
-             */
-            // log the current time as the time that recording started
-            //[Model sharedInstance].timeRecordingStarted = [NSDate date];
-            // write to the log that we have started
-            //[[Model sharedInstance] writeToLog:@"Recording started"];
         } else {
-            //[[Model sharedInstance] writeToLog:@"ERROR: you are not signed in to the server"];
+            // send out notification
             NSLog(@"Unable to record");
         }
     }
@@ -282,14 +198,14 @@
 
 -(void)updateSoundLevelMeter
 {
-    //self.meter.level = [self.manager getNormalisedSoundLevel];
+    self.meter.level = [self.manager getSoundLevel];
     // also update the time since now text - really this should be in a separate method
-    //NSTimeInterval timeDiff = [[Model sharedInstance].timeRecordingStarted timeIntervalSinceNow];
-//    int ti = -(int)timeDiff;
-//    int seconds = ti % 60;
-//    int minutes = (ti / 60) % 60;
-//    int hours = (ti / 3600);
-//    self.timeElapsed.text = [NSString stringWithFormat:@"Recording time so far: %02dh:%02dm:%02ds",hours,minutes,seconds];
+    NSTimeInterval timeDiff = [self.manager getRecordingTime];
+    int ti = (int)timeDiff;
+    int seconds = ti % 60;
+    int minutes = (ti / 60) % 60;
+    int hours = (ti / 3600);
+    self.timeElapsed.text = [NSString stringWithFormat:@"Recording time so far: %02dh:%02dm:%02ds",hours,minutes,seconds];
 }
 
 -(void)deleteAllAudioFiles

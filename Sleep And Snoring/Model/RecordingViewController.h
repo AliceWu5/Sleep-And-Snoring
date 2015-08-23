@@ -19,7 +19,6 @@
 @property IBOutlet UIButton *recordButton;
 @property IBOutlet SoundLevelMeterView *meter;
 @property (strong) NSTimer *meterTimer;
-//@property (weak) IBOutlet UILabel *networkStatus;
 @property (weak) IBOutlet UILabel *timeElapsed;
 
 -(IBAction)recordPressed:(id)sender;

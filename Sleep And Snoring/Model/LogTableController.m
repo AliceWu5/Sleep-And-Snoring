@@ -8,6 +8,7 @@
 
 #import "LogTableController.h"
 #import "AudioManager.h"
+#import "AudioModel.h"
 @interface LogTableController ()
 @property (strong, nonatomic)AVAudioPlayer *player;
 @property (assign)BOOL isPlaying;
@@ -22,7 +23,7 @@
                                                  name:@"NOTIFY_REFRESH_TABLE"
                                                object:nil];
     
-    self.audioFiles = [self getAllFiles];
+    self.dataSource = [self getAllFiles];
     self.isPlaying = NO;
     
 }
@@ -47,13 +48,15 @@
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
 
-    NSURL *fileURL = [NSURL URLWithString:self.audioFiles[indexPath.row]];
+    NSURL *fileURL = [NSURL URLWithString:self.dataSource[indexPath.row]];
 
     AVURLAsset* audioAsset = [AVURLAsset URLAssetWithURL:fileURL options:nil];
     CMTime audioDuration = audioAsset.duration;
     NSTimeInterval audioDurationSeconds = CMTimeGetSeconds(audioDuration);
-
-    cell.textLabel.text = [self.audioFiles[indexPath.row] lastPathComponent];
+    UInt32 doChangeDefaultRoute = 1;
+//    AudioSessionSetProperty(kAudioSessionProperty_OverrideCategoryDefaultToSpeaker, sizeof(doChangeDefaultRoute), &doChangeDefaultRoute);
+    
+    cell.textLabel.text = [self.dataSource[indexPath.row] lastPathComponent];
     cell.detailTextLabel.text = [self stringFromTimeInterval:audioDurationSeconds];
     return cell;
 }
@@ -61,29 +64,31 @@
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // the data model is a singleton
-    return self.audioFiles.count;
+    return self.dataSource.count;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-
-    if (!self.isPlaying) {
-
-        NSError *error = nil;
-
-        self.player = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL URLWithString:self.audioFiles[indexPath.row]] error:&error];
-        [self.player setDelegate:self];
-        if (!error) {
-            [self.player prepareToPlay];
-            self.isPlaying = [self.player play];
-        } else {
-            NSLog(@"Error : %@", error);
-        }
-        
-    } else {
-        [self.player stop];
-        self.isPlaying = NO;
-        NSLog(@"Stop playing");
-    }
+    NSArray *levelFile = [NSArray arrayWithContentsOfFile:self.dataSource[indexPath.row]];
+    NSLog(@"%@", levelFile);
+//    if (!self.isPlaying) {
+//        NSLog(@"start playing");
+//        NSError *error = nil;
+//
+//        self.player = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL URLWithString:self.dataSource[indexPath.row]] error:&error];
+//        [self.player setDelegate:self];
+//        [self.player setVolume:1.0f];
+//        if (!error) {
+//            [self.player prepareToPlay];
+//            self.isPlaying = [self.player play];
+//        } else {
+//            NSLog(@"Error : %@", error);
+//        }
+//        
+//    } else {
+//        [self.player stop];
+//        self.isPlaying = NO;
+//        NSLog(@"Stop playing");
+//    }
 }
 
 -(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -93,16 +98,16 @@
 -(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // remove the file
-        [[NSFileManager defaultManager] removeItemAtPath: self.audioFiles[indexPath.row] error: nil];
+        [[NSFileManager defaultManager] removeItemAtPath: self.dataSource[indexPath.row] error: nil];
         // refresh data source
-        self.audioFiles = [self getAllFiles];
+        self.dataSource = [self getAllFiles];
         [tableView reloadData];
     }
 }
 
 - (IBAction)refresh:(UIRefreshControl *)sender {
 
-    self.audioFiles = [self getAllFiles];
+    self.dataSource = [self getAllFiles];
     [self.tableView reloadData];
     [sender endRefreshing];
 }
@@ -116,16 +121,14 @@
 -(NSArray *)getAllFiles {
     // discovery all the files in Documents/snore
     NSMutableArray *allFiles = [[NSMutableArray alloc] init];
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *folderPath = [AudioModel audioFilePath];
     
-    NSString *folderPath = [documentsDirectory stringByAppendingPathComponent:@"/snore"];
     if ([[NSFileManager defaultManager] fileExistsAtPath:folderPath]) {
         NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:folderPath error:nil];
         for (NSString *fileName in files) {
             [allFiles addObject:[folderPath stringByAppendingPathComponent:fileName]];
         }
-        NSLog(@"files array %@", allFiles);
+        //NSLog(@"files array %@", allFiles);
     }
 
     return allFiles;

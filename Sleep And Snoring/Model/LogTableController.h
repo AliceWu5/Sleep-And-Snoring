@@ -10,5 +10,5 @@
 #import <AVFoundation/AVFoundation.h>
 
 @interface LogTableController : UITableViewController<AVAudioPlayerDelegate>
-@property (strong, nonatomic) NSArray *audioFiles;
+@property (strong, nonatomic) NSArray *dataSource;
 @end

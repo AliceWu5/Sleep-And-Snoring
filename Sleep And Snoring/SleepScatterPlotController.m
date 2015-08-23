@@ -60,9 +60,28 @@ static NSTimeInterval const oneHour = 60*60;
     [self configureXAxisForGraph:newGraph];
     [self configureYAxisForGraph:newGraph];
     
+    // create a audio plot area
+    CPTScatterPlot *audioPlot = [[CPTScatterPlot alloc] init];
+    CPTMutableLineStyle *lineStyle = [CPTMutableLineStyle lineStyle];
+    lineStyle.miterLimit        = 1.0;
+    lineStyle.lineWidth         = 1.0;
+    lineStyle.lineColor         = [CPTColor blueColor];
+    audioPlot.dataLineStyle = lineStyle;
+    audioPlot.identifier    = @"Audio Plot";
+    audioPlot.dataSource    = self;
+    [newGraph addPlot:audioPlot];
+    
+    // Put an area gradient under the plot above
+    CPTColor *audioColor       = [CPTColor colorWithComponentRed:CPTFloat(0.3) green:CPTFloat(0.3) blue:CPTFloat(1.0) alpha:CPTFloat(0.8)];
+    CPTGradient *audioGradient = [CPTGradient gradientWithBeginningColor:audioColor endingColor:[CPTColor clearColor]];
+    audioGradient.angle = -90.0;
+    CPTFill *audioGradientFill = [CPTFill fillWithGradient:audioGradient];
+    audioPlot.areaFill      = audioGradientFill;
+    audioPlot.areaBaseValue = CPTDecimalFromDouble(130);
+    
     // Create a sleep plot area
     CPTScatterPlot *sleepPlot  = [[CPTScatterPlot alloc] init];
-    CPTMutableLineStyle *lineStyle = [CPTMutableLineStyle lineStyle];
+    lineStyle = [CPTMutableLineStyle lineStyle];
     lineStyle.miterLimit        = 1.0;
     lineStyle.lineWidth         = 1.0;
     lineStyle.lineColor         = [CPTColor orangeColor];
@@ -75,8 +94,6 @@ static NSTimeInterval const oneHour = 60*60;
     CPTGradient *orangeGradient = [CPTGradient gradientWithBeginningColor:[CPTColor orangeColor] endingColor:[CPTColor clearColor]];
     orangeGradient.angle = -90.0;
     CPTFill *orangeAreaGradientFill = [CPTFill fillWithGradient:orangeGradient];
-    //CPTImage *fillImage = [CPTImage imageNamed:@"OrangeTexture"];
-    //fillImage.tiled = YES;
     //CPTFill *areaOrangeFill = [CPTFill fillWithGradient:orangeGradient];
     sleepPlot.areaFill      = orangeAreaGradientFill;
     sleepPlot.areaBaseValue = CPTDecimalFromDouble(-90.0);
@@ -85,8 +102,7 @@ static NSTimeInterval const oneHour = 60*60;
     CPTScatterPlot *heartRatePlot = [[CPTScatterPlot alloc] init];
     lineStyle                        = [CPTMutableLineStyle lineStyle];
     lineStyle.lineWidth              = 1.0;
-    lineStyle.lineColor              = [CPTColor blueColor];
-    //lineStyle.dashPattern            = @[@5.0, @5.0];
+    lineStyle.lineColor              = [CPTColor greenColor];
     heartRatePlot.dataLineStyle = lineStyle;
     heartRatePlot.identifier    = @"Heart Rate Plot";
     heartRatePlot.dataSource    = self;
@@ -245,10 +261,13 @@ static NSTimeInterval const oneHour = 60*60;
 -(NSUInteger)numberOfRecordsForPlot:(CPTPlot *)plot
 {
     if ([(NSString *)plot.identifier isEqualToString:@"Sleep Plot"]) {
-        return self.sleepDataForPlot.count;
-    } else {
-        return self.heartRateDataForPlot.count;
+        return [self.sleepDataForPlot count];
+    } else if ([(NSString *)plot.identifier isEqualToString:@"Heart Rate Plot"]){
+        return [self.heartRateDataForPlot count];
+    } else if ([(NSString *)plot.identifier isEqualToString:@"Audio Plot"]) {
+        return [self.audioDataForPlot count];
     }
+    return 0;
 }
 
 -(id)numberForPlot:(CPTPlot *)plot field:(NSUInteger)fieldEnum recordIndex:(NSUInteger)index
@@ -276,6 +295,10 @@ static NSTimeInterval const oneHour = 60*60;
                 // heart rate plot
                 NSTimeInterval time = ((NSNumber *)self.heartRateDataForPlot[index][@(fieldEnum)]).doubleValue;
                 value = [NSNumber numberWithDouble:time / oneHour];
+            } else if ([(NSString *)plot.identifier isEqualToString:@"Audio Plot"]) {
+                NSTimeInterval time = ((NSNumber *)self.audioDataForPlot[index][@(fieldEnum)]).doubleValue;
+                value = [NSNumber numberWithDouble:time / oneHour];
+
             }
             break;
         }
@@ -288,6 +311,9 @@ static NSTimeInterval const oneHour = 60*60;
                 // heart rate plot
                 int heartRate = ((NSNumber *)self.heartRateDataForPlot[index][@(fieldEnum)]).intValue;
                 value = [NSNumber numberWithDouble:heartRate - 25];
+            } else if ([(NSString *)plot.identifier isEqualToString:@"Audio Plot"]) {
+                float audioLevel = ((NSNumber *)self.audioDataForPlot[index][@(fieldEnum)]).floatValue;
+                value = [NSNumber numberWithFloat:audioLevel + 130.0f];
             }
             break;
         }
@@ -368,7 +394,7 @@ static NSTimeInterval const oneHour = 60*60;
             else {
                 updatedRange = newRange;
             }
-            
+            updatedRange = newRange;
             break;
         case CPTCoordinateY:
             updatedRange = ((CPTXYPlotSpace *)space).yRange;

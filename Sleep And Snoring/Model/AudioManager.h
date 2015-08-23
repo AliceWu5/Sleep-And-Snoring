@@ -21,5 +21,7 @@ static NSString *const kUserDefaultsAudioKey    = @"com.sleepandsnoring.audio";
 
 -(BOOL)startRecording;
 -(void)stopRecording;
+-(float)getSoundLevel;
+-(NSTimeInterval)getRecordingTime;
 
 @end

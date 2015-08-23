@@ -12,5 +12,5 @@
 @interface SleepScatterPlotController : UIViewController<CPTPlotDataSource, CPTAxisDelegate, CPTPlotSpaceDelegate>
 @property (nonatomic, readwrite, strong) NSArray *sleepDataForPlot;
 @property (nonatomic, readwrite, strong) NSArray *heartRateDataForPlot;
-
+@property (nonatomic, readwrite, strong) NSArray *audioDataForPlot;
 @end
