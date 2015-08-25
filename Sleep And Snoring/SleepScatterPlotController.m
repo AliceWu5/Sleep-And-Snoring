@@ -150,8 +150,8 @@ static NSTimeInterval const oneHour = 60*60;
     y.labelOffset = -55.0f;
     
     y.labelingPolicy = CPTAxisLabelingPolicyNone;
-    NSArray *customTickLocations = @[@-90, @-60, @-30, @0, @15, @30, @45, @60, @75, @90];
-    NSArray *yAxisLabels = @[@"Asleep", @"Restless", @"Awake",@"", @"40", @"55",@"70",@"85", @"100", @"115"];
+    NSArray *customTickLocations = @[@-90, @-60, @-30, @0, @15, @30, @45, @60, @75, @90,@125,@190];
+    NSArray *yAxisLabels = @[@"Asleep", @"Restless", @"Awake",@"", @"40", @"55",@"70",@"85", @"100", @"115", @"silent", @"noisy"];
     NSUInteger labelLocation = 0;
     NSMutableArray *customLabels = [NSMutableArray arrayWithCapacity:[yAxisLabels count]];
     

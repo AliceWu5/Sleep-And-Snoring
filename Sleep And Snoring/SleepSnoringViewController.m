@@ -9,6 +9,7 @@
 #import "SleepSnoringViewController.h"
 #import "SleepScatterPlotController.h"
 #import "OAuth2ViewController.h"
+#import "SVProgressHUD.h"
 #import "APIFetcher.h"
 #import "FitbitSleep.h"
 #import "FitbitUser.h"
@@ -41,6 +42,7 @@ static NSString *const kSleepAndSnoringRefreshAccount   = @"com.sleepandsnoring.
 
 
 @property (nonatomic)BOOL isSignedIn;
+@property (assign)BOOL isLoading;
 @end
 
 @implementation SleepSnoringViewController
@@ -120,7 +122,7 @@ static NSString *const kSleepAndSnoringRefreshAccount   = @"com.sleepandsnoring.
 }
 
 - (IBAction)startTest:(UIButton *)sender {
-    [self.fetcher refreshAccessToken];
+    [self sendCustomAlterView];
 }
 
 - (IBAction)plotSelectedData:(UIButton *)sender {
@@ -130,18 +132,21 @@ static NSString *const kSleepAndSnoringRefreshAccount   = @"com.sleepandsnoring.
         BOOL sleepSwitch = self.sleepSwitch.on;
         BOOL audioSwitch = self.audioSwitch.on;
         
+        self.isLoading = YES;
         // init plot view
         SleepScatterPlotController *plot = [[SleepScatterPlotController alloc] init];
-        
         if (hrSwitch && sleepSwitch && audioSwitch) {
             [self getSleepDataOnCompletion:^(NSArray *sleepData) {
                 [self getHeartRateDataOnCompletion:^(NSArray *heartRateData) {
                     plot.sleepDataForPlot = sleepData;
                     plot.heartRateDataForPlot = heartRateData;
                     plot.audioDataForPlot = [self getAudioData];
-                    [self presentViewController:plot animated:YES completion:^{
+                    if (self.isLoading) {
+                        [self dismissSVProgressHUD];
+                        [self presentViewController:plot animated:YES completion:^{
                         // to do
-                    }];
+                        }];
+                    }
                 }];
             }];
         } else if (hrSwitch && sleepSwitch) {
@@ -149,49 +154,69 @@ static NSString *const kSleepAndSnoringRefreshAccount   = @"com.sleepandsnoring.
                 [self getHeartRateDataOnCompletion:^(NSArray *heartRateData) {
                     plot.sleepDataForPlot = sleepData;
                     plot.heartRateDataForPlot = heartRateData;
-                    [self presentViewController:plot animated:YES completion:^{
-                        // to do
-                    }];
+                    if (self.isLoading) {
+                        [self dismissSVProgressHUD];
+                        [self presentViewController:plot animated:YES completion:^{
+                            // to do
+                        }];
+                    }
                 }];
             }];
         } else if (hrSwitch && audioSwitch) {
             [self getHeartRateDataOnCompletion:^(NSArray *heartRateData) {
                 plot.heartRateDataForPlot = heartRateData;
                 plot.audioDataForPlot = [self getAudioData];
-                [self presentViewController:plot animated:YES completion:^{
-                    // to do
-                }];
+                if (self.isLoading) {
+                    [self dismissSVProgressHUD];
+                    [self presentViewController:plot animated:YES completion:^{
+                        // to do
+                    }];
+                }
             }];
         } else if (sleepSwitch && audioSwitch) {
             [self getSleepDataOnCompletion:^(NSArray *sleepData) {
                 plot.sleepDataForPlot = sleepData;
                 plot.audioDataForPlot = [self getAudioData];
-                [self presentViewController:plot animated:YES completion:^{
-                    // to do
-                }];
+                if (self.isLoading) {
+                    [self dismissSVProgressHUD];
+                    [self presentViewController:plot animated:YES completion:^{
+                        // to do
+                    }];
+                }
             }];
         } else if (hrSwitch) {
             [self getHeartRateDataOnCompletion:^(NSArray *heartRateData) {
                 plot.heartRateDataForPlot = heartRateData;
                 plot.audioDataForPlot = [self getAudioData];
-                [self presentViewController:plot animated:YES completion:^{
-                    // to do
-                }];
+                if (self.isLoading) {
+                    [self dismissSVProgressHUD];
+                    [self presentViewController:plot animated:YES completion:^{
+                        // to do
+                    }];
+                }
             }];
         } else if (sleepSwitch) {
             [self getSleepDataOnCompletion:^(NSArray *sleepData) {
                 plot.sleepDataForPlot = sleepData;
                 plot.audioDataForPlot = [self getAudioData];
-                [self presentViewController:plot animated:YES completion:^{
-                    // to do
-                }];
+                if (self.isLoading) {
+                    [self dismissSVProgressHUD];
+                    [self presentViewController:plot animated:YES completion:^{
+                        // to do
+                    }];
+                }
             }];
-        } else if (audioSwitch) {
+        }
+        [self sendCustomAlterView];
+        
+        if (audioSwitch && !sleepSwitch && !hrSwitch) {
             plot.audioDataForPlot = [self getAudioData];
+            [self dismissSVProgressHUD];
             [self presentViewController:plot animated:YES completion:^{
                 // to do
             }];
         }
+        
     } else {
         [self sendAlterMessage:@"Please Sign in"];
     }
@@ -345,7 +370,23 @@ static NSString *const kSleepAndSnoringRefreshAccount   = @"com.sleepandsnoring.
     [self presentViewController:alert animated:YES completion:nil];
 }
 
+-(void)sendCustomAlterView {
 
+    [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeBlack];
+    [SVProgressHUD showWithStatus:@"Loading"];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(stopLoadingData)
+                                                 name:SVProgressHUDDidReceiveTouchEventNotification
+                                               object:nil];
+}
+
+-(void)stopLoadingData {
+    [SVProgressHUD dismiss];
+    self.isLoading = NO;
+}
+-(void)dismissSVProgressHUD {
+    [SVProgressHUD dismiss];
+}
 
 
 @end

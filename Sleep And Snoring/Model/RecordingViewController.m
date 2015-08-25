@@ -163,6 +163,7 @@
 -(void)setRecordButtonOff
 // turn the record button back to its normal color
 {
+    self.recordButton.titleLabel.text = @"Record";
     [self.recordButton setBackgroundColor:[UIColor colorWithRed:1.0 green:0.5 blue:0.5 alpha:1.0]];
     [self.recordButton setBackgroundColor:[UIColor colorWithRed:239.0/255.0 green:239.0/255.0 blue:244.0/255.0 alpha:1.0]];
 }
@@ -170,6 +171,7 @@
 -(void)setRecordButtonOn
 // make the record button red
 {
+    self.recordButton.titleLabel.text = @"Recording";
     [self.recordButton setBackgroundColor:[UIColor colorWithRed:1.0 green:0.5 blue:0.5 alpha:1.0]];
 }
 
