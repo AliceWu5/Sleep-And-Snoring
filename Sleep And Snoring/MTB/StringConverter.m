@@ -18,8 +18,8 @@
     NSString *hour = time[0];
     NSString *minute = time[1];
     NSString *second = time[2];
-    NSString *millisecond = time[3];
-    if (millisecond) {
+    if ([time count] == 4) {
+        NSString *millisecond = time[3];
         return hour.integerValue * 60 * 60 + minute.integerValue * 60 + second.integerValue + millisecond.intValue * 0.001;
     }
     return hour.integerValue * 60 * 60 + minute.integerValue * 60 + second.integerValue;

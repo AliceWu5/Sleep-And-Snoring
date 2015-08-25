@@ -16,10 +16,7 @@
 
 @implementation RecordingViewController
 
--(void)viewDidAppear:(BOOL)animated
-{
-    [self updateLoginStatus];
-}
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -56,9 +53,6 @@
     
 }
 
--(void)updateLoginStatus {
-
-}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -221,10 +215,8 @@
         // get path to file
         NSString *filePath = [path stringByAppendingPathComponent:filename];
         // remove it
-        BOOL ok = [fm removeItemAtPath:filePath error:&error];
-        if (!ok) {
-//            [[Model sharedInstance] writeToLog:[NSString stringWithFormat:@"Error in deleteAllAudioFiles: could not delete file %@",filePath]];
-        }
+        [fm removeItemAtPath:filePath error:&error];
+        // might need code when unable to delete file
     }
 }
 

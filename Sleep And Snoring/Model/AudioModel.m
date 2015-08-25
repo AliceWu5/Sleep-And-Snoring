@@ -10,6 +10,10 @@
 #import "StringConverter.h"
 #import "CorePlot-CocoaTouch.h"
 
+@interface AudioModel ()
+@property (nonatomic, strong) NSString *audioFilePath;
+
+@end
 @implementation AudioModel
 
 
@@ -94,11 +98,6 @@
                                                    attributes:nil
                                                         error:nil];
     return audioFilePath;
-}
--(BOOL)saveAudioFile {
-    
-    
-    return YES;
 }
 
 @end

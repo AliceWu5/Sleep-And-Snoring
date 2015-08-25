@@ -10,8 +10,6 @@
 #import "AudioManager.h"
 #import "AudioModel.h"
 @interface LogTableController ()
-@property (strong, nonatomic)AVAudioPlayer *player;
-@property (assign)BOOL isPlaying;
 @end
 
 @implementation LogTableController
@@ -24,8 +22,6 @@
                                                object:nil];
     
     self.dataSource = [self getAllFiles];
-    self.isPlaying = NO;
-    
 }
 
 -(void)awakeFromNib
@@ -48,48 +44,23 @@
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
 
+    // show the size of each record
     NSURL *fileURL = [NSURL URLWithString:self.dataSource[indexPath.row]];
+    NSDictionary *fileDictionary = [[NSFileManager defaultManager]attributesOfItemAtPath:fileURL.absoluteString error:nil];
+    unsigned long long fileSize = [fileDictionary fileSize];
 
-    AVURLAsset* audioAsset = [AVURLAsset URLAssetWithURL:fileURL options:nil];
-    CMTime audioDuration = audioAsset.duration;
-    NSTimeInterval audioDurationSeconds = CMTimeGetSeconds(audioDuration);
-    UInt32 doChangeDefaultRoute = 1;
-//    AudioSessionSetProperty(kAudioSessionProperty_OverrideCategoryDefaultToSpeaker, sizeof(doChangeDefaultRoute), &doChangeDefaultRoute);
-    
+    // display the name of file and the size of file
     cell.textLabel.text = [self.dataSource[indexPath.row] lastPathComponent];
-    cell.detailTextLabel.text = [self stringFromTimeInterval:audioDurationSeconds];
+    cell.detailTextLabel.text = [self stringFromFileSize:fileSize];
+
     return cell;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    // the data model is a singleton
     return self.dataSource.count;
 }
 
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSArray *levelFile = [NSArray arrayWithContentsOfFile:self.dataSource[indexPath.row]];
-    NSLog(@"%@", levelFile);
-//    if (!self.isPlaying) {
-//        NSLog(@"start playing");
-//        NSError *error = nil;
-//
-//        self.player = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL URLWithString:self.dataSource[indexPath.row]] error:&error];
-//        [self.player setDelegate:self];
-//        [self.player setVolume:1.0f];
-//        if (!error) {
-//            [self.player prepareToPlay];
-//            self.isPlaying = [self.player play];
-//        } else {
-//            NSLog(@"Error : %@", error);
-//        }
-//        
-//    } else {
-//        [self.player stop];
-//        self.isPlaying = NO;
-//        NSLog(@"Stop playing");
-//    }
-}
 
 -(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     return YES;
@@ -134,20 +105,22 @@
     return allFiles;
 }
 
-#pragma mark accessor
 
-
-
-#pragma mark delegate methods
--(void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag {
-    self.isPlaying = NO;
-    NSLog(@"Finish playing");
+- (NSString *)stringFromFileSize:(unsigned long long)fileSize {
+    long double size = 0.0;
+    if (fileSize / 1024 < 1) {
+        return [NSString stringWithFormat:@"%llu B", fileSize];
+    } else {
+        size = fileSize / 1024.0;
+    }
+    if (size / 1024 < 1) {
+        return [NSString stringWithFormat:@"%.2Lf KB", size];
+    } else {
+        size = size / 1024.0;
+    }
+    
+    return [NSString stringWithFormat:@"%.2Lf MB", size];
 }
-
--(void)audioPlayerDecodeErrorDidOccur:(AVAudioPlayer *)player error:(NSError *)error {
-    NSLog(@"error happens during playing");
-}
-
 
 - (NSString *)stringFromTimeInterval:(NSTimeInterval)interval {
     NSInteger ti = (NSInteger)interval;

@@ -39,11 +39,6 @@ static NSString *const kSleepAndSnoringRefreshAccount   = @"com.sleepandsnoring.
 @property (strong, nonatomic)FitbitSleep *sleep;
 @property (strong, nonatomic)FitbitActivity *activity;
 
-@property (strong, nonatomic)NSArray *heartRateData;
-@property (strong, nonatomic)NSArray *sleepData;
-@property (strong, nonatomic)NSArray *audioData;
-
-
 
 @property (nonatomic)BOOL isSignedIn;
 @end
@@ -129,34 +124,77 @@ static NSString *const kSleepAndSnoringRefreshAccount   = @"com.sleepandsnoring.
 }
 
 - (IBAction)plotSelectedData:(UIButton *)sender {
-    
+
     if (self.isSignedIn) {
         BOOL hrSwitch = self.heartRateSwitch.on;
         BOOL sleepSwitch = self.sleepSwitch.on;
         BOOL audioSwitch = self.audioSwitch.on;
         
+        // init plot view
+        SleepScatterPlotController *plot = [[SleepScatterPlotController alloc] init];
+        
         if (hrSwitch && sleepSwitch && audioSwitch) {
-            [self getSleepAndData];
+            [self getSleepDataOnCompletion:^(NSArray *sleepData) {
+                [self getHeartRateDataOnCompletion:^(NSArray *heartRateData) {
+                    plot.sleepDataForPlot = sleepData;
+                    plot.heartRateDataForPlot = heartRateData;
+                    plot.audioDataForPlot = [self getAudioData];
+                    [self presentViewController:plot animated:YES completion:^{
+                        // to do
+                    }];
+                }];
+            }];
         } else if (hrSwitch && sleepSwitch) {
-            
+            [self getSleepDataOnCompletion:^(NSArray *sleepData) {
+                [self getHeartRateDataOnCompletion:^(NSArray *heartRateData) {
+                    plot.sleepDataForPlot = sleepData;
+                    plot.heartRateDataForPlot = heartRateData;
+                    [self presentViewController:plot animated:YES completion:^{
+                        // to do
+                    }];
+                }];
+            }];
         } else if (hrSwitch && audioSwitch) {
-            
+            [self getHeartRateDataOnCompletion:^(NSArray *heartRateData) {
+                plot.heartRateDataForPlot = heartRateData;
+                plot.audioDataForPlot = [self getAudioData];
+                [self presentViewController:plot animated:YES completion:^{
+                    // to do
+                }];
+            }];
         } else if (sleepSwitch && audioSwitch) {
-            
+            [self getSleepDataOnCompletion:^(NSArray *sleepData) {
+                plot.sleepDataForPlot = sleepData;
+                plot.audioDataForPlot = [self getAudioData];
+                [self presentViewController:plot animated:YES completion:^{
+                    // to do
+                }];
+            }];
         } else if (hrSwitch) {
-            
+            [self getHeartRateDataOnCompletion:^(NSArray *heartRateData) {
+                plot.heartRateDataForPlot = heartRateData;
+                plot.audioDataForPlot = [self getAudioData];
+                [self presentViewController:plot animated:YES completion:^{
+                    // to do
+                }];
+            }];
         } else if (sleepSwitch) {
-            
+            [self getSleepDataOnCompletion:^(NSArray *sleepData) {
+                plot.sleepDataForPlot = sleepData;
+                plot.audioDataForPlot = [self getAudioData];
+                [self presentViewController:plot animated:YES completion:^{
+                    // to do
+                }];
+            }];
         } else if (audioSwitch) {
-            NSLog(@"audio switch on");
-            [self getAudioData];
+            plot.audioDataForPlot = [self getAudioData];
+            [self presentViewController:plot animated:YES completion:^{
+                // to do
+            }];
         }
-
     } else {
         [self sendAlterMessage:@"Please Sign in"];
     }
-    
-    
 }
 
 - (void)syncData:(UIButton *)sender {
@@ -177,20 +215,23 @@ static NSString *const kSleepAndSnoringRefreshAccount   = @"com.sleepandsnoring.
 }
 
 - (void)addItems:(id)item withMessage:(NSString *)message {
-    NSLog(@"The message sent : %@", item);
+
     if ([item isKindOfClass:[APIFetcher class]]) {
-        self.fetcher = item;
-        self.isSignedIn = true;
+        
+        APIFetcher *fetcher = (APIFetcher *)item;
         
         // clear keychains first
         [SSKeychain deletePasswordForService:kSleepAndSnoringService account:kSleepAndSnoringAccessAccount];
         [SSKeychain deletePasswordForService:kSleepAndSnoringService account:kSleepAndSnoringRefreshAccount];
         
-        // set keychains when user credentials created
-        [SSKeychain setPassword:self.fetcher.accessToken forService:kSleepAndSnoringService
-                        account:kSleepAndSnoringAccessAccount];
-        [SSKeychain setPassword:self.fetcher.refreshToken forService:kSleepAndSnoringService
-                        account:kSleepAndSnoringRefreshAccount];
+        // set the keychain when fetch is created
+        BOOL accessTokenIsSet = [SSKeychain setPassword:fetcher.accessToken forService:kSleepAndSnoringService account:kSleepAndSnoringAccessAccount];
+        BOOL refreshTokenIsSet = [SSKeychain setPassword:fetcher.refreshToken forService:kSleepAndSnoringService account:kSleepAndSnoringRefreshAccount];
+        
+        NSLog(@"Access Token Set : %i Refresh Token Set : %i",accessTokenIsSet ,refreshTokenIsSet);
+
+        self.fetcher = item;
+        self.isSignedIn = true;
         
         // send alter message only when user have log in action
         [self sendAlterMessage:@"Sucessful!"];
@@ -203,46 +244,35 @@ static NSString *const kSleepAndSnoringRefreshAccount   = @"com.sleepandsnoring.
 #pragma mark Fitbit API Methods
 
 
-- (void)getSleepAndData {
+- (void)getSleepDataOnCompletion:(void (^)(NSArray *sleepData))handler {
     
     if (self.isSignedIn) {
         // get selected date sleep data
         NSDate *pickedDate = self.datePicker.date;
         [self.sleep getSleepByDate:pickedDate completion:^(NSArray *sleepData) {
-            NSLog(@"GET SLEEP SUCCESSFULLY.");
-            
-            // init plot
-            SleepScatterPlotController *plotController = [[SleepScatterPlotController alloc] init];
-            
-            // get selected date heart rate data
-            [self.heartRate updateHeartRateByDate:pickedDate completion:^(NSArray *heartrates) {
-                
-                // add both data to plot
-                plotController.heartRateDataForPlot = [FitbitHeartRate getDataForPlotFromHeartRateData:heartrates];
-                plotController.sleepDataForPlot = [FitbitSleep getDataForPlotFromSleepData:sleepData];
-                
-                NSLog(@"The size of heart rate data : %lu", (unsigned long)plotController.heartRateDataForPlot.count);
-                [self presentViewController:plotController animated:YES completion:^{
-                    // to do
-                }];
-                
-            }];
+            handler([FitbitSleep getDataForPlotFromSleepData:sleepData]);
         }];
     } else {
-        [self sendAlterMessage:@"Please Sign in"];
+        handler(nil);
     }
 }
 
--(void)getAudioData {
+-(void)getHeartRateDataOnCompletion:(void (^)(NSArray *heartRateData))handler {
+    if (self.isSignedIn) {
+        // get selected date sleep data
+        NSDate *pickedDate = self.datePicker.date;
+        [self.heartRate updateHeartRateByDate:pickedDate completion:^(NSArray *heartrates) {
+            handler([FitbitHeartRate getDataForPlotFromHeartRateData:heartrates]);
+        }];
+    } else {
+        handler(nil);
+    }
+}
+
+// get local audio level file
+-(NSArray *)getAudioData {
     AudioModel *model = [AudioModel shareInstance];
-    self.audioData = [model getAudioByDate:self.datePicker.date];
-    NSLog(@"%@", self.audioData);
-    // init plot
-    SleepScatterPlotController *plotController = [[SleepScatterPlotController alloc] init];
-    plotController.audioDataForPlot = [AudioModel getDataForPlotFromAudioData:self.audioData];
-    [self presentViewController:plotController animated:YES completion:^{
-        // to do
-    }];
+    return [AudioModel getDataForPlotFromAudioData:[model getAudioByDate:self.datePicker.date]];
 }
 
 - (void)getUserProfile {
@@ -253,22 +283,6 @@ static NSString *const kSleepAndSnoringRefreshAccount   = @"com.sleepandsnoring.
 
 
 #pragma mark Accessors
-
--(void)setFetcher:(APIFetcher *)fetcher {
-    
-    BOOL accessTokenIsSet = NO;
-    BOOL refreshTokenIsSet = NO;
-    
-    
-    // set the keychain when fetch is created
-    accessTokenIsSet = [SSKeychain setPassword:fetcher.accessToken forService:kSleepAndSnoringService account:kSleepAndSnoringAccessAccount];
-    refreshTokenIsSet = [SSKeychain setPassword:fetcher.refreshToken forService:kSleepAndSnoringService account:kSleepAndSnoringRefreshAccount];
-    
-    NSLog(@"Access Token Set : %i Refresh Token Set : %i",accessTokenIsSet ,refreshTokenIsSet);
-    
-    
-    _fetcher = fetcher;
-}
 
 
 - (void)setIsSignedIn:(BOOL)isSignedIn {

@@ -74,6 +74,11 @@ static NSString *const kSleepAndSnoringRefreshAccount   = @"com.sleepandsnoring.
                     [SSKeychain setPassword:self.accessToken forService:kSleepAndSnoringService account:kSleepAndSnoringAccessAccount];
                     [SSKeychain setPassword:self.refreshToken forService:kSleepAndSnoringService account:kSleepAndSnoringRefreshAccount];
                     
+                    // redo fetching data after successfully refresh tokens
+                    [self sendGetRequestToAPIPath:path onCompletion:^(NSData *data, NSError *error) {
+                        handler(data, error);
+                    }];
+                    
                     NSLog(@"Refresh Result : %@", fetchResult);
 
                 } else {
@@ -82,7 +87,7 @@ static NSString *const kSleepAndSnoringRefreshAccount   = @"com.sleepandsnoring.
                                                                                   error:nil];
                     NSLog(@"error : %@ ", errorResult);
                     // report if fail to refresh access token
-                    handler(data, error);
+                    handler(refreshData, refreshError);
                 }
                 
             }];

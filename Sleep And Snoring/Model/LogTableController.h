@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
 
-@interface LogTableController : UITableViewController<AVAudioPlayerDelegate>
+@interface LogTableController : UITableViewController
 @property (strong, nonatomic) NSArray *dataSource;
 @end

@@ -182,7 +182,7 @@ static NSString *const vOAuth2RefreshTokenKey   = @"refresh_token";
                     [self.navigationController popViewControllerAnimated:YES];
                     [self.delegate addItems:fetcher withMessage:@"Successful"];
                     
-                    NSLog(@"Fetch Result : successful");
+                    NSLog(@"Fetch Result : login successful");
                 }
             }];
             

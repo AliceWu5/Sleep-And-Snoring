@@ -99,7 +99,6 @@
         
         [self.recorder updateMeters];
         peak_level = 65 + [self.recorder averagePowerForChannel:0];
-        NSLog(@"%f", peak_level - 65);
 
         // sound between 65 and 0
         if (peak_level > 65) peak_level = 65;
@@ -120,9 +119,11 @@
 }
 
 -(void)saveAudioLevelFile {
+    // save array as a file and timestamp the file
     NSString *filePath = [AudioModel audioFilePath];
     filePath = [filePath stringByAppendingPathComponent:self.startTimeString];
     [self.audioLevels writeToFile:filePath atomically:YES];
+    self.audioLevels = nil;
 }
 
 
@@ -140,7 +141,7 @@
 -(void)deleteAllFiles {
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSString *directory = [self getDocumentsDirectory];
-                           //stringByAppendingPathComponent:@"Photos/"];
+
     NSError *error = nil;
     for (NSString *file in [fileManager contentsOfDirectoryAtPath:directory error:&error]) {
         BOOL success = [fileManager removeItemAtPath:[NSString stringWithFormat:@"%@%@", directory, file] error:&error];
@@ -163,12 +164,12 @@
 }
 
 -(NSString *)getCurrentTime {
+    // get time including milisecond value
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"HH:mm:ss:SSS"];
     return [formatter stringFromDate:[NSDate date]];
 }
-                                       
-                                       
+
 
 -(NSString*)makeFilenameFromNow
 {

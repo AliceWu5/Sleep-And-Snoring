@@ -12,10 +12,9 @@ static NSString *const kAudioFileName    = @"AudioModel";
 
 @interface AudioModel : NSObject
 
-@property (nonatomic, strong) NSString *audioFilePath;
 +(AudioModel *)shareInstance;
-+(NSArray *)getDataForPlotFromAudioData:(NSArray *)audioData;
-- (NSArray *)getAudioByDate:(NSDate *)date;
--(BOOL)saveAudioFile;
 +(NSString *)audioFilePath;
++(NSArray *)getDataForPlotFromAudioData:(NSArray *)audioData;
+
+-(NSArray *)getAudioByDate:(NSDate *)date;
 @end
