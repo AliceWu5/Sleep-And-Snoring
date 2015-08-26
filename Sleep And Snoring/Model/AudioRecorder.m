@@ -6,15 +6,15 @@
 //  Copyright (c) 2015年 Xibo Wang. All rights reserved.
 //
 
-#import "AudioManager.h"
+#import "AudioRecorder.h"
 #import "AudioModel.h"
-@interface AudioManager ()
+@interface AudioRecorder ()
 
 @property (nonatomic, strong) NSMutableArray *audioLevels;
 @property (nonatomic, strong)NSString *startTimeString;
 @end
 
-@implementation AudioManager
+@implementation AudioRecorder
 
 -(id)init {
     self = [super init];

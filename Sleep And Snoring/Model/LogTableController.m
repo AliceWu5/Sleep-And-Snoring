@@ -7,7 +7,7 @@
 //
 
 #import "LogTableController.h"
-#import "AudioManager.h"
+#import "AudioRecorder.h"
 #import "AudioModel.h"
 @interface LogTableController ()
 @end
@@ -21,7 +21,7 @@
                                                  name:@"NOTIFY_REFRESH_TABLE"
                                                object:nil];
     
-    self.dataSource = [self getAllFiles];
+    self.dataSource = [[AudioModel shareInstance] getAllAudioFiles];
 }
 
 -(void)awakeFromNib
@@ -71,14 +71,14 @@
         // remove the file
         [[NSFileManager defaultManager] removeItemAtPath: self.dataSource[indexPath.row] error: nil];
         // refresh data source
-        self.dataSource = [self getAllFiles];
+        self.dataSource = [[AudioModel shareInstance] getAllAudioFiles];
         [tableView reloadData];
     }
 }
 
 - (IBAction)refresh:(UIRefreshControl *)sender {
 
-    self.dataSource = [self getAllFiles];
+    self.dataSource = [[AudioModel shareInstance] getAllAudioFiles];
     [self.tableView reloadData];
     [sender endRefreshing];
 }
@@ -89,21 +89,6 @@
 }
  */
 
--(NSArray *)getAllFiles {
-    // discovery all the files in Documents/snore
-    NSMutableArray *allFiles = [[NSMutableArray alloc] init];
-    NSString *folderPath = [AudioModel audioFilePath];
-    
-    if ([[NSFileManager defaultManager] fileExistsAtPath:folderPath]) {
-        NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:folderPath error:nil];
-        for (NSString *fileName in files) {
-            [allFiles addObject:[folderPath stringByAppendingPathComponent:fileName]];
-        }
-        //NSLog(@"files array %@", allFiles);
-    }
-
-    return allFiles;
-}
 
 
 - (NSString *)stringFromFileSize:(unsigned long long)fileSize {

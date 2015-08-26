@@ -30,6 +30,21 @@
     return model;
 }
 
+-(NSArray *)getAllAudioFiles {
+    // discovery all the files in Documents/snore
+    NSMutableArray *allFiles = [[NSMutableArray alloc] init];
+    NSString *folderPath = [AudioModel audioFilePath];
+    
+    if ([[NSFileManager defaultManager] fileExistsAtPath:folderPath]) {
+        NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:folderPath error:nil];
+        for (NSString *fileName in files) {
+            [allFiles addObject:[folderPath stringByAppendingPathComponent:fileName]];
+        }
+    }
+    
+    return allFiles;
+}
+
 -(NSString *)audioFilePath {
     if (!_audioFilePath) {
         [AudioModel audioFilePath];

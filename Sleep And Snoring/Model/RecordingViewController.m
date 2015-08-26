@@ -7,7 +7,7 @@
 //
 
 #import "RecordingViewController.h"
-#import "AudioManager.h"
+#import "AudioRecorder.h"
 #import <SystemConfiguration/SystemConfiguration.h>
 
 @interface RecordingViewController ()
@@ -49,7 +49,7 @@
     }
     
     // get reference to the recording manager
-    self.manager = [[AudioManager alloc] init];
+    self.recorder = [[AudioRecorder alloc] init];
     
 }
 
@@ -114,7 +114,7 @@
     }
 
     // check if the power cable is plugged in
-    if ([self isPowerConnected]==NO) {
+    if ([self isPowerConnected]==NO && !self.recorder.isRecording) {
         [errorStrings addObject:@"the power cable is not plugged in"];
     }
     
@@ -135,10 +135,10 @@
         return;
     }
     // otherwise ...
-    if (self.manager.isRecording) {
+    if (self.recorder.isRecording) {
         // stop recording
         [self setRecordButtonOff];
-        [self.manager stopRecording];
+        [self.recorder stopRecording];
         [self.meterTimer invalidate];
         self.meterTimer=nil;
         self.meter.level=0.0;
@@ -146,7 +146,7 @@
         [self clearElapsedTime];
     } else {
         // start recording
-        BOOL ok = [self.manager startRecording];
+        BOOL ok = [self.recorder startRecording];
         if (ok) {
             NSLog(@"Is recording");
             // set record button to red
@@ -177,9 +177,9 @@
 
 -(void)stopRecordingDueToInterruption
 {
-    self.manager.isRecording = NO;
+    self.recorder.isRecording = NO;
     [self setRecordButtonOff];
-    [self.manager stopRecording];
+    [self.recorder stopRecording];
     [self.meterTimer invalidate];
     self.meterTimer=nil;
     self.meter.level=0.0;
@@ -194,9 +194,9 @@
 
 -(void)updateSoundLevelMeter
 {
-    self.meter.level = [self.manager getSoundLevel];
+    self.meter.level = [self.recorder getSoundLevel];
     // also update the time since now text - really this should be in a separate method
-    NSTimeInterval timeDiff = [self.manager getRecordingTime];
+    NSTimeInterval timeDiff = [self.recorder getRecordingTime];
     int ti = (int)timeDiff;
     int seconds = ti % 60;
     int minutes = (ti / 60) % 60;

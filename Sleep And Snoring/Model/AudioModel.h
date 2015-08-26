@@ -17,4 +17,5 @@ static NSString *const kAudioFileName    = @"AudioModel";
 +(NSArray *)getDataForPlotFromAudioData:(NSArray *)audioData;
 
 -(NSArray *)getAudioByDate:(NSDate *)date;
+-(NSArray *)getAllAudioFiles;
 @end
