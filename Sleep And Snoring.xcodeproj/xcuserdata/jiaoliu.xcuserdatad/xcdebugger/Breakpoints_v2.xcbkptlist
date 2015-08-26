@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Sleep And Snoring/Model/FitbitSleep.m"
-            timestampString = "461860215.734904"
+            timestampString = "462323680.878353"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "129"
-            endingLineNumber = "129"
+            startingLineNumber = "109"
+            endingLineNumber = "109"
             landmarkName = "+getDataForPlotFromSleepData:"
             landmarkType = "5">
          </BreakpointContent>
@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Sleep And Snoring/Model/FitbitSleep.m"
-            timestampString = "461860215.734904"
+            timestampString = "462323680.878353"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "128"
-            endingLineNumber = "128"
+            startingLineNumber = "108"
+            endingLineNumber = "108"
             landmarkName = "+getDataForPlotFromSleepData:"
             landmarkType = "5">
          </BreakpointContent>
@@ -58,11 +58,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Sleep And Snoring/Model/FitbitSleep.m"
-            timestampString = "461860215.734904"
+            timestampString = "462323680.878353"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "130"
-            endingLineNumber = "130"
+            startingLineNumber = "110"
+            endingLineNumber = "110"
             landmarkName = "+getDataForPlotFromSleepData:"
             landmarkType = "5">
             <Locations>

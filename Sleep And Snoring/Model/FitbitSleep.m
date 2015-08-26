@@ -36,12 +36,12 @@
 
 - (void)updateRecentSleep {
     NSDate *today = [NSDate date];
-    [self updateSleepByDate:today completion:^(NSArray *sleepData) {
+    [self updateSleepByDate:today completion:^(NSArray *sleepData, BOOL hasError) {
         NSLog(@"Get today's sleep data.");
     }];
 }
 
-- (void)updateSleepByDate:(NSDate *)date completion:(void (^)(NSArray *))handler {
+- (void)updateSleepByDate:(NSDate *)date completion:(void (^)(NSArray *, BOOL hasError))handler {
 
     NSString *dateKey = [StringConverter convertDateToString:date];
     
@@ -65,50 +65,30 @@
             [self.summarys setObject:summary forKey:dateKey];
             [self.sleepData setObject:sleeps forKey:dateKey];
             
-            handler(sleeps);
+            handler(sleeps, NO);
         } else {
             // do something
             NSLog(@"Errors occur when fetching sleep data.");
+            handler(nil, YES);
         }
         
     }];
 }
 
-- (void)getSleepByDate:(NSDate *)date completion:(void (^)(NSArray *))handler {
+- (void)getSleepByDate:(NSDate *)date completion:(void (^)(NSArray *, BOOL hasError))handler {
     
     NSString *dateKey = [StringConverter convertDateToString:date];
     NSArray *sleepDataByDate = [self.sleepData objectForKey:dateKey];
     if (!sleepDataByDate) {
-        [self updateSleepByDate:date completion:^(NSArray *sleepData) {
-            handler(sleepData);
+        [self updateSleepByDate:date completion:^(NSArray *sleepData, BOOL hasError) {
+            handler(sleepData, hasError);
         }];
     } else {
-        handler(sleepDataByDate);
+        handler(sleepDataByDate, NO);
     }
 
 }
 
-
-//- (NSArray *)getSleepTimeline {
-//    
-//    NSMutableArray *timeline = [[NSMutableArray alloc] init];
-//    
-//    // all the sleeps in a day
-//    for (NSDictionary *sleep in self.sleepData ) {
-//        
-//        // get the first minutes data for each sleep
-//        for (NSDictionary *minute in [sleep objectForKey:kFitbitSleepDataMinuteDataKey]) {
-//            
-//            NSString *date = [minute objectForKey:kFitbitSleepDataMinuteDataDateTimeKey];
-//            NSNumber *value = [minute objectForKey:kFitbitSleepDataMinuteDataValueKey];
-//            NSLog(@"The first date time : %@", date);
-//            NSLog(@"The first value : %@", value);
-//            break;
-//        }
-//    }
-//    
-//    return timeline;
-//}
 
 #pragma mark prepare for plot
 +(NSArray *)getDataForPlotFromSleepData:(NSArray *)sleepData {

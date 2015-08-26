@@ -30,7 +30,7 @@
     return heartRate;
 }
 
-- (void)updateHeartRateByDate:(NSDate *)date completion:(void (^)(NSArray *heartrates))handler {
+- (void)updateHeartRateByDate:(NSDate *)date completion:(void (^)(NSArray *heartrates, BOOL hasError))handler {
     NSString *dateKey = [StringConverter convertDateToString:date];
     
     // Get heart rate in a day
@@ -46,13 +46,14 @@
             // Use JSON result to create heart rate
             NSDictionary *heartrate = fetchResult[kFitbitHeartRateIntradayKey];
             NSArray *dataset = heartrate[kFitbitHeartRateIntradayDatasetKey];
-            handler(dataset);
+            handler(dataset, NO);
             
             // Store data
             [self.heartRateData setObject:dataset forKey:dateKey];
         } else {
             // do something
             NSLog(@"Errors occur when fetching heart rate data.");
+            handler(nil, YES);
         }
 
     }];

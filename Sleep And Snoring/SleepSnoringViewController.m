@@ -229,7 +229,7 @@ static NSString *const kSleepAndSnoringRefreshAccount   = @"com.sleepandsnoring.
         
         [self.user updateUserProfile];
         [self.activity updateRecentActivities];
-        [self.sleep updateSleepByDate:[NSDate date] completion:^(NSArray *sleepData) {
+        [self.sleep updateSleepByDate:[NSDate date] completion:^(NSArray *sleepData, BOOL hasError) {
             [self.indicator stopAnimating];
             NSLog(@"should stop animating");
         }];
@@ -274,8 +274,12 @@ static NSString *const kSleepAndSnoringRefreshAccount   = @"com.sleepandsnoring.
     if (self.isSignedIn) {
         // get selected date sleep data
         NSDate *pickedDate = self.datePicker.date;
-        [self.sleep getSleepByDate:pickedDate completion:^(NSArray *sleepData) {
-            handler([FitbitSleep getDataForPlotFromSleepData:sleepData]);
+        [self.sleep getSleepByDate:pickedDate completion:^(NSArray *sleepData, BOOL hasError) {
+            if (hasError) {
+                [self sendAlterMessage:@"Please sign in"];
+            } else {
+                handler([FitbitSleep getDataForPlotFromSleepData:sleepData]);
+            }
         }];
     } else {
         handler(nil);
@@ -286,8 +290,12 @@ static NSString *const kSleepAndSnoringRefreshAccount   = @"com.sleepandsnoring.
     if (self.isSignedIn) {
         // get selected date sleep data
         NSDate *pickedDate = self.datePicker.date;
-        [self.heartRate updateHeartRateByDate:pickedDate completion:^(NSArray *heartrates) {
-            handler([FitbitHeartRate getDataForPlotFromHeartRateData:heartrates]);
+        [self.heartRate updateHeartRateByDate:pickedDate completion:^(NSArray *heartrates, BOOL hasError) {
+            if (hasError) {
+                [self sendAlterMessage:@"Please sign in"];
+            } else {
+                handler([FitbitHeartRate getDataForPlotFromHeartRateData:heartrates]);
+            }
         }];
     } else {
         handler(nil);

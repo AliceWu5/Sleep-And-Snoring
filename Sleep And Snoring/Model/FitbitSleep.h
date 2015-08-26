@@ -19,8 +19,8 @@
 
 //- (NSArray *)getSleepTimeline;
 - (void)updateRecentSleep;
-- (void)updateSleepByDate:(NSDate *)date completion:(void (^)(NSArray *sleepData))handler;
-- (void)getSleepByDate:(NSDate *)date completion:(void (^)(NSArray *sleepData))handler;
+- (void)updateSleepByDate:(NSDate *)date completion:(void (^)(NSArray *sleepData, BOOL hasError))handler;
+- (void)getSleepByDate:(NSDate *)date completion:(void (^)(NSArray *sleepData, BOOL hasError))handler;
 //- (void)getSleepTimelineByDate:(NSDate *)date completion:(void (^)(NSArray *minuteData))handler;
 //- (void)getSummaryByDate:(NSDate *)date completion:(void (^)(NSDictionary *))handler;
 
