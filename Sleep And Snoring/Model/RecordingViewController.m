@@ -38,7 +38,7 @@
     AVAudioSession *session = [AVAudioSession sharedInstance];
     [session setCategory:AVAudioSessionCategoryPlayAndRecord error:nil];
     [session overrideOutputAudioPort:AVAudioSessionPortOverrideSpeaker error:nil];
-    [session setInputGain:1.0f error:nil];
+    //[session setInputGain:1.0f error:nil];
     [session requestRecordPermission:^(BOOL granted) {}];
     [session setActive:YES error:nil];
     

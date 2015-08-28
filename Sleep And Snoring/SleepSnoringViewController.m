@@ -12,15 +12,13 @@
 #import "SVProgressHUD.h"
 #import "APIFetcher.h"
 #import "FitbitSleep.h"
-#import "FitbitUser.h"
-#import "FitbitActivity.h"
 #import "FitbitHeartRate.h"
 #import "Sleep2DLandscapeView.h"
-#import "GenericDate.h"
 #import "AudioModel.h"
 #import "StringConverter.h"
 #import "SSKeychain.h"
 
+// keys for SSKeychain
 static NSString *const kSleepAndSnoringService          = @"Sleep And Snoring";
 static NSString *const kSleepAndSnoringAccessAccount    = @"com.sleepandsnoring.accesstoken";
 static NSString *const kSleepAndSnoringRefreshAccount   = @"com.sleepandsnoring.refreshtoken";
@@ -31,14 +29,11 @@ static NSString *const kSleepAndSnoringRefreshAccount   = @"com.sleepandsnoring.
 @property (strong, nonatomic) IBOutlet UISwitch *heartRateSwitch;
 @property (strong, nonatomic) IBOutlet UISwitch *audioSwitch;
 
-
 @property (strong, nonatomic) IBOutlet UIActivityIndicatorView *indicator;
 @property (strong, nonatomic) IBOutlet UIDatePicker *datePicker;
 @property (strong, nonatomic)APIFetcher *fetcher;
 @property (strong, nonatomic)FitbitHeartRate *heartRate;
-@property (strong, nonatomic)FitbitUser *user;
 @property (strong, nonatomic)FitbitSleep *sleep;
-@property (strong, nonatomic)FitbitActivity *activity;
 
 
 @property (nonatomic)BOOL isSignedIn;
@@ -227,8 +222,8 @@ static NSString *const kSleepAndSnoringRefreshAccount   = @"com.sleepandsnoring.
     if (self.isSignedIn) {
         [self.indicator startAnimating];
         
-        [self.user updateUserProfile];
-        [self.activity updateRecentActivities];
+        //[self.user updateUserProfile];
+        //[self.activity updateRecentActivities];
         [self.sleep updateSleepByDate:[NSDate date] completion:^(NSArray *sleepData, BOOL hasError) {
             [self.indicator stopAnimating];
             NSLog(@"should stop animating");
@@ -308,13 +303,6 @@ static NSString *const kSleepAndSnoringRefreshAccount   = @"com.sleepandsnoring.
     return [AudioModel getDataForPlotFromAudioData:[model getAudioByDate:self.datePicker.date]];
 }
 
-- (void)getUserProfile {
-    if (self.isSignedIn) {
-        NSLog(@"My name : %@", self.user.displayName);
-    }
-}
-
-
 #pragma mark Accessors
 
 
@@ -325,15 +313,6 @@ static NSString *const kSleepAndSnoringRefreshAccount   = @"com.sleepandsnoring.
     _isSignedIn = isSignedIn;
 }
 
-
--(FitbitUser *)user {
-    if (_fetcher && !_user) {
-        _user = [FitbitUser userWithAPIFetcher:self.fetcher];
-    }
-    return _user;
-}
-
-
 -(FitbitSleep *)sleep {
     NSLog(@"The f: %@ s: %@",_fetcher,_sleep);
     if (_fetcher && !_sleep) {
@@ -341,14 +320,6 @@ static NSString *const kSleepAndSnoringRefreshAccount   = @"com.sleepandsnoring.
         _sleep = [FitbitSleep sleepWithAPIFetcher:self.fetcher];
     }
     return _sleep;
-}
-
-
--(FitbitActivity *)activity {
-    if (_fetcher && !_activity) {
-        _activity = [FitbitActivity activityWithAPIFetcher:self.fetcher];
-    }
-    return _activity;
 }
 
 

@@ -99,7 +99,10 @@
         
         [self.recorder updateMeters];
         peak_level = 65 + [self.recorder averagePowerForChannel:0];
-
+        
+        // display the level
+        NSLog(@"power level : %f", peak_level - 65);
+        
         // sound between 65 and 0
         if (peak_level > 65) peak_level = 65;
         if (peak_level < 0) peak_level = 0;
