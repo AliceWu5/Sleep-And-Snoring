@@ -138,10 +138,11 @@ static NSString *const kSleepAndSnoringRefreshAccount   = @"com.sleepandsnoring.
 
 - (IBAction)plotSelectedData:(UIButton *)sender {
 
+    BOOL hrSwitch = self.heartRateSwitch.on;
+    BOOL sleepSwitch = self.sleepSwitch.on;
+    BOOL audioSwitch = self.audioSwitch.on;
+    
     if (self.isSignedIn) {
-        BOOL hrSwitch = self.heartRateSwitch.on;
-        BOOL sleepSwitch = self.sleepSwitch.on;
-        BOOL audioSwitch = self.audioSwitch.on;
         
         self.isLoading = YES;
         // init plot view
@@ -228,6 +229,13 @@ static NSString *const kSleepAndSnoringRefreshAccount   = @"com.sleepandsnoring.
             }];
         }
         
+    } else if (audioSwitch && !sleepSwitch && !hrSwitch) {
+        SleepScatterPlotController *plot = [[SleepScatterPlotController alloc] init];
+        plot.audioDataForPlot = [self getAudioData];
+        [self dismissSVProgressHUD];
+        [self presentViewController:plot animated:YES completion:^{
+            // to do
+        }];
     } else {
         [self sendAlterMessage:@"Please Sign in"];
     }
