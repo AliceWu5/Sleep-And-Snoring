@@ -13,6 +13,7 @@
 #import "APIFetcher.h"
 #import "FitbitSleep.h"
 #import "FitbitHeartRate.h"
+#import "FitbitUser.h"
 #import "Sleep2DLandscapeView.h"
 #import "AudioModel.h"
 #import "StringConverter.h"
@@ -25,6 +26,7 @@ static NSString *const kSleepAndSnoringRefreshAccount   = @"com.sleepandsnoring.
 
 @interface SleepSnoringViewController ()
 
+@property (strong, nonatomic) IBOutlet UILabel *loginStatus;
 @property (strong, nonatomic) IBOutlet UISwitch *sleepSwitch;
 @property (strong, nonatomic) IBOutlet UISwitch *heartRateSwitch;
 @property (strong, nonatomic) IBOutlet UISwitch *audioSwitch;
@@ -42,6 +44,11 @@ static NSString *const kSleepAndSnoringRefreshAccount   = @"com.sleepandsnoring.
 
 @implementation SleepSnoringViewController
 
+-(void)viewDidAppear:(BOOL)animated
+{
+    [self updateLoginStatus];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -52,7 +59,6 @@ static NSString *const kSleepAndSnoringRefreshAccount   = @"com.sleepandsnoring.
     
     [self initNavigationBarItems];
     self.datePicker.datePickerMode = UIDatePickerModeDate;
-    [self updateLoginStatus];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -63,10 +69,6 @@ static NSString *const kSleepAndSnoringRefreshAccount   = @"com.sleepandsnoring.
 - (void)initNavigationBarItems {
     
     self.navigationItem.title = @"Fitbit Data";
-}
-
-- (void)logInfo {
-    NSLog(@"Button Pressed.");
 }
 
 - (void)updateLoginStatus {
@@ -89,6 +91,22 @@ static NSString *const kSleepAndSnoringRefreshAccount   = @"com.sleepandsnoring.
         NSLog(@"Need to log in.");
         self.isSignedIn = NO;
     }
+    [self updateUserInfo];
+
+}
+
+-(void)updateUserInfo {
+    if (self.isSignedIn) {
+        FitbitUser *user = [FitbitUser userWithAPIFetcher:self.fetcher];
+        [user updateUserProfileOnCompletion:^(BOOL isFinished) {
+            if (isFinished) {
+                self.loginStatus.text = [NSString stringWithFormat:@"Signed in as user %@", user.fullName];
+            }
+        }];
+    } else {
+        self.loginStatus.text = @"Not signed in";
+    }
+    
 }
 
 #pragma mark Press button methods
@@ -114,11 +132,9 @@ static NSString *const kSleepAndSnoringRefreshAccount   = @"com.sleepandsnoring.
     // clear fetcher
     self.fetcher = nil;
     self.isSignedIn = NO;
+    [self updateUserInfo];
 }
 
-- (IBAction)startTest:(UIButton *)sender {
-    [self sendCustomAlterView];
-}
 
 - (IBAction)plotSelectedData:(UIButton *)sender {
 
@@ -255,10 +271,11 @@ static NSString *const kSleepAndSnoringRefreshAccount   = @"com.sleepandsnoring.
         
         // send alter message only when user have log in action
         [self sendAlterMessage:@"Sucessful!"];
-
+        [self updateUserInfo];
     } else {
         [self sendAlterMessage:message];
     }
+    
 }
 
 #pragma mark Fitbit API Methods

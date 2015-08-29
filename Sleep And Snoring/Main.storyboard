@@ -101,23 +101,16 @@
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="iU7-vI-zRG">
                                 <rect key="frame" x="290" y="290" width="20" height="20"/>
                             </activityIndicatorView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8xf-Q4-XzC">
-                                <rect key="frame" x="16" y="348" width="568" height="78"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Not signed in" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lj9-q5-HcH">
+                                <rect key="frame" x="16" y="357" width="568" height="69"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="85" id="pzM-7N-BIC"/>
+                                    <constraint firstAttribute="width" constant="568" id="L19-8R-dwx"/>
+                                    <constraint firstAttribute="height" constant="69" id="Rmd-w1-FNz"/>
                                 </constraints>
-                                <state key="normal" title="Button">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="pzM-7N-BIC"/>
-                                    </mask>
-                                </variation>
-                                <connections>
-                                    <action selector="startTest:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="738-Bg-qvo"/>
-                                </connections>
-                            </button>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
@@ -133,10 +126,8 @@
                             <constraint firstItem="zF3-t6-3NV" firstAttribute="width" secondItem="3io-tj-FlV" secondAttribute="width" id="BTV-TI-ABW"/>
                             <constraint firstItem="B78-Ru-omF" firstAttribute="centerY" secondItem="0BC-tq-bIv" secondAttribute="centerY" id="Bji-jx-f2S"/>
                             <constraint firstItem="iU7-vI-zRG" firstAttribute="centerX" secondItem="tew-vr-gzA" secondAttribute="centerX" id="DB7-kU-0z1"/>
-                            <constraint firstItem="EJ9-t8-SpD" firstAttribute="top" secondItem="8xf-Q4-XzC" secondAttribute="bottom" constant="8" id="G4z-X6-Pl0"/>
                             <constraint firstItem="tew-vr-gzA" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="LGw-a4-qWw"/>
                             <constraint firstItem="3io-tj-FlV" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="8" id="M0j-NO-Fvt"/>
-                            <constraint firstItem="8xf-Q4-XzC" firstAttribute="trailing" secondItem="0QM-l4-b7f" secondAttribute="trailing" id="QFx-pD-QaV"/>
                             <constraint firstItem="zF3-t6-3NV" firstAttribute="height" secondItem="3io-tj-FlV" secondAttribute="height" id="Qaq-0c-wEl"/>
                             <constraint firstItem="B78-Ru-omF" firstAttribute="leading" secondItem="EJ9-t8-SpD" secondAttribute="leading" id="SiZ-G5-NZl"/>
                             <constraint firstItem="B78-Ru-omF" firstAttribute="top" secondItem="EJ9-t8-SpD" secondAttribute="bottom" constant="8" symbolic="YES" id="Tvi-AM-myd"/>
@@ -144,11 +135,11 @@
                             <constraint firstItem="0BC-tq-bIv" firstAttribute="baseline" secondItem="0QM-l4-b7f" secondAttribute="firstBaseline" id="WPm-NG-6l2"/>
                             <constraint firstItem="Mf3-Z9-QiW" firstAttribute="leading" secondItem="zF3-t6-3NV" secondAttribute="leading" id="aoC-k7-7iw"/>
                             <constraint firstItem="0BC-tq-bIv" firstAttribute="leading" secondItem="wDv-3V-Jpf" secondAttribute="leading" id="b5P-iZ-ChB"/>
-                            <constraint firstItem="8xf-Q4-XzC" firstAttribute="top" secondItem="tew-vr-gzA" secondAttribute="bottom" constant="8" symbolic="YES" id="bV5-DW-NqF"/>
-                            <constraint firstItem="8xf-Q4-XzC" firstAttribute="leading" secondItem="Mf3-Z9-QiW" secondAttribute="leading" id="bxA-5b-qQo"/>
                             <constraint firstItem="tew-vr-gzA" firstAttribute="centerX" secondItem="iU7-vI-zRG" secondAttribute="centerX" id="czU-Zu-XhM"/>
                             <constraint firstItem="3io-tj-FlV" firstAttribute="leading" secondItem="zF3-t6-3NV" secondAttribute="trailing" constant="8" symbolic="YES" id="dia-2T-XYk"/>
                             <constraint firstItem="tew-vr-gzA" firstAttribute="top" secondItem="zF3-t6-3NV" secondAttribute="bottom" constant="8" symbolic="YES" id="elu-mS-iPy"/>
+                            <constraint firstItem="lj9-q5-HcH" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" id="iIO-P3-sX6"/>
+                            <constraint firstItem="EJ9-t8-SpD" firstAttribute="top" secondItem="lj9-q5-HcH" secondAttribute="bottom" constant="8" id="j49-xW-5cA"/>
                             <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="0QM-l4-b7f" secondAttribute="bottom" constant="22" id="kbt-vH-rZ6"/>
                             <constraint firstItem="Mf3-Z9-QiW" firstAttribute="centerY" secondItem="EJ9-t8-SpD" secondAttribute="centerY" id="laS-t3-n22"/>
                             <constraint firstItem="0QM-l4-b7f" firstAttribute="trailing" secondItem="3io-tj-FlV" secondAttribute="trailing" id="lgs-V7-v4k"/>
@@ -164,6 +155,7 @@
                             <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="hn0-8o-Oaf" secondAttribute="bottom" constant="8" symbolic="YES" id="y46-Jy-YDE"/>
                             <constraint firstItem="0BC-tq-bIv" firstAttribute="baseline" secondItem="0QM-l4-b7f" secondAttribute="baseline" id="z0g-N0-jI9"/>
                             <constraint firstItem="tew-vr-gzA" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="z4P-Ot-9Mr"/>
+                            <constraint firstItem="lj9-q5-HcH" firstAttribute="trailing" secondItem="kh9-bI-dsS" secondAttribute="trailingMargin" id="z8R-RM-kge"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
@@ -185,6 +177,7 @@
                         <outlet property="datePicker" destination="tew-vr-gzA" id="5g0-yD-K2c"/>
                         <outlet property="heartRateSwitch" destination="EJ9-t8-SpD" id="dlz-Lb-rYN"/>
                         <outlet property="indicator" destination="iU7-vI-zRG" id="neq-Bp-fID"/>
+                        <outlet property="loginStatus" destination="lj9-q5-HcH" id="058-gD-sei"/>
                         <outlet property="sleepSwitch" destination="B78-Ru-omF" id="WWV-xO-uqX"/>
                     </connections>
                 </viewController>
@@ -283,12 +276,6 @@
                                     <action selector="recordPressed:" destination="eqW-1q-ybu" eventType="touchUpInside" id="hKW-2N-aei"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Recording time so far: 00h:00m:00s" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EGK-F2-9ex">
-                                <rect key="frame" x="16" y="410" width="568" height="18"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qyD-K0-aXt" customClass="SoundLevelMeterView">
                                 <rect key="frame" x="16" y="501" width="568" height="40"/>
                                 <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -298,6 +285,12 @@
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Recording level:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YhS-T0-EaS">
                                 <rect key="frame" x="16" y="436" width="568" height="18"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Recording time so far: 00h:00m:00s" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EGK-F2-9ex">
+                                <rect key="frame" x="16" y="410" width="568" height="18"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
