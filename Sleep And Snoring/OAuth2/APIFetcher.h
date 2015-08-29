@@ -25,8 +25,8 @@
 
 - (void)sendGetRequestToAPIPath:(NSString *)path onCompletion:(void (^)(NSData *data, NSError *error))handler;
 
-// just for testing
 - (void)refreshAccessToken;
+// just for testing
 
 - (void)getUserProfile;
 - (void)getLastSyncTimeOnCompletion:(void (^)(BOOL needUpdate, NSError *error))handler;

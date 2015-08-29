@@ -15,7 +15,6 @@ static NSString *const kUserDefaultsAudioKey    = @"com.sleepandsnoring.audio";
 
 @interface AudioRecorder : NSObject<AVAudioRecorderDelegate, AVAudioPlayerDelegate>
 
-@property (strong, nonatomic)AVAudioRecorder *recorder;
 @property (strong, nonatomic)AVAudioPlayer *player;
 @property (assign)BOOL isRecording;
 

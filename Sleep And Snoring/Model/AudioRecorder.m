@@ -8,8 +8,9 @@
 
 #import "AudioRecorder.h"
 #import "AudioModel.h"
-@interface AudioRecorder ()
 
+@interface AudioRecorder ()
+@property (strong, nonatomic)AVAudioRecorder *recorder;
 @property (nonatomic, strong) NSMutableArray *audioLevels;
 @property (nonatomic, strong)NSString *startTimeString;
 @end
