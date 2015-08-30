@@ -8,7 +8,6 @@
 
 #import "SleepSnoringViewController.h"
 #import "SleepScatterPlotController.h"
-#import "OAuth2ViewController.h"
 #import "SVProgressHUD.h"
 #import "APIFetcher.h"
 #import "FitbitSleep.h"
@@ -34,6 +33,7 @@ static NSString *const kSleepAndSnoringRefreshAccount   = @"com.sleepandsnoring.
 @property (strong, nonatomic) IBOutlet UIActivityIndicatorView *indicator;
 @property (strong, nonatomic) IBOutlet UIDatePicker *datePicker;
 @property (strong, nonatomic)APIFetcher *fetcher;
+@property (strong, nonatomic)OAuth2Authentication *auth;
 @property (strong, nonatomic)FitbitHeartRate *heartRate;
 @property (strong, nonatomic)FitbitSleep *sleep;
 
@@ -59,6 +59,9 @@ static NSString *const kSleepAndSnoringRefreshAccount   = @"com.sleepandsnoring.
     
     [self initNavigationBarItems];
     self.datePicker.datePickerMode = UIDatePickerModeDate;
+    
+    self.auth = [OAuth2Authentication fitbitAuth];
+    self.auth.delegate = self;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -84,7 +87,7 @@ static NSString *const kSleepAndSnoringRefreshAccount   = @"com.sleepandsnoring.
         NSLog(@"User credentials exist.");
         self.isSignedIn = YES;
         
-        APIFetcher *fetcher = [APIFetcher fetcherWithOAuth2:[OAuth2ViewController customAuth] accessToken:accessToken refreshToken:refreshToken];
+        APIFetcher *fetcher = [APIFetcher fetcherWithOAuth2:self.auth accessToken:accessToken refreshToken:refreshToken];
         self.fetcher = fetcher;
         
     } else {
@@ -112,13 +115,14 @@ static NSString *const kSleepAndSnoringRefreshAccount   = @"com.sleepandsnoring.
 #pragma mark Press button methods
 
 - (IBAction)startSignIn:(UIButton *)sender {
-    
-    // init view for login
-    OAuth2ViewController *authViewController = [[OAuth2ViewController alloc] init];
-    authViewController.delegate = self;
-    
-    // push view for login
-    [[self navigationController] pushViewController:authViewController animated:YES];
+    OAuth2Authentication *auth = [OAuth2Authentication fitbitAuth];
+    [auth openAuthorizationPage];
+//    // init view for login
+//    OAuth2ViewController *authViewController = [[OAuth2ViewController alloc] init];
+//    authViewController.delegate = self;
+//    
+//    // push view for login
+//    [[self navigationController] pushViewController:authViewController animated:YES];
 }
 
 - (IBAction)startSignOut:(UIButton *)sender {
@@ -132,7 +136,12 @@ static NSString *const kSleepAndSnoringRefreshAccount   = @"com.sleepandsnoring.
     // clear fetcher
     self.fetcher = nil;
     self.isSignedIn = NO;
-    [self updateUserInfo];
+    //[self updateUserInfo];
+    // clear safari cookies
+    [[NSURLCache sharedURLCache] removeAllCachedResponses];
+    NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+    NSArray *cookies = [cookieStorage cookies];
+    NSLog(@"%lu", (unsigned long)[cookies count]);
 }
 
 
@@ -258,33 +267,52 @@ static NSString *const kSleepAndSnoringRefreshAccount   = @"com.sleepandsnoring.
     }
 }
 
-- (void)addItems:(id)item withMessage:(NSString *)message {
+-(void)getAccessToken:(NSString *)accessToken refreshToken:(NSString *)refreshToken {
+    self.fetcher = [APIFetcher fetcherWithOAuth2:self.auth accessToken:accessToken refreshToken:refreshToken];
+    self.isSignedIn = YES;
+    //clear keychains first
+    [SSKeychain deletePasswordForService:kSleepAndSnoringService account:kSleepAndSnoringAccessAccount];
+    [SSKeychain deletePasswordForService:kSleepAndSnoringService account:kSleepAndSnoringRefreshAccount];
 
-    if ([item isKindOfClass:[APIFetcher class]]) {
-        
-        APIFetcher *fetcher = (APIFetcher *)item;
-        
-        // clear keychains first
-        [SSKeychain deletePasswordForService:kSleepAndSnoringService account:kSleepAndSnoringAccessAccount];
-        [SSKeychain deletePasswordForService:kSleepAndSnoringService account:kSleepAndSnoringRefreshAccount];
-        
-        // set the keychain when fetch is created
-        BOOL accessTokenIsSet = [SSKeychain setPassword:fetcher.accessToken forService:kSleepAndSnoringService account:kSleepAndSnoringAccessAccount];
-        BOOL refreshTokenIsSet = [SSKeychain setPassword:fetcher.refreshToken forService:kSleepAndSnoringService account:kSleepAndSnoringRefreshAccount];
-        
-        NSLog(@"Access Token Set : %i Refresh Token Set : %i",accessTokenIsSet ,refreshTokenIsSet);
+    // set the keychain when fetch is created
+    BOOL accessTokenIsSet = [SSKeychain setPassword:self.fetcher.accessToken forService:kSleepAndSnoringService account:kSleepAndSnoringAccessAccount];
+    BOOL refreshTokenIsSet = [SSKeychain setPassword:self.fetcher.refreshToken forService:kSleepAndSnoringService account:kSleepAndSnoringRefreshAccount];
 
-        self.fetcher = item;
-        self.isSignedIn = true;
-        
-        // send alter message only when user have log in action
-        [self sendAlterMessage:@"Sucessful!"];
-        [self updateUserInfo];
-    } else {
-        [self sendAlterMessage:message];
-    }
-    
+    NSLog(@"Access Token Set : %i Refresh Token Set : %i",accessTokenIsSet ,refreshTokenIsSet);
+
+    // send alter message only when user have log in action
+    [self sendAlterMessage:@"Sucessful!"];
+    [self updateUserInfo];
+
 }
+
+//- (void)addItems:(id)item withMessage:(NSString *)message {
+//
+//    if ([item isKindOfClass:[APIFetcher class]]) {
+//        
+//        APIFetcher *fetcher = (APIFetcher *)item;
+//        
+//        // clear keychains first
+//        [SSKeychain deletePasswordForService:kSleepAndSnoringService account:kSleepAndSnoringAccessAccount];
+//        [SSKeychain deletePasswordForService:kSleepAndSnoringService account:kSleepAndSnoringRefreshAccount];
+//        
+//        // set the keychain when fetch is created
+//        BOOL accessTokenIsSet = [SSKeychain setPassword:fetcher.accessToken forService:kSleepAndSnoringService account:kSleepAndSnoringAccessAccount];
+//        BOOL refreshTokenIsSet = [SSKeychain setPassword:fetcher.refreshToken forService:kSleepAndSnoringService account:kSleepAndSnoringRefreshAccount];
+//        
+//        NSLog(@"Access Token Set : %i Refresh Token Set : %i",accessTokenIsSet ,refreshTokenIsSet);
+//
+//        self.fetcher = item;
+//        self.isSignedIn = true;
+//        
+//        // send alter message only when user have log in action
+//        [self sendAlterMessage:@"Sucessful!"];
+//        [self updateUserInfo];
+//    } else {
+//        [self sendAlterMessage:message];
+//    }
+//    
+//}
 
 #pragma mark Fitbit API Methods
 

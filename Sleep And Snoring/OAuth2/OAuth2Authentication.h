@@ -7,8 +7,18 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+#import "APIFetcher.h"
+@class SecViewController;
+@protocol OAuth2Delegate <NSObject>
+
+@required
+-(void)getAccessToken:(NSString *)accessToken refreshToken:(NSString *)refreshToken;
+@end
 
 @interface OAuth2Authentication : NSObject
+
+
 @property (strong, nonatomic)NSMutableDictionary *parameters;
 @property (strong, nonatomic)NSString *clientID;
 @property (strong, nonatomic)NSString *clientSecret;
@@ -16,13 +26,19 @@
 @property (strong, nonatomic)NSString *responseType;
 @property (strong, nonatomic)NSString *apiBaseURL;
 
+@property (weak, nonatomic)id<OAuth2Delegate> delegate;
+
 + (OAuth2Authentication *)authenticationWithServiceProvider:(NSString *)serviceProvider
                                            authorizationURI:(NSString *)authorizationURI
                                              accessTokenURI:(NSString *)accessTokenURI
                                             refreshTokenURI:(NSString *)refreshTokenURI
                                                 redirectURI:(NSString *)redirectURI;
++ (OAuth2Authentication *)fitbitAuth;
+-(BOOL)openAuthorizationPage;
 
 
+
+// method for authorization code flow
 - (NSURL *)getAuthorizationPageWithOptions:(NSString *)options;
 - (BOOL)authorizationFinishedWithURL:(NSURL *)callbackURL;
 - (NSDictionary *)getAuthorizationResultFromURL:(NSURL *)callbackURL;

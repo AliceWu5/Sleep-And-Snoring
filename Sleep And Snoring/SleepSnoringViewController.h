@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "GenericDelegate.h"
-@interface SleepSnoringViewController : UIViewController<GenericDelegate>
+#import "OAuth2Authentication.h"
+@interface SleepSnoringViewController : UIViewController<OAuth2Delegate>
 
 @end

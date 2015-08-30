@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "OAuth2Authentication.h"
 
+@class OAuth2Authentication;
 @interface APIFetcher : NSObject
 @property (strong, nonatomic) OAuth2Authentication *auth;
 @property (strong, nonatomic) NSString *accessToken;

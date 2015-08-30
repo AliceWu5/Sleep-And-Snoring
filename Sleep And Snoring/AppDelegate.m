@@ -14,6 +14,19 @@
 
 @implementation AppDelegate
 
+// implementation for callback from safari
+
+-(BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    
+    NSNotification *callbackNotification = [NSNotification notificationWithName:kAppDelegateCallbackNotificationKey object:url];
+    [[NSNotificationCenter defaultCenter] postNotification:callbackNotification];
+    
+    NSLog(@"the url : %@", [url query]);
+    NSLog(@"source : %@", sourceApplication);
+    NSLog(@"annotation : %@", annotation);
+    return YES;
+}
+
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
