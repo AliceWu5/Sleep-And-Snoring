@@ -57,9 +57,11 @@ static NSString *const kSleepAndSnoringRefreshAccount   = @"com.sleepandsnoring.
     self.indicator.hidesWhenStopped = YES;
     // Do any additional setup after loading the view, typically from a nib.
     
+    // init UI
     [self initNavigationBarItems];
     self.datePicker.datePickerMode = UIDatePickerModeDate;
     
+    // init oauth
     self.auth = [OAuth2Authentication fitbitAuth];
     self.auth.delegate = self;
 }
@@ -70,7 +72,6 @@ static NSString *const kSleepAndSnoringRefreshAccount   = @"com.sleepandsnoring.
 }
 
 - (void)initNavigationBarItems {
-    
     self.navigationItem.title = @"Fitbit Data";
 }
 
@@ -98,6 +99,7 @@ static NSString *const kSleepAndSnoringRefreshAccount   = @"com.sleepandsnoring.
 
 }
 
+// update login status
 -(void)updateUserInfo {
     if (self.isSignedIn) {
         FitbitUser *user = [FitbitUser userWithAPIFetcher:self.fetcher];
@@ -106,10 +108,10 @@ static NSString *const kSleepAndSnoringRefreshAccount   = @"com.sleepandsnoring.
                 self.loginStatus.text = [NSString stringWithFormat:@"Signed in as user %@", user.fullName];
             }
         }];
+        
     } else {
         self.loginStatus.text = @"Not signed in";
     }
-    
 }
 
 #pragma mark Press button methods
@@ -117,12 +119,6 @@ static NSString *const kSleepAndSnoringRefreshAccount   = @"com.sleepandsnoring.
 - (IBAction)startSignIn:(UIButton *)sender {
     OAuth2Authentication *auth = [OAuth2Authentication fitbitAuth];
     [auth openAuthorizationPage];
-//    // init view for login
-//    OAuth2ViewController *authViewController = [[OAuth2ViewController alloc] init];
-//    authViewController.delegate = self;
-//    
-//    // push view for login
-//    [[self navigationController] pushViewController:authViewController animated:YES];
 }
 
 - (IBAction)startSignOut:(UIButton *)sender {
@@ -136,14 +132,8 @@ static NSString *const kSleepAndSnoringRefreshAccount   = @"com.sleepandsnoring.
     // clear fetcher
     self.fetcher = nil;
     self.isSignedIn = NO;
-    //[self updateUserInfo];
-    // clear safari cookies
-    [[NSURLCache sharedURLCache] removeAllCachedResponses];
-    NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
-    NSArray *cookies = [cookieStorage cookies];
-    NSLog(@"%lu", (unsigned long)[cookies count]);
+    [self updateUserInfo];
 }
-
 
 - (IBAction)plotSelectedData:(UIButton *)sender {
 
@@ -228,7 +218,7 @@ static NSString *const kSleepAndSnoringRefreshAccount   = @"com.sleepandsnoring.
                 }
             }];
         }
-        [self sendCustomAlterView];
+        [self startLoading];
         
         if (audioSwitch && !sleepSwitch && !hrSwitch) {
             plot.audioDataForPlot = [self getAudioData];
@@ -286,36 +276,7 @@ static NSString *const kSleepAndSnoringRefreshAccount   = @"com.sleepandsnoring.
 
 }
 
-//- (void)addItems:(id)item withMessage:(NSString *)message {
-//
-//    if ([item isKindOfClass:[APIFetcher class]]) {
-//        
-//        APIFetcher *fetcher = (APIFetcher *)item;
-//        
-//        // clear keychains first
-//        [SSKeychain deletePasswordForService:kSleepAndSnoringService account:kSleepAndSnoringAccessAccount];
-//        [SSKeychain deletePasswordForService:kSleepAndSnoringService account:kSleepAndSnoringRefreshAccount];
-//        
-//        // set the keychain when fetch is created
-//        BOOL accessTokenIsSet = [SSKeychain setPassword:fetcher.accessToken forService:kSleepAndSnoringService account:kSleepAndSnoringAccessAccount];
-//        BOOL refreshTokenIsSet = [SSKeychain setPassword:fetcher.refreshToken forService:kSleepAndSnoringService account:kSleepAndSnoringRefreshAccount];
-//        
-//        NSLog(@"Access Token Set : %i Refresh Token Set : %i",accessTokenIsSet ,refreshTokenIsSet);
-//
-//        self.fetcher = item;
-//        self.isSignedIn = true;
-//        
-//        // send alter message only when user have log in action
-//        [self sendAlterMessage:@"Sucessful!"];
-//        [self updateUserInfo];
-//    } else {
-//        [self sendAlterMessage:message];
-//    }
-//    
-//}
-
 #pragma mark Fitbit API Methods
-
 
 - (void)getSleepDataOnCompletion:(void (^)(NSArray *sleepData))handler {
     
@@ -359,13 +320,6 @@ static NSString *const kSleepAndSnoringRefreshAccount   = @"com.sleepandsnoring.
 #pragma mark Accessors
 
 
-- (void)setIsSignedIn:(BOOL)isSignedIn {
-    if (isSignedIn) {
-        
-    }
-    _isSignedIn = isSignedIn;
-}
-
 -(FitbitSleep *)sleep {
     NSLog(@"The f: %@ s: %@",_fetcher,_sleep);
     if (_fetcher && !_sleep) {
@@ -375,7 +329,6 @@ static NSString *const kSleepAndSnoringRefreshAccount   = @"com.sleepandsnoring.
     return _sleep;
 }
 
-
 -(FitbitHeartRate *)heartRate {
     if (_fetcher && !_heartRate) {
         _heartRate = [FitbitHeartRate heartRateWithAPIFetcher:self.fetcher];
@@ -383,10 +336,10 @@ static NSString *const kSleepAndSnoringRefreshAccount   = @"com.sleepandsnoring.
     return _heartRate;
 }
 
-#pragma mark System Message Method
+//#pragma mark SystemMessageMethod
 
 
-- (void)sendAlterMessage:(NSString *)message {
+-(void)sendAlterMessage:(NSString *)message {
     
     // create alter to notify user
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Notification"
@@ -402,20 +355,23 @@ static NSString *const kSleepAndSnoringRefreshAccount   = @"com.sleepandsnoring.
     [self presentViewController:alert animated:YES completion:nil];
 }
 
--(void)sendCustomAlterView {
+#pragma mark Loading indicator methods
+    
+-(void)stopLoading {
+    [SVProgressHUD dismiss];
+    self.isLoading = NO;
+}
 
+-(void)startLoading {
     [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeBlack];
     [SVProgressHUD showWithStatus:@"Loading"];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(stopLoadingData)
+                                             selector:@selector(stopLoading)
                                                  name:SVProgressHUDDidReceiveTouchEventNotification
                                                object:nil];
 }
 
--(void)stopLoadingData {
-    [SVProgressHUD dismiss];
-    self.isLoading = NO;
-}
 -(void)dismissSVProgressHUD {
     [SVProgressHUD dismiss];
 }
