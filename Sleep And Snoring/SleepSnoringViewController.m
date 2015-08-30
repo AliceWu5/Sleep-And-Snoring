@@ -117,8 +117,7 @@ static NSString *const kSleepAndSnoringRefreshAccount   = @"com.sleepandsnoring.
 #pragma mark Press button methods
 
 - (IBAction)startSignIn:(UIButton *)sender {
-    OAuth2Authentication *auth = [OAuth2Authentication fitbitAuth];
-    [auth openAuthorizationPage];
+    [self.auth openAuthorizationPage];
 }
 
 - (IBAction)startSignOut:(UIButton *)sender {
