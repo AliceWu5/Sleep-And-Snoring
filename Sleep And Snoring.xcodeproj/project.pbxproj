@@ -41,7 +41,7 @@
 		AA0EEFD71B2F906F004CE5B5 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA0EEFD61B2F906F004CE5B5 /* Accelerate.framework */; };
 		AA0EEFD91B2F9093004CE5B5 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA0EEFD81B2F9093004CE5B5 /* QuartzCore.framework */; };
 		AA0EEFE61B2F990B004CE5B5 /* libCorePlot-CocoaTouch.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AA0EEFE31B2F9871004CE5B5 /* libCorePlot-CocoaTouch.a */; };
-		AA0EEFEB1B3045AA004CE5B5 /* SleepScatterPlotController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA0EEFEA1B3045AA004CE5B5 /* SleepScatterPlotController.m */; };
+		AA0EEFEB1B3045AA004CE5B5 /* LinePlotController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA0EEFEA1B3045AA004CE5B5 /* LinePlotController.m */; };
 		AA0EEFF71B31AAB7004CE5B5 /* ScatterPlot.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA0EEFF61B31AAB7004CE5B5 /* ScatterPlot.xib */; };
 		AA3143E71B8D10E800FC5BE5 /* SVIndefiniteAnimatedView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA3143E01B8D10E800FC5BE5 /* SVIndefiniteAnimatedView.m */; };
 		AA3143E81B8D10E800FC5BE5 /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = AA3143E21B8D10E800FC5BE5 /* SVProgressHUD.bundle */; };
@@ -139,8 +139,8 @@
 		AA0EEFD61B2F906F004CE5B5 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		AA0EEFD81B2F9093004CE5B5 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		AA0EEFDC1B2F9871004CE5B5 /* CorePlot-CocoaTouch.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "CorePlot-CocoaTouch.xcodeproj"; path = "CoreplotFramework/CorePlot-CocoaTouch.xcodeproj"; sourceTree = "<group>"; };
-		AA0EEFE91B3045AA004CE5B5 /* SleepScatterPlotController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SleepScatterPlotController.h; path = ../SleepScatterPlotController.h; sourceTree = "<group>"; };
-		AA0EEFEA1B3045AA004CE5B5 /* SleepScatterPlotController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SleepScatterPlotController.m; path = ../SleepScatterPlotController.m; sourceTree = "<group>"; };
+		AA0EEFE91B3045AA004CE5B5 /* LinePlotController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LinePlotController.h; path = ../LinePlotController.h; sourceTree = "<group>"; };
+		AA0EEFEA1B3045AA004CE5B5 /* LinePlotController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LinePlotController.m; path = ../LinePlotController.m; sourceTree = "<group>"; };
 		AA0EEFF61B31AAB7004CE5B5 /* ScatterPlot.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ScatterPlot.xib; sourceTree = "<group>"; };
 		AA3143DF1B8D10E800FC5BE5 /* SVIndefiniteAnimatedView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVIndefiniteAnimatedView.h; sourceTree = "<group>"; };
 		AA3143E01B8D10E800FC5BE5 /* SVIndefiniteAnimatedView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVIndefiniteAnimatedView.m; sourceTree = "<group>"; };
@@ -384,8 +384,8 @@
 				AA02C3161B87CBE400456113 /* LogTableController.m */,
 				AA0EEE3F1B2CD5D5004CE5B5 /* SleepSnoringViewController.h */,
 				AA0EEE401B2CD5D5004CE5B5 /* SleepSnoringViewController.m */,
-				AA0EEFE91B3045AA004CE5B5 /* SleepScatterPlotController.h */,
-				AA0EEFEA1B3045AA004CE5B5 /* SleepScatterPlotController.m */,
+				AA0EEFE91B3045AA004CE5B5 /* LinePlotController.h */,
+				AA0EEFEA1B3045AA004CE5B5 /* LinePlotController.m */,
 			);
 			name = Controller;
 			path = Model;
@@ -535,7 +535,7 @@
 				AA0EEE681B2CD64D004CE5B5 /* GTMHTTPFetcher.m in Sources */,
 				AA0AC9771B853E8D00232E88 /* SoundLevelMeterView.m in Sources */,
 				AA0AC9711B853E3100232E88 /* Constants.m in Sources */,
-				AA0EEFEB1B3045AA004CE5B5 /* SleepScatterPlotController.m in Sources */,
+				AA0EEFEB1B3045AA004CE5B5 /* LinePlotController.m in Sources */,
 				AA0EEE671B2CD64D004CE5B5 /* APIFetcher.m in Sources */,
 				AA0EEE6A1B2CD64D004CE5B5 /* OAuth2ViewController.m in Sources */,
 				AA3143E91B8D10E800FC5BE5 /* SVProgressHUD.m in Sources */,

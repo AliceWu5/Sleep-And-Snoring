@@ -9,7 +9,7 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Sleep And Snoring/SleepScatterPlotController.m"
+            filePath = "Sleep And Snoring/LinePlotController.m"
             timestampString = "462053167.395997"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"

@@ -7,7 +7,7 @@
 //
 
 #import "SleepSnoringViewController.h"
-#import "SleepScatterPlotController.h"
+#import "LinePlotController.h"
 #import "SVProgressHUD.h"
 #import "APIFetcher.h"
 #import "FitbitSleep.h"
@@ -144,7 +144,7 @@ static NSString *const kSleepAndSnoringRefreshAccount   = @"com.sleepandsnoring.
         
         self.isLoading = YES;
         // init plot view
-        SleepScatterPlotController *plot = [[SleepScatterPlotController alloc] init];
+        LinePlotController *plot = [[LinePlotController alloc] init];
         if (hrSwitch && sleepSwitch && audioSwitch) {
             [self getSleepDataOnCompletion:^(NSArray *sleepData) {
                 [self getHeartRateDataOnCompletion:^(NSArray *heartRateData) {
@@ -228,7 +228,7 @@ static NSString *const kSleepAndSnoringRefreshAccount   = @"com.sleepandsnoring.
         }
         
     } else if (audioSwitch && !sleepSwitch && !hrSwitch) {
-        SleepScatterPlotController *plot = [[SleepScatterPlotController alloc] init];
+        LinePlotController *plot = [[LinePlotController alloc] init];
         plot.audioDataForPlot = [self getAudioData];
         [self dismissSVProgressHUD];
         [self presentViewController:plot animated:YES completion:^{

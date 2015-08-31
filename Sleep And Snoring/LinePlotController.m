@@ -1,23 +1,23 @@
 //
-//  SleepScatterPlotController.m
+//  LinePlotController.m
 //  Sleep And Snoring
 //
 //  Created by Jiao Liu on 15/6/16.
 //  Copyright (c) 2015年 Xibo Wang. All rights reserved.
 //
 
-#import "SleepScatterPlotController.h"
+#import "LinePlotController.h"
 
 static NSTimeInterval const oneHour = 60*60;
 
 
-@interface SleepScatterPlotController ()
+@interface LinePlotController ()
 @property (nonatomic, readwrite, strong) CPTXYGraph *graph;
 @property (nonatomic, strong)CPTGraphHostingView *hostingView;
 @property (nonatomic, strong)UITapGestureRecognizer *tapGesture;
 @end
 
-@implementation SleepScatterPlotController
+@implementation LinePlotController
 
 
 

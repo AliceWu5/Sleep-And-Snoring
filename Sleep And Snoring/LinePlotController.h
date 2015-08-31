@@ -1,5 +1,5 @@
 //
-//  SleepScatterPlotController.h
+//  LinePlotController.h
 //  Sleep And Snoring
 //
 //  Created by Jiao Liu on 15/6/16.
@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "CorePlot-CocoaTouch.h"
 
-@interface SleepScatterPlotController : UIViewController<CPTPlotDataSource, CPTAxisDelegate, CPTPlotSpaceDelegate>
+@interface LinePlotController : UIViewController<CPTPlotDataSource, CPTAxisDelegate, CPTPlotSpaceDelegate>
 @property (nonatomic, readwrite, strong) NSArray *sleepDataForPlot;
 @property (nonatomic, readwrite, strong) NSArray *heartRateDataForPlot;
 @property (nonatomic, readwrite, strong) NSArray *audioDataForPlot;
