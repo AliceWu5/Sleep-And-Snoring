@@ -13,7 +13,6 @@
 #import "FitbitSleep.h"
 #import "FitbitHeartRate.h"
 #import "FitbitUser.h"
-#import "Sleep2DLandscapeView.h"
 #import "AudioModel.h"
 #import "StringConverter.h"
 #import "SSKeychain.h"
@@ -267,7 +266,7 @@ static NSString *const kSleepAndSnoringRefreshAccount   = @"com.sleepandsnoring.
     BOOL accessTokenIsSet = [SSKeychain setPassword:self.fetcher.accessToken forService:kSleepAndSnoringService account:kSleepAndSnoringAccessAccount];
     BOOL refreshTokenIsSet = [SSKeychain setPassword:self.fetcher.refreshToken forService:kSleepAndSnoringService account:kSleepAndSnoringRefreshAccount];
 
-    NSLog(@"Access Token Set : %i Refresh Token Set : %i",accessTokenIsSet ,refreshTokenIsSet);
+    NSLog(@"Refresh Token : %@" ,refreshToken);
 
     // send alter message only when user have log in action
     [self sendAlterMessage:@"Sucessful!"];

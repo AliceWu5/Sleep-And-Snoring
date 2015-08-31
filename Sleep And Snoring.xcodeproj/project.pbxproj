@@ -36,7 +36,6 @@
 		AA0EEE741B2CD66A004CE5B5 /* FitbitActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = AA0EEE6D1B2CD66A004CE5B5 /* FitbitActivity.m */; };
 		AA0EEE751B2CD66A004CE5B5 /* FitbitSleep.m in Sources */ = {isa = PBXBuildFile; fileRef = AA0EEE6F1B2CD66A004CE5B5 /* FitbitSleep.m */; };
 		AA0EEE761B2CD66A004CE5B5 /* FitbitUser.m in Sources */ = {isa = PBXBuildFile; fileRef = AA0EEE711B2CD66A004CE5B5 /* FitbitUser.m */; };
-		AA0EEE771B2CD66A004CE5B5 /* Sleep2DLandscapeView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA0EEE731B2CD66A004CE5B5 /* Sleep2DLandscapeView.m */; };
 		AA0EEE7B1B2CD779004CE5B5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA0EEE7A1B2CD779004CE5B5 /* Main.storyboard */; };
 		AA0EEFD71B2F906F004CE5B5 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA0EEFD61B2F906F004CE5B5 /* Accelerate.framework */; };
 		AA0EEFD91B2F9093004CE5B5 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA0EEFD81B2F9093004CE5B5 /* QuartzCore.framework */; };
@@ -131,8 +130,6 @@
 		AA0EEE6F1B2CD66A004CE5B5 /* FitbitSleep.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FitbitSleep.m; sourceTree = "<group>"; };
 		AA0EEE701B2CD66A004CE5B5 /* FitbitUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FitbitUser.h; sourceTree = "<group>"; };
 		AA0EEE711B2CD66A004CE5B5 /* FitbitUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FitbitUser.m; sourceTree = "<group>"; };
-		AA0EEE721B2CD66A004CE5B5 /* Sleep2DLandscapeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sleep2DLandscapeView.h; sourceTree = "<group>"; };
-		AA0EEE731B2CD66A004CE5B5 /* Sleep2DLandscapeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sleep2DLandscapeView.m; sourceTree = "<group>"; };
 		AA0EEE791B2CD672004CE5B5 /* GenericDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GenericDelegate.h; sourceTree = "<group>"; };
 		AA0EEE7A1B2CD779004CE5B5 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		AA0EEE7C1B2CD85A004CE5B5 /* FitbitAPI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FitbitAPI.h; sourceTree = "<group>"; };
@@ -333,8 +330,6 @@
 				AA0EEE711B2CD66A004CE5B5 /* FitbitUser.m */,
 				AAAD011D1B72550B004B289A /* FitbitHeartRate.h */,
 				AAAD011E1B72550B004B289A /* FitbitHeartRate.m */,
-				AA0EEE721B2CD66A004CE5B5 /* Sleep2DLandscapeView.h */,
-				AA0EEE731B2CD66A004CE5B5 /* Sleep2DLandscapeView.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -543,7 +538,6 @@
 				AA02C3171B87CBE400456113 /* LogTableController.m in Sources */,
 				AA02C30A1B86106800456113 /* MainTabBarController.m in Sources */,
 				AA0EEE3B1B2CD5D5004CE5B5 /* AppDelegate.m in Sources */,
-				AA0EEE771B2CD66A004CE5B5 /* Sleep2DLandscapeView.m in Sources */,
 				AA0EEE3E1B2CD5D5004CE5B5 /* Sleep_And_Snoring.xcdatamodeld in Sources */,
 				AA0EEE411B2CD5D5004CE5B5 /* SleepSnoringViewController.m in Sources */,
 				AA02C3201B8A12DC00456113 /* AudioModel.m in Sources */,

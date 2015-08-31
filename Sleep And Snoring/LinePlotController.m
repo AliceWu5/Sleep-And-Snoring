@@ -30,6 +30,7 @@ static NSTimeInterval const oneHour = 60*60;
     self.tapGesture.numberOfTapsRequired = 1;
     [self.view addGestureRecognizer:self.tapGesture];
     
+    
     // Create graph from theme
     CPTXYGraph *newGraph = [[CPTXYGraph alloc] initWithFrame:self.view.frame];
     CPTTheme *theme      = [CPTTheme themeNamed:kCPTDarkGradientTheme];
@@ -241,10 +242,6 @@ static NSTimeInterval const oneHour = 60*60;
 }
 */
 
--(void)setOrientation:(UIInterfaceOrientation)orientation {
-    NSNumber *value = [NSNumber numberWithInt:orientation];
-    [[UIDevice currentDevice] setValue:value forKey:@"orientation"];
-}
 
 -(void)changePlotRange
 {
@@ -405,6 +402,7 @@ static NSTimeInterval const oneHour = 60*60;
 
 
 #pragma mark override
+/*
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
     
     [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
@@ -419,7 +417,7 @@ static NSTimeInterval const oneHour = 60*60;
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
 }
 
-
+*/
 
 #pragma mark Gesture response
 
