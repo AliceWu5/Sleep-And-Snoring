@@ -18,9 +18,9 @@
 + (NSArray *)getDataForPlotFromSleepData:(NSArray *)sleepData;
 
 //- (NSArray *)getSleepTimeline;
-- (void)updateRecentSleep;
+//- (void)updateRecentSleep;
 - (void)updateSleepByDate:(NSDate *)date completion:(void (^)(NSArray *sleepData, BOOL hasError))handler;
-- (void)getSleepByDate:(NSDate *)date completion:(void (^)(NSArray *sleepData, BOOL hasError))handler;
+//- (void)getSleepByDate:(NSDate *)date completion:(void (^)(NSArray *sleepData, BOOL hasError))handler;
 //- (void)getSleepTimelineByDate:(NSDate *)date completion:(void (^)(NSArray *minuteData))handler;
 //- (void)getSummaryByDate:(NSDate *)date completion:(void (^)(NSDictionary *))handler;
 

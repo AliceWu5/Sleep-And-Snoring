@@ -6,6 +6,13 @@
 //  Copyright (c) 2015 Guy Brown. All rights reserved.
 //
 
+
+// keys for SSKeychain
+static NSString *const kSleepAndSnoringService          = @"Sleep And Snoring";
+static NSString *const kSleepAndSnoringAccessAccount    = @"com.sleepandsnoring.accesstoken";
+static NSString *const kSleepAndSnoringRefreshAccount   = @"com.sleepandsnoring.refreshtoken";
+
+
 // URL of the server
 
 extern NSString* const SERVER_URL;

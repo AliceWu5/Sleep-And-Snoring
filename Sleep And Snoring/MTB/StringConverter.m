@@ -12,6 +12,7 @@
 
 
 + (NSTimeInterval)convertStringToTimeIntervalFrom:(NSString *)timeString {
+    if (!timeString) return 0.0f;
     
     // time in hh:mm:ss format
     NSArray *time = [timeString componentsSeparatedByString:@":"];
@@ -26,11 +27,15 @@
 }
 
 + (NSString *)convertDateToString:(NSDate *)day {
+    NSDate *date = day;
+    if (!day) {
+        date = [NSDate date];
+    }
     // set format
     NSDateFormatter *dateFormatter=[[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"yyyy-MM-dd"];
     
-    return [dateFormatter stringFromDate:day];
+    return [dateFormatter stringFromDate:date];
 }
 
 @end

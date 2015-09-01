@@ -16,12 +16,7 @@
 #import "AudioModel.h"
 #import "StringConverter.h"
 #import "SSKeychain.h"
-
-// keys for SSKeychain
-static NSString *const kSleepAndSnoringService          = @"Sleep And Snoring";
-static NSString *const kSleepAndSnoringAccessAccount    = @"com.sleepandsnoring.accesstoken";
-static NSString *const kSleepAndSnoringRefreshAccount   = @"com.sleepandsnoring.refreshtoken";
-
+#import "Constants.h"
 @interface SleepSnoringViewController ()
 
 @property (strong, nonatomic) IBOutlet UILabel *loginStatus;
@@ -281,7 +276,7 @@ static NSString *const kSleepAndSnoringRefreshAccount   = @"com.sleepandsnoring.
     if (self.isSignedIn) {
         // get selected date sleep data
         NSDate *pickedDate = self.datePicker.date;
-        [self.sleep getSleepByDate:pickedDate completion:^(NSArray *sleepData, BOOL hasError) {
+        [self.sleep updateSleepByDate:pickedDate completion:^(NSArray *sleepData, BOOL hasError) {
             if (hasError) {
                 [self sendAlterMessage:@"Please sign in"];
             } else {
