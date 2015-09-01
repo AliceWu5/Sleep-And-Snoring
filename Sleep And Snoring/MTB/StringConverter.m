@@ -12,10 +12,11 @@
 
 
 + (NSTimeInterval)convertStringToTimeIntervalFrom:(NSString *)timeString {
-    if (!timeString) return 0.0f;
     
     // time in hh:mm:ss format
     NSArray *time = [timeString componentsSeparatedByString:@":"];
+    if ([time count] != 3 && [time count] != 4) return 0.0f;
+    
     NSString *hour = time[0];
     NSString *minute = time[1];
     NSString *second = time[2];

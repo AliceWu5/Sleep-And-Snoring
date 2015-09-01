@@ -42,9 +42,7 @@
 		AA0EEFE61B2F990B004CE5B5 /* libCorePlot-CocoaTouch.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AA0EEFE31B2F9871004CE5B5 /* libCorePlot-CocoaTouch.a */; };
 		AA0EEFEB1B3045AA004CE5B5 /* LinePlotController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA0EEFEA1B3045AA004CE5B5 /* LinePlotController.m */; };
 		AA0EEFF71B31AAB7004CE5B5 /* ScatterPlot.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA0EEFF61B31AAB7004CE5B5 /* ScatterPlot.xib */; };
-		AA16C8611B95DA27008620E8 /* FitbitSleepTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AA16C8601B95DA27008620E8 /* FitbitSleepTests.m */; };
 		AA16C8651B95E0B5008620E8 /* StringConverterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AA16C8641B95E0B5008620E8 /* StringConverterTests.m */; };
-		AA16C8671B95EE90008620E8 /* APIFetcherTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AA16C8661B95EE90008620E8 /* APIFetcherTests.m */; };
 		AA3143E71B8D10E800FC5BE5 /* SVIndefiniteAnimatedView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA3143E01B8D10E800FC5BE5 /* SVIndefiniteAnimatedView.m */; };
 		AA3143E81B8D10E800FC5BE5 /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = AA3143E21B8D10E800FC5BE5 /* SVProgressHUD.bundle */; };
 		AA3143E91B8D10E800FC5BE5 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = AA3143E41B8D10E800FC5BE5 /* SVProgressHUD.m */; };
@@ -142,9 +140,7 @@
 		AA0EEFE91B3045AA004CE5B5 /* LinePlotController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LinePlotController.h; path = ../LinePlotController.h; sourceTree = "<group>"; };
 		AA0EEFEA1B3045AA004CE5B5 /* LinePlotController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LinePlotController.m; path = ../LinePlotController.m; sourceTree = "<group>"; };
 		AA0EEFF61B31AAB7004CE5B5 /* ScatterPlot.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ScatterPlot.xib; sourceTree = "<group>"; };
-		AA16C8601B95DA27008620E8 /* FitbitSleepTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FitbitSleepTests.m; sourceTree = "<group>"; };
 		AA16C8641B95E0B5008620E8 /* StringConverterTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StringConverterTests.m; sourceTree = "<group>"; };
-		AA16C8661B95EE90008620E8 /* APIFetcherTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APIFetcherTests.m; sourceTree = "<group>"; };
 		AA3143DF1B8D10E800FC5BE5 /* SVIndefiniteAnimatedView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVIndefiniteAnimatedView.h; sourceTree = "<group>"; };
 		AA3143E01B8D10E800FC5BE5 /* SVIndefiniteAnimatedView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVIndefiniteAnimatedView.m; sourceTree = "<group>"; };
 		AA3143E11B8D10E800FC5BE5 /* SVProgressHUD-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SVProgressHUD-Prefix.pch"; sourceTree = "<group>"; };
@@ -296,8 +292,6 @@
 			isa = PBXGroup;
 			children = (
 				AA0EEE541B2CD5D5004CE5B5 /* Sleep_And_SnoringTests.m */,
-				AA16C8601B95DA27008620E8 /* FitbitSleepTests.m */,
-				AA16C8661B95EE90008620E8 /* APIFetcherTests.m */,
 				AA16C8641B95E0B5008620E8 /* StringConverterTests.m */,
 				AA0EEE521B2CD5D5004CE5B5 /* Supporting Files */,
 			);
@@ -570,8 +564,6 @@
 			files = (
 				AA0EEE551B2CD5D5004CE5B5 /* Sleep_And_SnoringTests.m in Sources */,
 				AA16C8651B95E0B5008620E8 /* StringConverterTests.m in Sources */,
-				AA16C8671B95EE90008620E8 /* APIFetcherTests.m in Sources */,
-				AA16C8611B95DA27008620E8 /* FitbitSleepTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

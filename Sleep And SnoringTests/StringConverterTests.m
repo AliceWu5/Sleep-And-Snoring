@@ -27,7 +27,7 @@
 }
 
 
-- (void)testConvertStringWithMillisecondsToTimeInverval {
+- (void)testConvertStringWithMillisecondsToTimeInterval {
     NSString *dateString = @"12:22:44:112";
     NSTimeInterval time = [StringConverter convertStringToTimeIntervalFrom:dateString];
     int ti = (int)time;
@@ -39,7 +39,7 @@
     XCTAssertEqualObjects(dateString, expectedString, @"The converted string did not match the expected convertion");
 }
 
-- (void)testConvertStringWithoutMillisecondsToTimeInverval {
+- (void)testConvertStringWithoutMillisecondsToTimeInterval {
     NSString *dateString = @"12:22:44";
     NSTimeInterval time = [StringConverter convertStringToTimeIntervalFrom:dateString];
     int ti = (int)time;
@@ -50,7 +50,7 @@
     XCTAssertEqualObjects(dateString, expectedString, @"The converted string did not match the expected convertion");
 }
 
-- (void)testConvertNilStringToTimeInverval {
+- (void)testConvertNilStringToTimeInterval {
     NSString *dateString = @"00:00:00:000";
     NSTimeInterval time = [StringConverter convertStringToTimeIntervalFrom:nil];
     int ti = (int)time;
@@ -61,6 +61,19 @@
     NSString *expectedString = [NSString stringWithFormat:@"%02d:%02d:%02d:%03d", hours, minutes, seconds, milliseconds];
     XCTAssertEqualObjects(dateString, expectedString, @"The converted string did not match the expected convertion");
 }
+
+- (void)testConvertNonTimeStringToTimeInterval {
+    NSString *dateString = @"unrelated";
+    NSTimeInterval time = [StringConverter convertStringToTimeIntervalFrom:dateString];
+    XCTAssertEqual(time, 0.0f, @"The converted string did not match the expected convertion");
+}
+
+- (void)testConvertNonTimeFormattedStringToTimeInterval {
+    NSString *dateString = @"hh:ss:aa";
+    NSTimeInterval time = [StringConverter convertStringToTimeIntervalFrom:dateString];
+    XCTAssertEqual(time, 0.0f, @"The converted string did not match the expected convertion");
+}
+
 
 - (void)testConvertDateToString {
     NSDate *today = [NSDate date];

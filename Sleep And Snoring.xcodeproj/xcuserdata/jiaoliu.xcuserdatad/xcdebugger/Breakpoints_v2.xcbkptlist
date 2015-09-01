@@ -191,7 +191,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "32"
             endingLineNumber = "32"
-            landmarkName = "-testConvertStringWithMillisecondsToTimeInverval"
+            landmarkName = "-testConvertStringWithMillisecondsToTimeInterval"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
