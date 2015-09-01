@@ -167,6 +167,8 @@ static NSString *const kTokenFetchSelectorKey = @"sel";
         params = [params stringByAppendingFormat:@"&scope=%@", self.scope];
         params = [params stringByAppendingFormat:@"&redirect_uri=%@", [self.parameters objectForKey:kOAuth2RedirectURIKey]];
     }
+    params = [params stringByAppendingFormat:@"&prompt=login"];
+    
     
     NSString *escapedParams = [params stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
     authrizeURL = [authrizeURL stringByAppendingFormat:@"?%@",escapedParams];
