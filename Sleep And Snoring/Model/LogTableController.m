@@ -16,11 +16,7 @@
 
 -(void)viewDidLoad
 {
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(redisplay:)
-                                                 name:@"NOTIFY_REFRESH_TABLE"
-                                               object:nil];
-    
+
     self.dataSource = [[AudioModel shareInstance] getAllAudioFiles];
 }
 
@@ -29,11 +25,6 @@
     // nasty problem with layout - if the table view is not inside a navigation
     // controller then it will overlap the menu bar. This will fix it.
     [self.tableView setContentInset:UIEdgeInsetsMake(20, self.tableView.contentInset.left, self.tableView.contentInset.bottom, self.tableView.contentInset.right)];
-}
-
--(void)redisplay:(NSNotification*)notif
-{
-    [self.tableView reloadData];
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -107,11 +98,4 @@
     return [NSString stringWithFormat:@"%.2Lf MB", size];
 }
 
-- (NSString *)stringFromTimeInterval:(NSTimeInterval)interval {
-    NSInteger ti = (NSInteger)interval;
-    NSInteger seconds = ti % 60;
-    NSInteger minutes = (ti / 60) % 60;
-    NSInteger hours = (ti / 3600);
-    return [NSString stringWithFormat:@"%02ld:%02ld:%02ld", (long)hours, (long)minutes, (long)seconds];
-}
 @end

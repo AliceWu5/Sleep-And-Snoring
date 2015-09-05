@@ -11,7 +11,7 @@
 static NSString *const kSleepAndSnoringService          = @"Sleep And Snoring";
 static NSString *const kSleepAndSnoringAccessAccount    = @"com.sleepandsnoring.accesstoken";
 static NSString *const kSleepAndSnoringRefreshAccount   = @"com.sleepandsnoring.refreshtoken";
-
+static NSString *const kSleepAndSnoringUserAccount      = @"com.sleepandsnoring.username";
 
 // URL of the server
 

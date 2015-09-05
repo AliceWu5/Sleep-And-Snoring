@@ -125,14 +125,14 @@ static NSString *const kSleepAndSnoringRefreshAccount   = @"com.sleepandsnoring.
             
             // set the access token after refreshing
             [SSKeychain setPassword:self.accessToken forService:kSleepAndSnoringService account:kSleepAndSnoringAccessAccount];
-            
+            [SSKeychain setPassword:self.refreshToken forService:kSleepAndSnoringService account:kSleepAndSnoringRefreshAccount];
             NSLog(@"Refresh Result : %@", fetchResult);
             
         } else {
             NSDictionary *errorResult = [NSJSONSerialization JSONObjectWithData:refreshData
                                                                         options:kNilOptions
                                                                           error:nil];
-            NSLog(@"error : %@ ", errorResult);
+            NSLog(@"Fail to refresh : %@ ", errorResult);
             // report if fail to refresh access token
         }
         

@@ -258,8 +258,8 @@
     [SSKeychain deletePasswordForService:kSleepAndSnoringService account:kSleepAndSnoringRefreshAccount];
 
     // set the keychain when fetch is created
-    BOOL accessTokenIsSet = [SSKeychain setPassword:self.fetcher.accessToken forService:kSleepAndSnoringService account:kSleepAndSnoringAccessAccount];
-    BOOL refreshTokenIsSet = [SSKeychain setPassword:self.fetcher.refreshToken forService:kSleepAndSnoringService account:kSleepAndSnoringRefreshAccount];
+    [SSKeychain setPassword:self.fetcher.accessToken forService:kSleepAndSnoringService account:kSleepAndSnoringAccessAccount];
+    [SSKeychain setPassword:self.fetcher.refreshToken forService:kSleepAndSnoringService account:kSleepAndSnoringRefreshAccount];
 
     NSLog(@"Refresh Token : %@" ,refreshToken);
 
